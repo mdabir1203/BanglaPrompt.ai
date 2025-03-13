@@ -71,6 +71,10 @@ export default {
 					navy: '#1A374D',
 					brick: '#9B2226',
 					teal: '#2A9D8F',
+					purple: '#8B5CF6',
+					magenta: '#D946EF',
+					orange: '#F97316',
+					blue: '#0EA5E9',
 				}
 			},
 			fontFamily: {
@@ -78,6 +82,7 @@ export default {
 				display: ['SF Pro Display', 'Inter', 'sans-serif'],
 				mono: ['Space Mono', 'VT323', 'monospace'],
 				serif: ['Georgia', 'serif'],
+				bengali: ['Hind Siliguri', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -124,6 +129,10 @@ export default {
 				'typewriter': {
 					'0%': { width: '0%' },
 					'100%': { width: '100%' }
+				},
+				'wiggle': {
+					'0%, 100%': { transform: 'rotate(-3deg)' },
+					'50%': { transform: 'rotate(3deg)' }
 				}
 			},
 			animation: {
@@ -136,11 +145,13 @@ export default {
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
 				'slide-out-right': 'slide-out-right 0.3s ease-out',
 				'float': 'float 6s ease-in-out infinite',
-				'typewriter': 'typewriter 3s steps(40) forwards'
+				'typewriter': 'typewriter 3s steps(40) forwards',
+				'wiggle': 'wiggle 2s ease-in-out infinite'
 			},
 			boxShadow: {
 				'retro': '4px 4px 0px rgba(0, 0, 0, 0.8)',
 				'retro-amber': '4px 4px 0px rgba(146, 64, 14, 1)',
+				'cartoon': '5px 5px 0px #000, 10px 10px 0px #8B5CF6'
 			}
 		}
 	},

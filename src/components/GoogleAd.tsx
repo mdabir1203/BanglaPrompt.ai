@@ -19,7 +19,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
   useEffect(() => {
     try {
       // If the Ad has already been loaded, refresh it
-      if (adRef.current && adRef.current.innerHTML !== '') {
+      if (adRef.current) {
         // @ts-ignore - Google AdSense global
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
@@ -29,7 +29,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
   }, [slot]);
 
   return (
-    <div className={`google-ad ${className}`}>
+    <div className={`google-ad ${className}`} ref={adRef}>
       <ins 
         className="adsbygoogle"
         style={{ display: 'block' }}
@@ -37,7 +37,6 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? 'true' : 'false'}
-        ref={adRef}
       ></ins>
     </div>
   );
