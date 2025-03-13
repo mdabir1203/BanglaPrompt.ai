@@ -1,9 +1,9 @@
+
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import Footer from "@/components/Footer";
-import TestimonialCard from "@/components/TestimonialCard";
 import GlassCard from "@/components/ui-custom/GlassCard";
 
 const Index = () => {
@@ -68,7 +68,7 @@ const Index = () => {
                 <div className="bg-pink-50 p-4 rounded-lg border border-pink-100">
                   <h4 className="text-sm font-semibold mb-2">উদাহরণ:</h4>
                   <p className="text-sm text-gray-700">
-                    "একটি স্কুলে ছাত্রদের মধ্যে স্মার্টফোন ব্যবহার নিয়ে নীতি নির্ধারণ করতে হবে। এই সমস্যার সমাধান করার জন্য ধাপে ধাপে চিন্তা করো:\n\nধাপ 1: স্কুলে স্মার্টফোন ব্যবহারের সম্ভাব্য সুবিধা তালিকাভুক্ত করো।\nধাপ 2: স্কুলে স্মার্টফোন ব্যবহারের সম্ভাব্য অসুবিধা তালিকাভুক্ত করো।\nধাপ 3: বিভিন্ন বয়সের গ্রুপের জন্য ভিন্ন ভিন���ন নীতি বিবেচনা করো।\nধাপ 4: তোমার চূড়ান্ত সুপারিশ দাও এবং কেন এটি সবচেয়ে ভারসাম্যপূর্ণ পদ্ধতি তা ব্যাখ্যা করো।"
+                    "একটি স্কুলে ছাত্রদের মধ্যে স্মার্টফোন ব্যবহার নিয়ে নীতি নির্ধারণ করতে হবে। এই সমস্যার সমাধান করার জন্য ধাপে ধাপে চিন্তা করো:\n\nধাপ 1: স্কুলে স্মার্টফোন ব্যবহারের সম্ভাব্য সুবিধা তালিকাভুক্ত করো।\nধাপ 2: স্কুলে স্মার্টফোন ব্যবহারের সম্ভাব্য অসুবিধা তালিকাভুক্ত করো।\nধাপ 3: বিভিন্ন বয়সের গ্রুপের জন্য ভিন্ন ভিন্ন নীতি বিবেচনা করো।\nধাপ 4: তোমার চূড়ান্ত সুপারিশ দাও এবং কেন এটি সবচেয়ে ভারসাম্যপূর্ণ পদ্ধতি তা ব্যাখ্যা করো।"
                   </p>
                 </div>
               </div>
@@ -128,7 +128,7 @@ const Index = () => {
 
 বিশেষ প্রয়োজনীয়তা (যদি থাকে):
 - [প্রয়োজনীয়তা ১]
-- [প্রয়োজ��ীয়তা ২]
+- [প্রয়োজনীয়তা ২]
 
 দয়া করে কোড লেখার সময় প্রতিটি ধাপ বাংলায় ব্যাখ্যা করো এবং যেখানে প্রয়োজ্য সেখানে কোডের ভিতরে কমেন্ট অন্তর্ভুক্ত করো।`}
                   </p>
@@ -148,40 +148,6 @@ const Index = () => {
                 </div>
                 <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">কপি করুন</button>
               </GlassCard>
-            </div>
-          </div>
-        </section>
-        
-        {/* Testimonials Section */}
-        <section id="testimonials" className="section">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="highlight-text">ব্যবহারকারীদের</span> অভিজ্ঞতা
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                আমাদের ওয়েবসাইট ব্যবহারকারীরা কি বলেন তা দেখুন
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <TestimonialCard
-                quote="বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শেখার এমন সহজবোধ্য রিসোর্স আগে কখনো পাইনি। এখন আমি ভাল প্রম্পট লিখতে পারি এবং এআই থেকে সঠিক উত্তর পেতে সক্ষম।"
-                name="রহিম আহমেদ"
-                role="ফ্রিল্যান্স কন্টেন্ট রাইটার"
-              />
-              
-              <TestimonialCard
-                quote="আমার ব্যবসায় এআই ব্যবহার করতে গিয়ে সবসময় ভাষাগত বাধার সম্মুখীন হতাম। এই ওয়েবসাইটের উদাহরণগুলি আমাকে বাংলায় কার্যকরী প্রম্পট লিখতে সাহায্য করেছে।"
-                name="সাবরিনা আক্তার"
-                role="ছোট ব্যবসার মালিক"
-              />
-              
-              <TestimonialCard
-                quote="প্রম্পট টেমপ্লেটগুলি আমার জন্য গেম-চেঞ্জার! আমি এখন মিনিটে ক্লাসের জন্য অসাধারণ শিক্ষামূলক কন্টেন্ট তৈরি করতে পারি। ধন্যবাদ!"
-                name="কামাল হোসেন"
-                role="মাধ্যমিক বিদ্যালয়ের শিক্ষক"
-              />
             </div>
           </div>
         </section>
@@ -321,4 +287,3 @@ const Index = () => {
 };
 
 export default Index;
-
