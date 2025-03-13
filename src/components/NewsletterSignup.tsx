@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { ExternalLink } from "lucide-react";
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,9 @@ const NewsletterSignup = () => {
       setLoading(false);
       setEmail("");
       toast.success("আপনি সফলভাবে সাবস্ক্রাইব করেছেন!");
+      
+      // Redirect to Medium profile after successful subscription
+      window.open("https://medium.com/@md.abir1203", "_blank");
     }, 1000);
   };
 
@@ -42,12 +46,30 @@ const NewsletterSignup = () => {
             />
             <button 
               type="submit" 
-              className="px-6 py-3 rounded-full bg-white text-blue-600 font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/20 active:scale-[0.98]"
+              className="group px-6 py-3 rounded-full bg-white text-blue-600 font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/20 active:scale-[0.98] flex items-center justify-center gap-2"
               disabled={loading}
             >
-              {loading ? "সাবস্ক্রাইব হচ্ছে..." : "সাবস্ক্রাইব করুন"}
+              {loading ? "সাবস্ক্রাইব হচ্ছে..." : (
+                <>
+                  <span>সাবস্ক্রাইব করুন</span>
+                  <ExternalLink size={16} className="opacity-70 group-hover:opacity-100 transition-opacity" />
+                </>
+              )}
             </button>
           </form>
+          
+          <p className="text-white/70 text-sm mt-4">
+            সাবস্ক্রাইব করে আপনি আমাদের{" "}
+            <a 
+              href="https://medium.com/@md.abir1203" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="underline hover:text-white transition-colors"
+            >
+              মিডিয়াম ব্লগ
+            </a>
+            -এর সাথেও যুক্ত হবেন
+          </p>
         </div>
       </div>
     </section>
