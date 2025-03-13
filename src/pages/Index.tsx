@@ -5,6 +5,7 @@ import Features from "@/components/Features";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import Footer from "@/components/Footer";
 import TestimonialCard from "@/components/TestimonialCard";
+import GlassCard from "./ui-custom/GlassCard";
 
 const Index = () => {
   return (
@@ -16,91 +17,172 @@ const Index = () => {
         
         <Features />
         
+        {/* Advanced Prompt Patterns Section */}
+        <section id="advanced-patterns" className="section">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <span className="highlight-text">উন্নত প্রম্পটিং</span> প্যাটার্ন
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                এআই-এর সম্পূর্ণ সম্ভাবনা উন্মোচন করতে এই উন্নত প্যাটার্নগুলি ব্যবহার করুন
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-xl font-semibold mb-4 text-blue-600">রোল প্রম্পটিং</h3>
+                <p className="text-gray-700 mb-4">এআই-কে একটি নির্দিষ্ট ভূমিকায় রাখা, যেমন একজন শিক্ষক, বিশেষজ্ঞ, বা মেন্টর।</p>
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                  <h4 className="text-sm font-semibold mb-2">উদাহরণ:</h4>
+                  <p className="text-sm text-gray-700">
+                    "তুমি একজন অভিজ্ঞ ডাটা সায়েন্টিস্ট। আমি মেশিন লার্নিং নিয়ে কাজ করছি এবং আমার ডাটাসেটে অনেক মিসিং ভ্যালু আছে। আমাকে এই সমস্যা সমাধানের সেরা পদ্ধতিগুলি ব্যাখ্যা করো এবং প্রতিটি পদ্ধতির সুবিধা ও অসুবিধা বর্ণনা করো।"
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-xl font-semibold mb-4 text-violet-600">কন্টেক্সট প্রম্পটিং</h3>
+                <p className="text-gray-700 mb-4">এআই-কে সম্পর্কিত পটভূমি বা প্রসঙ্গ প্রদান করা যাতে আরও সঠিক উত্তর পাওয়া যায়।</p>
+                <div className="bg-violet-50 p-4 rounded-lg border border-violet-100">
+                  <h4 className="text-sm font-semibold mb-2">উদাহরণ:</h4>
+                  <p className="text-sm text-gray-700">
+                    "আমি বাংলাদেশের একটি মাধ্যমিক বিদ্যালয়ের শিক্ষক এবং আমি আমার ৯ম শ্রেণীর ছাত্র-ছাত্রীদের জন্য জলবায়ু পরিবর্তন বিষয়ে একটি ইন্টারেক্টিভ পাঠ পরিকল্পনা তৈরি করতে চাই। আমাদের বিদ্যালয়ে ইন্টারনেট সংযোগ সীমিত এবং প্রযুক্তিগত সম্পদও কম। তাই এমন কিছু কার্যকলাপ প্রস্তাব করো যা সম্পদ-কম পরিবেশেও কার্যকর হবে।"
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-xl font-semibold mb-4 text-green-600">Few-Shot প্রম্পটিং</h3>
+                <p className="text-gray-700 mb-4">এআই-কে কয়েকটি উদাহরণ দেওয়া, যাতে সে আপনি ঠিক কী ধরনের উত্তর চান তা বুঝতে পারে।</p>
+                <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+                  <h4 className="text-sm font-semibold mb-2">উদাহরণ:</h4>
+                  <p className="text-sm text-gray-700">
+                    "নিম্নলিখিত বাক্যগুলিকে ইতিবাচক আকারে রূপান্তর করো:\n\nইনপুট: আমি আজ খুব ক্লান্ত।\nআউটপুট: আমি আজ বিশ্রাম নিয়ে শক্তি পুনরুদ্ধার করব।\n\nইনপুট: এই কাজটা খুব কঠিন।\nআউটপুট: এই কাজটা আমাকে নতুন দক্ষতা অর্জনে সাহায্য করবে।\n\nইনপুট: আমি পরীক্ষায় ভালো করতে পারিনি।\nআউটপুট:"
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-xl font-semibold mb-4 text-pink-600">চেইন-অফ-থট প্রম্পটিং</h3>
+                <p className="text-gray-700 mb-4">এআই-কে ধাপে ধাপে চিন্তা করতে নির্দেশ দেওয়া, যা জটিল সমস্যা সমাধানে সাহায্য করে।</p>
+                <div className="bg-pink-50 p-4 rounded-lg border border-pink-100">
+                  <h4 className="text-sm font-semibold mb-2">উদাহরণ:</h4>
+                  <p className="text-sm text-gray-700">
+                    "একটি স্কুলে ছাত্রদের মধ্যে স্মার্টফোন ব্যবহার নিয়ে নীতি নির্ধারণ করতে হবে। এই সমস্যার সমাধান করার জন্য ধাপে ধাপে চিন্তা করো:\n\nধাপ 1: স্কুলে স্মার্টফোন ব্যবহারের সম্ভাব্য সুবিধা তালিকাভুক্ত করো।\nধাপ 2: স্কুলে স্মার্টফোন ব্যবহারের সম্ভাব্য অসুবিধা তালিকাভুক্ত করো।\nধাপ 3: বিভিন্ন বয়সের গ্রুপের জন্য ভিন্ন ভিন্ন নীতি বিবেচনা করো।\nধাপ 4: তোমার চূড়ান্ত সুপারিশ দাও এবং কেন এটি সবচেয়ে ভারসাম্যপূর্ণ পদ্ধতি তা ব্যাখ্যা করো।"
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Prompt Template Library Section */}
+        <section id="prompt-templates" className="section bg-gray-50">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <span className="highlight-text">প্রম্পট</span> টেমপ্লেট
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                আপনার কাজকে আরও দ্রুত ও সহজ করতে এই প্রম্পট টেমপ্লেটগুলি কপি এবং ব্যবহার করুন
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <GlassCard>
+                <h3 className="text-xl font-semibold mb-4">কন্টেন্ট রাইটিং টেমপ্লেট</h3>
+                <div className="p-4 bg-gray-50/80 rounded-lg mb-4">
+                  <p className="text-sm whitespace-pre-line">
+{`তুমি একজন পেশাদার কন্টেন্ট রাইটার। আমাকে নিম্নলিখিত বিষয়ে একটি [ব্লগ পোস্ট/আর্টিকেল/সোশ্যাল মিডিয়া পোস্ট] লিখে দাও:
+
+বিষয়: [বিষয় এখানে]
+
+টারগেট অডিয়েন্স: [টারগেট অডিয়েন্স এখানে]
+
+টোন: [ফর্মাল/ইনফর্মাল/শিক্ষামূলক/মজার/ইত্যাদি]
+
+কী পয়েন্ট অন্তর্ভুক্ত করতে হবে:
+- [পয়েন্ট ১]
+- [পয়েন্ট ২]
+- [পয়েন্ট ৩]
+
+শব্দ সংখ্যা: [অনুমানিত শব্দ সংখ্যা]`}
+                  </p>
+                </div>
+                <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">কপি করুন</button>
+              </GlassCard>
+              
+              <GlassCard>
+                <h3 className="text-xl font-semibold mb-4">কোডিং প্রম্পট টেমপ্লেট</h3>
+                <div className="p-4 bg-gray-50/80 rounded-lg mb-4">
+                  <p className="text-sm whitespace-pre-line">
+{`তুমি একজন সিনিয়র সফটওয়্যার ডেভেলপার। আমাকে নিচের সমস্যার সমাধান করতে সাহায্য করো:
+
+প্রোগ্রামিং ল্যাঙ্গুয়েজ: [ল্যাঙ্গুয়েজ]
+
+সমস্যার বিবরণ: 
+[সমস্যা বিবরণ এখানে]
+
+অপেক্ষিত আউটপুট/ফাংশনালিটি:
+[কী আউটপুট বা ফাংশনালিটি প্রয়োজন]
+
+বিশেষ প্রয়োজনীয়তা (যদি থাকে):
+- [প্রয়োজনীয়তা ১]
+- [প্রয়োজনীয়তা ২]
+
+দয়া করে কোড লেখার সময় প্রতিটি ধাপ বাংলায় ব্যাখ্যা করো এবং যেখানে প্রযোজ্য সেখানে কোডের ভিতরে কমেন্ট অন্তর্ভুক্ত করো।`}
+                  </p>
+                </div>
+                <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">কপি করুন</button>
+              </GlassCard>
+              
+              <GlassCard>
+                <h3 className="text-xl font-semibold mb-4">ইমেজ প্রম্পট টেমপ্লেট</h3>
+                <div className="p-4 bg-gray-50/80 rounded-lg mb-4">
+                  <p className="text-sm whitespace-pre-line">
+{`[প্রধান বিষয়বস্তু], [সেটিং/লোকেশন], [ভিজ্যুয়াল স্টাইল], [লাইটিং], [মুড/এমোশন], [ক্যামেরা অ্যাঙ্গেল], [রেজোলিউশন], [অতিরিক্ত বিবরণ]
+
+উদাহরণ:
+একটি বাঙালি ছেলে, পদ্মা নদীর তীরে, সূর্যাস্তের সময়, ফটোরিয়ালিস্টিক স্টাইল, ড্রামাটিক লাইটিং, স্যুর্যের আলো চারপাশে ছড়িয়ে পড়ছে, উষ্ণ ও শান্ত মুড, মিড শট, 8K রেজোলিউশন, বিস্তারিত টেক্সচার, চোখের ডিটেইল খুব স্পষ্ট।`}
+                  </p>
+                </div>
+                <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">কপি করুন</button>
+              </GlassCard>
+            </div>
+          </div>
+        </section>
+        
         {/* Testimonials Section */}
         <section id="testimonials" className="section">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="highlight-text">শিক্ষার্থীদের</span> অভিজ্ঞতা
+                <span className="highlight-text">ব্যবহারকারীদের</span> অভিজ্ঞতা
               </h2>
               <p className="text-muted-foreground text-lg">
-                আমাদের ছাত্র-ছাত্রীরা কি বলেন তা দেখুন
+                আমাদের ওয়েবসাইট ব্যবহারকারীরা কি বলেন তা দেখুন
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <TestimonialCard
-                quote="প্রম্পট শিক্ষার কোর্সটি আমাকে এআই-এর সাথে কাজ করার দক্ষতা অনেক উন্নত করতে সাহায্য করেছে। বাংলায় শেখার সুযোগ পেয়ে আমি খুব খুশি।"
+                quote="বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শেখার এমন সহজবোধ্য রিসোর্স আগে কখনো পাইনি। এখন আমি ভাল প্রম্পট লিখতে পারি এবং এআই থেকে সঠিক উত্তর পেতে সক্ষম।"
                 name="রহিম আহমেদ"
                 role="ফ্রিল্যান্স কন্টেন্ট রাইটার"
               />
               
               <TestimonialCard
-                quote="আমি যখন পাশ্চাত্য কোর্সগুলি বুঝতে সমস্যায় পড়ছিলাম, তখন এই প্ল্যাটফর্মটি আমার জন্য আশীর্বাদ হয়ে এসেছিল। এখন আমি আত্মবিশ্বাসের সাথে প্রম্পট লিখতে পারি।"
+                quote="আমার ব্যবসায় এআই ব্যবহার করতে গিয়ে সবসময় ভাষাগত বাধার সম্মুখীন হতাম। এই ওয়েবসাইটের উদাহরণগুলি আমাকে বাংলায় কার্যকরী প্রম্পট লিখতে সাহায্য করেছে।"
                 name="সাবরিনা আক্তার"
-                role="ডিজিটাল মার্কেটিং স্পেশালিস্ট"
+                role="ছোট ব্যবসার মালিক"
               />
               
               <TestimonialCard
-                quote="বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শেখার সেরা প্ল্যাটফর্ম! এখন আমি দক্ষতার সাথে এআই মডেলগুলি ব্যবহার করে আমার কাজের দক্ষতা বাড়াতে পারি।"
+                quote="প্রম্পট টেমপ্লেটগুলি আমার জন্য গেম-চেঞ্জার! আমি এখন মিনিটে ক্লাসের জন্য অসাধারণ শিক্ষামূলক কন্টেন্ট তৈরি করতে পারি। ধন্যবাদ!"
                 name="কামাল হোসেন"
-                role="সফটওয়্যার ডেভেলপার"
+                role="মাধ্যমিক বিদ্যালয়ের শিক্ষক"
               />
-            </div>
-          </div>
-        </section>
-        
-        {/* Resources Section */}
-        <section id="resources" className="section bg-gray-50">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                <span className="highlight-text">শিক্ষামূলক</span> রিসোর্স
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                আমাদের শিক্ষামূলক সামগ্রী অন্বেষণ করুন
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="card hover:translate-y-[-5px] transition-all duration-300 overflow-hidden">
-                <div className="h-48 bg-blue-100 flex items-center justify-center">
-                  <svg className="w-16 h-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">প্রম্পট ইঞ্জিনিয়ারিং গাইড</h3>
-                  <p className="text-muted-foreground mb-4">আমাদের বিস্তৃত গাইড থেকে প্রম্পট ইঞ্জিনিয়ারিং এর মৌলিক বিষয়গুলি শিখুন।</p>
-                  <a href="#" className="text-blue-600 font-medium hover:text-blue-700 transition-colors">গাইড দেখুন →</a>
-                </div>
-              </div>
-              
-              <div className="card hover:translate-y-[-5px] transition-all duration-300 overflow-hidden">
-                <div className="h-48 bg-violet-100 flex items-center justify-center">
-                  <svg className="w-16 h-16 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">ভিডিও টিউটোরিয়াল</h3>
-                  <p className="text-muted-foreground mb-4">আমাদের বিশেষজ্ঞদের দ্বারা তৈরি করা প্রম্পট ইঞ্জিনিয়ারিং ভিডিও টিউটোরিয়াল দেখুন।</p>
-                  <a href="#" className="text-violet-600 font-medium hover:text-violet-700 transition-colors">ভিডিও দেখুন →</a>
-                </div>
-              </div>
-              
-              <div className="card hover:translate-y-[-5px] transition-all duration-300 overflow-hidden">
-                <div className="h-48 bg-green-100 flex items-center justify-center">
-                  <svg className="w-16 h-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">ওয়েবিনার সিরিজ</h3>
-                  <p className="text-muted-foreground mb-4">আমাদের নিয়মিত ওয়েবিনার সিরিজে যোগ দিন এবং প্রম্পট ইঞ্জিনিয়ারিং বিশেষজ্ঞদের থেকে শিখুন।</p>
-                  <a href="#" className="text-green-600 font-medium hover:text-green-700 transition-colors">সিরিজ দেখুন →</a>
-                </div>
-              </div>
             </div>
           </div>
         </section>
