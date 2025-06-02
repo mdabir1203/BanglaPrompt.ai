@@ -1,69 +1,38 @@
-# Welcome to your Prompt Bangla project
+🧠 How Prompt Bangla Uses RAG (Retrieval-Augmented Generation)
+Prompt Bangla is a Bengali-first AI assistant designed to answer user queries by intelligently combining document retrieval with natural language generation. This is made possible by a Retrieval-Augmented Generation (RAG) architecture, which enhances the quality, factual accuracy, and relevance of the AI's responses.
 
-## Project info
+📌 What is RAG?
+RAG is a two-stage pipeline that:
 
-**URL**: https://lovable.dev/projects/6ab36b0c-1fd4-4a93-b533-10a21f64283b
+Retrieves relevant content from a large knowledge base (e.g., uploaded Bengali documents, cultural datasets, or public resources).
 
-## How can I edit this code?
+Augments the input to a generative model (like GPT) with that retrieved context, allowing the model to generate more grounded, accurate, and helpful responses.
 
-There are several ways of editing your application.
+🔍 RAG Workflow in Prompt Bangla
+Step	Component	Description
+1️⃣	Document Upload	Users upload Bengali PDFs, DOCX, or TXT files through a web/mobile interface.
+2️⃣	Text Chunking	Documents are split into manageable, semantically meaningful text chunks using LangChain's splitters.
+3️⃣	Vector Embedding	Each chunk is transformed into a vector using OpenAI/Bengali-compatible embeddings.
+4️⃣	Vector Storage	Embeddings are stored in a vector database like FAISS or ChromaDB for fast similarity search.
+5️⃣	Query Handling	When a user asks a question, Prompt Bangla retrieves the most relevant chunks via semantic search.
+6️⃣	Response Generation	The retrieved chunks are passed as context to a language model (via LangChain's retrieval chain) to generate a well-informed Bengali answer.
 
-**Use Lovable**
+🚀 Why RAG is Essential for Prompt Bangla
+✅ Domain-Aware: It answers questions based on specific uploaded or community-shared documents.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6ab36b0c-1fd4-4a93-b533-10a21f64283b) and start prompting.
+✅ Language-First: Retrieval enables the generation of context-rich Bengali responses even when the base model isn't natively fluent in cultural or historical nuances.
 
-Changes made via Lovable will be committed automatically to this repo.
+✅ Low Hallucination: By grounding responses in real documents, RAG dramatically reduces the chance of AI making things up.
 
-**Use your preferred IDE**
+✅ Scalable & Localized: New documents and dialects can be added seamlessly to expand its knowledge.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🔧 Technologies Used
+LangChain: For creating custom RAG chains.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+FAISS / Chroma: For vector-based semantic retrieval.
 
-Follow these steps:
+OpenAI + HuggingFace: For embeddings and generation.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+FastAPI / Django: For backend API to serve RAG queries.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/6ab36b0c-1fd4-4a93-b533-10a21f64283b) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+S3 + AWS EC2/ECS: For document storage and cloud deployment.
