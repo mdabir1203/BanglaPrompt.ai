@@ -1,20 +1,31 @@
-
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import Footer from "@/components/Footer";
 import GlassCard from "@/components/ui-custom/GlassCard";
+import MonetizationAds from "@/components/MonetizationAds";
+import SEOHead from "@/components/SEOHead";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <SEOHead />
       <Navbar />
       
       <main>
+        {/* Header Ad */}
+        <MonetizationAds placement="header" />
+        
         <Hero />
         
+        {/* Mobile Ad */}
+        <MonetizationAds placement="mobile" />
+        
         <Features />
+        
+        {/* Content Ad */}
+        <MonetizationAds placement="content" />
         
         {/* Advanced Prompt Patterns Section */}
         <section id="advanced-patterns" className="section">
@@ -279,6 +290,9 @@ const Index = () => {
         </section>
         
         <NewsletterSignup />
+        
+        {/* Footer Ad */}
+        <MonetizationAds placement="footer" />
       </main>
       
       <Footer />

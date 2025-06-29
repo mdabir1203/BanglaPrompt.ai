@@ -1,0 +1,18 @@
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://promptshiksha.com/sitemap.xml
+
+# Optimize for Bing
+User-agent: bingbot
+Crawl-delay: 1
+Allow: /
+
+# Allow all search engines to crawl the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Slurp
+Allow: /
