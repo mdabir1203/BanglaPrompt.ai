@@ -33,7 +33,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       <ins 
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client="ca-pub-1234567890123456" // Replace with your actual AdSense Publisher ID
+        data-ad-client="ca-pub-6185927994614530"
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? 'true' : 'false'}

@@ -3,6 +3,13 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { X, Shield, Cookie } from 'lucide-react';
 
+// Extend Window interface to include clarity
+declare global {
+  interface Window {
+    clarity?: any;
+  }
+}
+
 const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
   const [preferences, setPreferences] = useState({
