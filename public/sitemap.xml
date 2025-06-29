@@ -8,6 +8,18 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://promptshiksha.com/privacy-policy</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://promptshiksha.com/cookie-policy</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://promptshiksha.com/#features</loc>
     <lastmod>2025-06-29</lastmod>
     <changefreq>monthly</changefreq>
