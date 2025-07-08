@@ -10,66 +10,65 @@
 
 @layer base {
   :root {
+    /* Bangladeshi Cultural Colors */
+    --bd-green: 140 76% 29%; /* Bangladesh flag green */
+    --bd-red: 348 95% 48%; /* Bangladesh flag red */
+    --bd-gold: 45 93% 58%; /* Traditional Bengali gold */
+    --bd-crimson: 350 84% 40%; /* Deep red for prosperity */
+    --bd-emerald: 140 60% 35%; /* Rich green for nature */
+    
     --background: 210 20% 98%;
     --foreground: 222 47% 11%;
-
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-
-    --primary: 221 83% 53%;
+    --primary: var(--bd-green); /* Using Bangladesh green */
     --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96%;
+    --secondary: var(--bd-gold); /* Using Bengali gold */
     --secondary-foreground: 222 47% 11%;
-
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-
+    --accent: var(--bd-red); /* Using Bangladesh red */
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 221 83% 53%;
-
+    --ring: var(--bd-green);
     --radius: 0.5rem;
-
+    
     /* Custom variables for the site */
     --highlight: 261 100% 65%;
     --highlight-foreground: 0 0% 100%;
+    
+    /* Cultural gradients */
+    --gradient-bangladesh: linear-gradient(135deg, hsl(var(--bd-green)), hsl(var(--bd-red)));
+    --gradient-prosperity: linear-gradient(135deg, hsl(var(--bd-gold)), hsl(var(--bd-crimson)));
+    --gradient-nature: linear-gradient(135deg, hsl(var(--bd-emerald)), hsl(var(--bd-green)));
+    
+    /* Traditional shadows */
+    --shadow-cultural: 0 10px 30px -10px hsl(var(--bd-green) / 0.3);
+    --shadow-prosperity: 0 0 40px hsl(var(--bd-gold) / 0.4);
   }
 
   .dark {
     --background: 222 47% 11%;
     --foreground: 210 40% 98%;
-
     --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 217 91% 60%;
+    --primary: var(--bd-green);
     --primary-foreground: 222 47% 11%;
-
-    --secondary: 217 33% 17%;
+    --secondary: var(--bd-gold);
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-
-    --accent: 217 33% 17%;
+    --accent: var(--bd-red);
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217 33% 17%;
     --input: 217 33% 17%;
     --ring: 224 76% 48%;
@@ -211,7 +210,25 @@
   @apply overflow-hidden whitespace-nowrap border-r-4 border-amber-800 animate-typewriter;
 }
 
-/* Custom font for Bengali text */
+
+/* Bengali Typography Enhancements */
 .font-bengali {
-  font-family: 'Hind Siliguri', sans-serif;
+  font-family: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Hind Siliguri', sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Cultural Design Elements */
+.bangladesh-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, hsl(var(--bd-green) / 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, hsl(var(--bd-red) / 0.1) 0%, transparent 50%);
+}
+
+.cultural-card {
+  background: linear-gradient(135deg, 
+    hsl(var(--background)) 0%, 
+    hsl(var(--bd-green) / 0.02) 100%);
+  border: 1px solid hsl(var(--bd-green) / 0.2);
+  box-shadow: var(--shadow-cultural);
 }

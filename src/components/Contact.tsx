@@ -28,14 +28,18 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-blue-50 to-white">
+    <section id="contact" className="py-20 bangladesh-pattern">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold font-bengali text-gray-900 mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full mb-6 border border-primary/20">
+            <span className="text-xl">📞</span>
+            <span className="font-bengali font-medium">আমাদের সাথে থাকুন</span>
+          </div>
+          <h2 className="text-4xl font-bold font-display text-gray-900 mb-4">
             যোগাযোগ করুন
           </h2>
-          <p className="text-xl text-gray-600 font-bengali max-w-3xl mx-auto">
-            আমাদের সাথে যোগাযোগ করতে নিচের ফর্ম পূরণ করুন
+          <p className="text-xl text-gray-600 font-bengali max-w-3xl mx-auto leading-relaxed">
+            আপনার AI শেখার যাত্রায় আমরা সবসময় পাশে আছি
           </p>
         </div>
 
@@ -44,9 +48,9 @@ const Contact = () => {
             <h3 className="text-2xl font-bold font-bengali text-gray-900 mb-6">
               আমাদের সাথে যোগাযোগ করুন
             </h3>
-            <p className="text-lg font-bengali text-gray-700 mb-8 leading-relaxed">
-              আপনার কোন প্রশ্ন, মতামত বা পরামর্শ থাকলে আমাদের জানান। 
-              আমরা সর্বদা আপনার সেবায় নিয়োজিত।
+            <p className="text-lg font-bengali text-gray-700 mb-6 leading-relaxed">
+              আপনার কোন প্রশ্ন, পরামর্শ বা সহযোগিতার প্রয়োজন হলে আমাদের জানান। 
+              বাংলাদেশের AI শিক্ষার ভবিষ্যৎ গড়তে আমরা সবসময় আপনার পাশে।
             </p>
 
             <div className="space-y-6">
@@ -74,7 +78,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <Card>
+          <Card className="cultural-card border-primary/20">
             <CardHeader>
               <CardTitle className="font-bengali">মেসেজ পাঠান</CardTitle>
               <CardDescription className="font-bengali">

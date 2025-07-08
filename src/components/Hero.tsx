@@ -4,40 +4,66 @@ import GlassCard from "./ui-custom/GlassCard";
 
 const Hero = () => {
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bangladesh-pattern">
       {/* Background pattern */}
-      <div className="absolute inset-0 bg-amber-50 -z-10" />
+      <div className="absolute inset-0 bg-primary/5 -z-10" />
       
-      {/* Abstract shapes - cartoon style */}
-      <div className="absolute top-40 right-[15%] w-32 h-32 bg-purple-500/30 rounded-full blur-sm -z-10 cartoon-wiggle" />
-      <div className="absolute top-20 left-[10%] w-48 h-48 bg-orange-500/20 rounded-full blur-sm -z-10" style={{ animationDelay: "0.5s" }} />
-      <div className="absolute bottom-10 right-[5%] w-64 h-64 bg-blue-500/20 rounded-full blur-sm -z-10" style={{ animationDelay: "1s" }} />
+      {/* Traditional decorative elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/10 blur-xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-accent/10 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
       
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-orange-400 to-rose-400 text-white text-sm font-bold mb-6 animate-wiggle border-2 border-black">
-            <span className="flex h-2 w-2 rounded-full bg-white mr-2"></span>
-            বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শিখুন
+          {/* Cultural badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full mb-8 border border-primary/20">
+            <span className="text-2xl">🇧🇩</span>
+            <span className="font-bengali font-medium">বাংলাদেশের প্রথম AI শিক্ষা প্ল্যাটফর্ম</span>
           </div>
           
-          <h1 className="cartoon-title animate-fade-in" style={{ animationDelay: "0.1s" }}>
-            <span>AI প্রম্পট</span>
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">ইঞ্জিনিয়ারিং</span>
+          <h1 className="text-5xl md:text-7xl font-bold font-display mb-6 bg-gradient-to-r from-primary via-accent to-secondary text-transparent bg-clip-text">
+            প্রম্পট শিক্ষা
           </h1>
-          
-          <p className="font-bengali mt-6 text-xl sm:text-2xl max-w-3xl text-black/80 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            এআই প্রম্পট ইঞ্জিনিয়ারিং-এর মাধ্যমে আপনার দক্ষতা উন্নত করুন। আমাদের বিশেষজ্ঞ-ডিজাইন করা কোর্সগুলি আপনাকে AI মডেলগুলির সাথে কার্যকরভাবে যোগাযোগ করতে সাহায্য করবে।
+          <p className="text-xl md:text-2xl font-bengali text-gray-700 mb-4 leading-relaxed">
+            বাংলায় AI এর শক্তি আনলক করুন
+          </p>
+          <p className="text-lg font-bengali text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            দেশের সবচেয়ে বড় প্রম্পট ইঞ্জিনিয়ারিং কমিউনিটিতে যোগ দিন। 
+            বিশেষজ্ঞদের থেকে শিখুন, নিজের দক্ষতা বাড়ান এবং AI যুগে এগিয়ে থাকুন।
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 mt-10 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            <a href="#features" className="cartoon-button flex items-center justify-center gap-2">
-              আরও জানুন
-              <ArrowRight className="w-4 h-4" />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="#features" className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white px-8 py-4 text-lg font-bengali rounded-lg shadow-cultural transition-all duration-200 hover:scale-105">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              শেখা শুরু করুন
             </a>
-            <a href="#contact" className="cartoon-button bg-gradient-to-r from-purple-500 to-blue-500">
-              যোগাযোগ করুন
+            <a href="#contact" className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary/5 px-8 py-4 text-lg font-bengali rounded-lg transition-all duration-200">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a2.5 2.5 0 015 0H17m-5 8l-3-3h6l-3 3z" />
+              </svg>
+              ডেমো দেখুন
             </a>
+          </div>
+          
+          {/* Cultural statistics */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="cultural-card p-4 rounded-lg">
+              <div className="text-2xl font-bold text-primary font-display">১০,০০০+</div>
+              <div className="text-sm font-bengali text-gray-600">শিক্ষার্থী</div>
+            </div>
+            <div className="cultural-card p-4 rounded-lg">
+              <div className="text-2xl font-bold text-accent font-display">৯৮%</div>
+              <div className="text-sm font-bengali text-gray-600">সফলতার হার</div>
+            </div>
+            <div className="cultural-card p-4 rounded-lg">
+              <div className="text-2xl font-bold text-secondary font-display">৫০+</div>
+              <div className="text-sm font-bengali text-gray-600">কোর্স মডিউল</div>
+            </div>
+            <div className="cultural-card p-4 rounded-lg">
+              <div className="text-2xl font-bold text-primary font-display">২৪/৭</div>
+              <div className="text-sm font-bengali text-gray-600">সাপোর্ট</div>
+            </div>
           </div>
         </div>
         

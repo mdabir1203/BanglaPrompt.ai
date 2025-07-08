@@ -12,14 +12,18 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section id="about" className="py-20 bangladesh-pattern">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold font-bengali text-gray-900 mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full mb-6 border border-primary/20">
+            <span className="text-xl">🌱</span>
+            <span className="font-bengali font-medium">আমাদের শেকড় ও স্বপ্ন</span>
+          </div>
+          <h2 className="text-4xl font-bold font-display text-gray-900 mb-4">
             আমাদের সম্পর্কে
           </h2>
-          <p className="text-xl text-gray-600 font-bengali max-w-3xl mx-auto">
-            বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শিক্ষার অগ্রদূত
+          <p className="text-xl text-gray-600 font-bengali max-w-3xl mx-auto leading-relaxed">
+            বাংলার মাটি থেকে জন্ম নেওয়া, বিশ্বমানের AI শিক্ষার স্বপ্ন নিয়ে
           </p>
         </div>
 
@@ -29,12 +33,14 @@ const About = () => {
               আমাদের মিশন
             </h3>
             <p className="text-lg font-bengali text-gray-700 mb-6 leading-relaxed">
-              আমরা বিশ্বাস করি যে প্রম্পট ইঞ্জিনিয়ারিং হল ভবিষ্যতের একটি অত্যাবশ্যক দক্ষতা। 
-              আমাদের লক্ষ্য হল বাংলাভাষী সকলের কাছে এই জ্ঞান পৌঁছে দেওয়া।
+              আমরা বিশ্বাস করি যে প্রযুক্তির সাথে আমাদের মাতৃভাষার সমন্বয়ে 
+              তৈরি হবে নতুন সম্ভাবনার জগৎ। বাংলাদেশের তরুণ প্রজন্মকে AI যুগের 
+              নেতৃত্ব দেওয়ার জন্য প্রস্তুত করাই আমাদের লক্ষ্য।
             </p>
             <p className="text-lg font-bengali text-gray-700 leading-relaxed">
-              আমরা বিশেষজ্ঞ দল এবং আধুনিক শিক্ষা পদ্ধতির মাধ্যমে আপনাকে 
-              AI এর যুগে এগিয়ে থাকতে সাহায্য করি।
+              আমাদের দেশীয় প্রজ্ঞা আর আধুনিক প্রযুক্তির মেলবন্ধনে গড়ে তুলছি 
+              এমন একটি শিক্ষাব্যবস্থা যা প্রতিটি বাঙালিকে বিশ্বমানের দক্ষতায় 
+              এগিয়ে নিয়ে যাবে।
             </p>
           </div>
           <div className="grid grid-cols-2 gap-6">
@@ -56,27 +62,39 @@ const About = () => {
           </div>
         </div>
 
-        <div className="bg-blue-600 text-white rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-bold font-bengali mb-4">
-            কেন প্রম্পট শিক্ষা বেছে নেবেন?
-          </h3>
+        <div className="cultural-card rounded-2xl p-8 text-center border-primary/20">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-3xl">🇧🇩</span>
+            <h3 className="text-2xl font-bold font-display text-primary">
+              কেন প্রম্পট শিক্ষা বেছে নেবেন?
+            </h3>
+          </div>
           <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <div>
-              <h4 className="font-bold font-bengali mb-2">বাংলায় শিক্ষা</h4>
-              <p className="font-bengali text-blue-100">
-                সম্পূর্ণ কোর্স বাংলায় তৈরি
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-2xl">🌏</span>
+              </div>
+              <h4 className="font-bold font-bengali mb-2 text-primary">বাংলায় শিক্ষা</h4>
+              <p className="font-bengali text-gray-600">
+                মাতৃভাষায় গভীর জ্ঞান অর্জন
               </p>
             </div>
-            <div>
-              <h4 className="font-bold font-bengali mb-2">ব্যবহারিক জ্ঞান</h4>
-              <p className="font-bengali text-blue-100">
-                বাস্তব প্রয়োগযোগ্য উদাহরণ
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-secondary/10 flex items-center justify-center">
+                <span className="text-2xl">💡</span>
+              </div>
+              <h4 className="font-bold font-bengali mb-2 text-secondary">দেশীয় উদাহরণ</h4>
+              <p className="font-bengali text-gray-600">
+                বাংলাদেশি প্রেক্ষাপটে ব্যবহারিক শিক্ষা
               </p>
             </div>
-            <div>
-              <h4 className="font-bold font-bengali mb-2">বিশেষজ্ঞ সহায়তা</h4>
-              <p className="font-bengali text-blue-100">
-                ২৪/৭ কমিউনিটি সাপোর্ট
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent/10 flex items-center justify-center">
+                <span className="text-2xl">🤝</span>
+              </div>
+              <h4 className="font-bold font-bengali mb-2 text-accent">কমিউনিটি</h4>
+              <p className="font-bengali text-gray-600">
+                দেশব্যাপী সাপোর্ট নেটওয়ার্ক
               </p>
             </div>
           </div>

@@ -79,10 +79,10 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
-				display: ['SF Pro Display', 'Inter', 'sans-serif'],
+				'bengali': ['Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Hind Siliguri', 'sans-serif'],
+				'display': ['Noto Sans Bengali', 'SolaimanLipi', 'sans-serif'],
 				mono: ['Space Mono', 'VT323', 'monospace'],
 				serif: ['Georgia', 'serif'],
-				bengali: ['Hind Siliguri', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
