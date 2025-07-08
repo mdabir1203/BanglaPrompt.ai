@@ -81,11 +81,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-start">
                 <span className="text-gray-400 mr-2">ই:</span>
-                <a href="mailto:contact@promptshikkha.com" className="text-gray-400 hover:text-white transition-colors">contact@promptshikkha.com</a>
+                <a href="mailto:abir.abbas@proton.me" className="text-gray-400 hover:text-white transition-colors">abir.abbas@proton.me</a>
               </li>
               <li className="flex items-start">
                 <span className="text-gray-400 mr-2">ফো:</span>
-                <a href="tel:+8801712345678" className="text-gray-400 hover:text-white transition-colors">+880 1712 345 678</a>
+                <a href="tel:+8801841603542" className="text-gray-400 hover:text-white transition-colors">+880 1841 603 542</a>
               </li>
               <li className="flex items-start">
                 <span className="text-gray-400 mr-2">ঠি:</span>

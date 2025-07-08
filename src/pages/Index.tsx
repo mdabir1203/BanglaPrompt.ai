@@ -9,6 +9,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
+import MediumSubscriptionPopup from "@/components/MediumSubscriptionPopup";
 
 const Index = () => {
   return (
@@ -25,6 +26,9 @@ const Index = () => {
       
       {/* GDPR Cookie Consent */}
       <CookieConsent />
+      
+      {/* Medium Subscription Popup */}
+      <MediumSubscriptionPopup />
     </div>
   );
 };

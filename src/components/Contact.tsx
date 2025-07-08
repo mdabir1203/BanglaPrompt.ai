@@ -54,14 +54,14 @@ const Contact = () => {
                 <Mail className="w-6 h-6 text-blue-600" />
                 <div>
                   <h4 className="font-semibold font-bengali">ইমেইল</h4>
-                  <p className="text-gray-600">info@promptshiksha.com</p>
+                  <p className="text-gray-600">abir.abbas@proton.me</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-blue-600" />
                 <div>
                   <h4 className="font-semibold font-bengali">ফোন</h4>
-                  <p className="text-gray-600">+৮৮০ ১৭১২-৩৪৫৬৭৮</p>
+                  <p className="text-gray-600">+৮৮০১৮৪১৬০৩৫৪২</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
