@@ -10,6 +10,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import MediumSubscriptionPopup from "@/components/MediumSubscriptionPopup";
+import NewsletterConversionPopup from "@/components/NewsletterConversionPopup";
 
 const Index = () => {
   return (
@@ -29,6 +30,9 @@ const Index = () => {
       
       {/* Medium Subscription Popup */}
       <MediumSubscriptionPopup />
+      
+      {/* Newsletter Conversion Popup */}
+      <NewsletterConversionPopup />
     </div>
   );
 };
