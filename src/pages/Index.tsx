@@ -11,19 +11,23 @@ import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import MediumSubscriptionPopup from "@/components/MediumSubscriptionPopup";
 import NewsletterConversionPopup from "@/components/NewsletterConversionPopup";
+import OptimizedAdLayout from "@/components/OptimizedAdLayout";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <SEOHead />
-      <Navbar />
-      <Hero />
-      <Features />
-      <AdvancedPatterns />
-      <PromptTemplates />
-      <About />
-      <Contact />
-      <Footer />
+      
+      <OptimizedAdLayout>
+        <Navbar />
+        <Hero />
+        <Features />
+        <AdvancedPatterns />
+        <PromptTemplates />
+        <About />
+        <Contact />
+        <Footer />
+      </OptimizedAdLayout>
       
       {/* GDPR Cookie Consent */}
       <CookieConsent />
