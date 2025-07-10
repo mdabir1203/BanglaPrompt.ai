@@ -3,26 +3,53 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ExternalLink } from "lucide-react";
 import GoogleAd from "./GoogleAd";
+import { supabase } from "@/integrations/supabase/client";
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      // Check if email already exists
+      const { data: existingSubscription } = await supabase
+        .from('newsletter_subscriptions')
+        .select('id')
+        .eq('email', email)
+        .single();
+
+      if (existingSubscription) {
+        toast.info("আপনি আগেই সাবস্ক্রাইব করেছেন!");
+        setEmail("");
+        setLoading(false);
+        return;
+      }
+
+      // Subscribe new email
+      const { error } = await supabase
+        .from('newsletter_subscriptions')
+        .insert([{ email, source: 'website' }]);
+
+      if (error) {
+        throw error;
+      }
+
       setEmail("");
       toast.success("আপনি সফলভাবে সাবস্ক্রাইব করেছেন!");
       
       // Redirect to Medium profile after successful subscription
       window.open("https://medium.com/@md.abir1203", "_blank");
-    }, 1000);
+    } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
+      toast.error("সাবস্ক্রিপশনে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
