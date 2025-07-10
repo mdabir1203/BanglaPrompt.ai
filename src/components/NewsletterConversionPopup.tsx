@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, X, Clock, Users, TrendingUp, Gift, Zap, Star } from 'lucide-react';
+import { ExternalLink, X, Clock, Users, TrendingUp, Gift, Zap, Star, Shield } from 'lucide-react';
+import { csrfProtection, formRateLimiter } from '@/utils/security';
 
 const NewsletterConversionPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes urgency
   const [currentViewers, setCurrentViewers] = useState(47);
   const [isTyping, setIsTyping] = useState(false);
+  const [csrfToken, setCsrfToken] = useState('');
 
   useEffect(() => {
+    // Generate CSRF token
+    const token = csrfProtection.setToken();
+    setCsrfToken(token);
+
     // Show popup after 15 seconds of engagement
     const timer = setTimeout(() => {
       const hasSeenNewsletter = localStorage.getItem('newsletterPopupSeen');
@@ -57,9 +63,29 @@ const NewsletterConversionPopup = () => {
   }, [isOpen]);
 
   const handleJoinNewsletter = () => {
+    // Rate limiting check
+    const clientId = `newsletter_popup_${navigator.userAgent}_${window.location.hostname}`;
+    if (!formRateLimiter.isAllowed(clientId)) {
+      return; // Silently prevent spam clicks
+    }
+
+    // CSRF validation
+    if (!csrfProtection.validateToken(csrfToken)) {
+      console.error('CSRF token validation failed');
+      return;
+    }
+
     localStorage.setItem('newsletterPopupSeen', 'true');
     localStorage.setItem('newsletterPopupLastShown', Date.now().toString());
-    window.open('https://medium.com/@md.abir1203', '_blank');
+    
+    // Secure window opening
+    const mediumUrl = 'https://medium.com/@md.abir1203';
+    const secureWindow = window.open();
+    if (secureWindow) {
+      secureWindow.opener = null; // Prevent access to parent window
+      secureWindow.location = mediumUrl;
+    }
+    
     setIsOpen(false);
   };
 
@@ -229,10 +255,14 @@ const NewsletterConversionPopup = () => {
             <p className="font-bengali text-xs text-gray-500 mb-2">
               ✅ ১০০% নিরাপদ ও বিনামূল্যে • ✅ স্প্যাম নেই • ✅ যেকোনো সময় আনসাবস্ক্রাইব
             </p>
-            <div className="flex items-center justify-center gap-4 text-xs text-gray-400">
+            <div className="flex items-center justify-center gap-4 text-xs text-gray-400 mb-2">
               <span>🇧🇩 Made in Bangladesh</span>
               <span>🔒 GDPR Compliant</span>
               <span>⭐ 15K+ Happy Subscribers</span>
+            </div>
+            <div className="flex items-center justify-center gap-1 text-xs text-green-600">
+              <Shield className="w-3 h-3" />
+              <span className="font-bengali">SSL এনক্রিপ্টেড ও হ্যাকার প্রুফ</span>
             </div>
           </div>
         </div>

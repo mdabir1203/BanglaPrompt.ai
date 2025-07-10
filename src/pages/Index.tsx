@@ -1,5 +1,6 @@
 import React from "react";
 import SEOHead from "@/components/SEOHead";
+import SecurityHeaders from "@/components/SecurityHeaders";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -17,6 +18,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <SEOHead />
+      <SecurityHeaders />
       
       <OptimizedAdLayout>
         <Navbar />
