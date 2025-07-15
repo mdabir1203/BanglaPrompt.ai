@@ -1,44 +1,76 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import SEOHead from "@/components/SEOHead";
 import SecurityHeaders from "@/components/SecurityHeaders";
+import PerformanceOptimizer from "@/components/PerformanceOptimizer";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
-import AdvancedPatterns from "@/components/AdvancedPatterns";
-import PromptTemplates from "@/components/PromptTemplates";
-import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import CookieConsent from "@/components/CookieConsent";
-import MediumSubscriptionPopup from "@/components/MediumSubscriptionPopup";
-import NewsletterConversionPopup from "@/components/NewsletterConversionPopup";
 import OptimizedAdLayout from "@/components/OptimizedAdLayout";
+import CookieConsent from "@/components/CookieConsent";
+import { 
+  LazyAdvancedPatterns, 
+  LazyPromptTemplates, 
+  LazyAbout, 
+  LazyContact,
+  LazyMediumSubscriptionPopup,
+  LazyNewsletterConversionPopup
+} from "@/components/LazyComponents";
+import Footer from "@/components/Footer";
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center py-12">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
 const Index = () => {
+  // Initialize analytics tracking
+  useAnalytics();
+  
   return (
     <div className="min-h-screen">
       <SEOHead />
       <SecurityHeaders />
+      <PerformanceOptimizer />
       
       <OptimizedAdLayout>
         <Navbar />
         <Hero />
         <Features />
-        <AdvancedPatterns />
-        <PromptTemplates />
-        <About />
-        <Contact />
+        
+        {/* Lazy loaded components for better performance */}
+        <Suspense fallback={<LoadingFallback />}>
+          <LazyAdvancedPatterns />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingFallback />}>
+          <LazyPromptTemplates />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingFallback />}>
+          <LazyAbout />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingFallback />}>
+          <LazyContact />
+        </Suspense>
+        
         <Footer />
       </OptimizedAdLayout>
       
       {/* GDPR Cookie Consent */}
       <CookieConsent />
       
-      {/* Medium Subscription Popup */}
-      <MediumSubscriptionPopup />
+      {/* Lazy loaded popups */}
+      <Suspense fallback={null}>
+        <LazyMediumSubscriptionPopup />
+      </Suspense>
       
-      {/* Newsletter Conversion Popup */}
-      <NewsletterConversionPopup />
+      <Suspense fallback={null}>
+        <LazyNewsletterConversionPopup />
+      </Suspense>
     </div>
   );
 };

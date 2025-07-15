@@ -21,8 +21,20 @@ const initAds = () => {
   }
 };
 
-// Initialize the query client
-const queryClient = new QueryClient();
+// Initialize the query client with optimizations for 1000+ users
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes (was cacheTime)
+      retry: 3,
+      retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    },
+    mutations: {
+      retry: 2,
+    },
+  },
+});
 
 const App = () => {
   // Initialize ads when the component mounts
