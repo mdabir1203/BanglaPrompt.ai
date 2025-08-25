@@ -1,5 +1,4 @@
-AI Prompt Engineering Toolkit
-Built with ❤️ using Next.js + Supabase + GPTs
+AI Prompt Engineering Toolkit using Next.js + Supabase + GPTs
 Global-ready, GDPR-compliant, AdSense-supported.
 Built from Bangladesh, for the world.
 
