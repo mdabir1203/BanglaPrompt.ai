@@ -1,17 +1,84 @@
-AI Prompt Engineering Toolkit using Next.js + Supabase + GPTs
-Global-ready, GDPR-compliant, AdSense-supported.
-Built from Bangladesh, for the world.
+# Prompt Shiksha
 
-Visit: https://prompt-panda-bangla.lovable.app/
+A Bangla-first AI prompt engineering platform built with React, Vite and Supabase. The project showcases production-ready patterns for scaling, security and monetization while teaching prompt engineering in Bengali.
 
-Live View : 
+![Prompt Shiksha screenshot](https://github.com/user-attachments/assets/b97d155b-d4f3-414f-9dc7-40dbf3c52b56)
 
-https://github.com/user-attachments/assets/b97d155b-d4f3-414f-9dc7-40dbf3c52b56
+## Features
 
-Work done tiLL now :
+- **Prompt engineering guide in Bangla** – includes basic to advanced templates and best practices for writing effective prompts.
+- **Supabase backend** for newsletter subscriptions, contact form emails and real-time user analytics.
+- **Load Testing Dashboard** capable of simulating 1,000 concurrent users across newsletter, contact and analytics endpoints.
+- **Security & privacy tooling** such as strict Content Security Policy, XSS protection and GDPR‑style cookie consent.
+- **Performance optimizations** with lazy loaded sections, service worker caching and resource hinting for fast global delivery.
+- **Ad monetization** through Google AdSense and Adsterra placements.
 
-- Website designed to handle 1000 concurrent users 
-- Security features implemented 
-- optimized for loading speed and popup enabled with neuromarketing research prompts
+## Tech Stack
 
-Want the full details? Reach out to us at md.abir1203@gmail.com—we’re happy to help!
+- React 18 + TypeScript
+- Vite build system
+- Tailwind CSS with shadcn/ui components
+- Supabase database & edge functions
+- Resend email API
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 18+
+- npm
+
+### Installation
+
+```bash
+git clone <repo-url>
+cd prompt-panda-bangla
+npm install
+```
+
+### Development server
+
+```bash
+npm run dev
+```
+
+The site will be available at `http://localhost:5173`.
+
+### Linting
+
+```bash
+npm run lint
+```
+
+### Production build
+
+```bash
+npm run build
+```
+
+## Supabase & Email Setup
+
+A Supabase project is required for storing newsletter signups, analytics and contact messages. An edge function (`send-contact-email`) uses [Resend](https://resend.com/) to send confirmation emails. Set the following environment variables when deploying the function:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `RESEND_API_KEY`
+
+## Project Structure
+
+```
+src/
+  components/      # UI, ads, popups and load testing
+  hooks/           # Analytics and other custom hooks
+  integrations/    # Supabase client and types
+  pages/           # React router pages
+supabase/
+  functions/       # Edge functions
+  migrations/      # Database schema
+```
+
+## Contact
+
+For collaboration or commercial inquiries, reach out at **md.abir1203@gmail.com**.
+
+Built from Bangladesh 🇧🇩 for the world.
