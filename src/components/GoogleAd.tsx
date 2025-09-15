@@ -30,14 +30,21 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
 
   return (
     <div className={`google-ad ${className}`} ref={adRef}>
-      <ins 
+      <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
         data-ad-client="ca-pub-6185927994614530"
+        data-ad-host="ca-host-pub-6185927994614530"
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? 'true' : 'false'}
       ></ins>
+      <script
+        nonce="google-adsense"
+        dangerouslySetInnerHTML={{
+          __html: `(adsbygoogle = window.adsbygoogle || []).push({});`,
+        }}
+      />
     </div>
   );
 };
