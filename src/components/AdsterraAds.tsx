@@ -15,7 +15,7 @@ const AdsterraAds: React.FC<AdsterraAdProps> = ({ format, placement, className =
         script.type = 'text/javascript';
         script.innerHTML = `
           atOptions = {
-            'key' : 'YOUR_POPUNDER_KEY',
+            'key' : '27024475',
             'format' : 'iframe',
             'height' : 90,
             'width' : 728,
@@ -26,7 +26,7 @@ const AdsterraAds: React.FC<AdsterraAdProps> = ({ format, placement, className =
 
         const popScript = document.createElement('script');
         popScript.type = 'text/javascript';
-        popScript.src = '//www.topcreativeformat.com/YOUR_POPUNDER_KEY/invoke.js';
+        popScript.src = ''//pl27124974.revenuecpmgate.com/da/88/42/da88421aef35c6fe964f97bd3ba57f3f.js'>';
         document.head.appendChild(popScript);
       }
 
