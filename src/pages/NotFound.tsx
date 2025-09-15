@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import hauntaudio from '../assets/audio/haunt.mp3';
+import hauntaudio from '../public/haunt.mp3';
 
 const NotFound = () => {
   const location = useLocation();
