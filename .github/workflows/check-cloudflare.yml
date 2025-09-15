@@ -1,0 +1,26 @@
+name: Check Cloudflare Deployment
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  check-cloudflare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Cloudflare deployment
+        run: |
+          set -e
+          HEADERS=$(curl -I -s https://prompt-panda.pages.dev)
+          echo "$HEADERS"
+          if ! echo "$HEADERS" | grep -i 'cf-ray'; then
+            echo "Cloudflare header not found" >&2
+            exit 1
+          fi
+          STATUS=$(echo "$HEADERS" | head -n 1 | awk '{print $2}')
+          if [ "$STATUS" != "200" ]; then
+            echo "Unexpected status: $STATUS" >&2
+            exit 1
+          fi
+          echo "Cloudflare deployment OK"
