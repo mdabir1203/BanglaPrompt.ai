@@ -9,13 +9,6 @@ interface OptimizedAdLayoutProps {
 const OptimizedAdLayout: React.FC<OptimizedAdLayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen relative">
-      {/* Header Ad */}
-      <div className="w-full bg-muted/30 py-2">
-        <div className="container mx-auto px-4">
-          <MonetizationAds placement="header" />
-        </div>
-      </div>
-
       {/* Main Content with Sidebar Ads */}
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
