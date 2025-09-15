@@ -19,6 +19,7 @@ A Bangla-first AI prompt engineering platform built with React, Vite and Supabas
 - Tailwind CSS with shadcn/ui components
 - Supabase database & edge functions
 - Resend email API
+- yarn package manager
 
 ## Deployment
 
@@ -29,20 +30,20 @@ The site is deployed on Cloudflare for fast global delivery.
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) 18+
-- npm
+- [yarn v4](https://yarnpkg.com/migration/guide#update-your-configuration-to-the-new-settings)
 
 ### Installation
 
 ```bash
 git clone <repo-url>
 cd prompt-panda-bangla
-npm install
+yarn install
 ```
 
 ### Development server
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 The site will be available at `http://localhost:5173`.
@@ -50,13 +51,13 @@ The site will be available at `http://localhost:5173`.
 ### Linting
 
 ```bash
-npm run lint
+yarn lint
 ```
 
 ### Production build
 
 ```bash
-npm run build
+yarn build
 ```
 
 ## Supabase & Email Setup
