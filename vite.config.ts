@@ -24,7 +24,10 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
-            if (id.includes("react")) return "react-vendor";
+            // Keeping React in the default vendor chunk avoids circular
+            // imports between custom chunks that caused React to be
+            // undefined during runtime. This prevents "createContext" errors
+            // in the production bundle.
             if (id.includes("radix-ui")) return "radix-ui";
             if (id.includes("@tanstack")) return "tanstack";
             return "vendor";
