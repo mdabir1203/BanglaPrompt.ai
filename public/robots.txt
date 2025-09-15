@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://promptshiksha.com/sitemap.xml
+Sitemap: https://prompt-panda.pages.dev/sitemap.xml
 
 # Optimize for Bing
 User-agent: bingbot
