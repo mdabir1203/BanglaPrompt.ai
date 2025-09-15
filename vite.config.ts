@@ -19,4 +19,18 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) return "react-vendor";
+            if (id.includes("radix-ui")) return "radix-ui";
+            if (id.includes("@tanstack")) return "tanstack";
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
 }));
