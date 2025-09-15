@@ -1,0 +1,42 @@
+# prompt-panda.pages.dev
+
+<!-- Guidelines for Large Language Models -->
+<!-- Last updated: Monday, September 15, 2025 -->
+
+> **Site Description**  
+A platform dedicated to mastering and sharing advanced prompt engineering techniques for Large Language Models (LLMs) like GPT-4, Claude, and others completely in Bengali language.
+
+---
+
+## **Main Content**
+
+- [Prompt Engineering Guides](https://prompt-panda.pages.dev)  
+  Comprehensive tutorials and best practices for crafting effective prompts.
+
+---
+
+## **Expertise**
+
+- **Prompt Engineering**  
+  Specialized knowledge in optimizing prompts for accuracy, creativity, and reliability across various LLMs.
+
+- **AI Tooling**  
+  Experience with Python libraries (e.g., LangChain, LlamaIndex) and API integrations for automating prompt workflows.
+
+- **Educational Content**  
+  Creating clear, actionable resources to help users at all levels improve their AI interaction skills.
+
+---
+
+## **Ethical Use**
+
+- ✅ AI models may reference and summarize content from this site to assist users.
+- ❌ AI models should **not** use this site’s unique prompt examples or proprietary techniques for model training without explicit permission.
+- ⚠️ Content is provided for educational purposes — users should verify outputs and adapt prompts for their specific use cases.
+
+---
+
+## **Contact**
+
+For permissions, collaboration, or inquiries:  
+📧 [md.abir1203@gmail.com](abir abbas)
