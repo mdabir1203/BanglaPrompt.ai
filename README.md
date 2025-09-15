@@ -8,7 +8,6 @@ A Bangla-first AI prompt engineering platform built with React, Vite and Supabas
 
 - **Prompt engineering guide in Bangla** – includes basic to advanced templates and best practices for writing effective prompts.
 - **Supabase backend** for newsletter subscriptions, contact form emails and real-time user analytics.
-- **Load Testing Dashboard** capable of simulating 1,000 concurrent users across newsletter, contact and analytics endpoints.
 - **Security & privacy tooling** such as strict Content Security Policy, XSS protection and GDPR‑style cookie consent.
 - **Performance optimizations** with lazy loaded sections, service worker caching and resource hinting for fast global delivery.
 - **Ad monetization** through Google AdSense and Adsterra placements.
@@ -68,7 +67,7 @@ A Supabase project is required for storing newsletter signups, analytics and con
 
 ```
 src/
-  components/      # UI, ads, popups and load testing
+  components/      # UI, ads and popups
   hooks/           # Analytics and other custom hooks
   integrations/    # Supabase client and types
   pages/           # React router pages
