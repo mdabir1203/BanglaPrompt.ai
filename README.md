@@ -20,6 +20,10 @@ A Bangla-first AI prompt engineering platform built with React, Vite and Supabas
 - Supabase database & edge functions
 - Resend email API
 
+## Deployment
+
+The site is deployed on Cloudflare for fast global delivery.
+
 ## Getting Started
 
 ### Prerequisites
