@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
+import AdsterraSetup from "@/components/AdsterraSetup";
 
 // Initialize Google AdSense
 const initAds = () => {
@@ -47,6 +48,7 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          <AdsterraSetup />
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
