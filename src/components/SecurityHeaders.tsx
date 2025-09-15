@@ -9,11 +9,15 @@ const SecurityHeaders: React.FC = () => {
         httpEquiv="Content-Security-Policy" 
         content={`
           default-src 'self';
-          script-src 'self' 'unsafe-inline' 'unsafe-eval' 
-            https://pagead2.googlesyndication.com 
-            https://www.googletagmanager.com 
+          script-src 'self' 'unsafe-inline' 'unsafe-eval' 'nonce-google-adsense'
+            https://pagead2.googlesyndication.com
+            https://www.googletagmanager.com
             https://www.google-analytics.com
+            https://googleads.g.doubleclick.net
+            https://tpc.googlesyndication.com
+            https://adservice.google.com
             https://syndication.realsrv.com
+            https://realsrv.com
             https://inklinkor.com
             https://www.topcreativeformat.com
             https://cdn.gpteng.co
@@ -23,21 +27,36 @@ const SecurityHeaders: React.FC = () => {
           font-src 'self' 
             https://fonts.gstatic.com 
             https://fonts.googleapis.com;
-          img-src 'self' data: blob: 
+          img-src 'self' data: blob:
             https://pagead2.googlesyndication.com
             https://www.google-analytics.com
             https://googleads.g.doubleclick.net
-            https://syndication.realsrv.com;
-          connect-src 'self' 
+            https://tpc.googlesyndication.com
+            https://adservice.google.com
+            https://syndication.realsrv.com
+            https://realsrv.com
+            https://inklinkor.com
+            https://www.topcreativeformat.com;
+          connect-src 'self'
             https://pagead2.googlesyndication.com
             https://www.google-analytics.com
+            https://googleads.g.doubleclick.net
+            https://tpc.googlesyndication.com
+            https://adservice.google.com
             https://syndication.realsrv.com
+            https://realsrv.com
+            https://inklinkor.com
+            https://www.topcreativeformat.com
             https://medium.com
             https://api.medium.com;
-          frame-src 'self' 
+          frame-src 'self'
             https://pagead2.googlesyndication.com
             https://googleads.g.doubleclick.net
-            https://syndication.realsrv.com;
+            https://tpc.googlesyndication.com
+            https://adservice.google.com
+            https://syndication.realsrv.com
+            https://realsrv.com
+            https://www.topcreativeformat.com;
           object-src 'none';
           base-uri 'self';
           form-action 'self' https://medium.com;
