@@ -5,7 +5,6 @@ import hauntaudio from '../assets/audio/haunt.mp3';
 const NotFound = () => {
   const location = useLocation();
 
-  useEffect(() => {
  useEffect(() => {
     // ============ AUDIO ============
     const hauntAudio = new Audio(hauntaudio);
