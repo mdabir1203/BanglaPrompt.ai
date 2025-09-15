@@ -17,6 +17,7 @@ const SecurityHeaders: React.FC = () => {
             https://tpc.googlesyndication.com
             https://adservice.google.com
             https://syndication.realsrv.com
+            https://realsrv.com
             https://inklinkor.com
             https://www.topcreativeformat.com
             https://cdn.gpteng.co
@@ -32,7 +33,11 @@ const SecurityHeaders: React.FC = () => {
             https://googleads.g.doubleclick.net
             https://tpc.googlesyndication.com
             https://adservice.google.com
-            https://syndication.realsrv.com;
+            https://syndication.realsrv.com
+            https://realsrv.com
+            https://inklinkor.com
+            https://www.topcreativeformat.com;
+
           connect-src 'self'
             https://pagead2.googlesyndication.com
             https://www.google-analytics.com
@@ -40,6 +45,9 @@ const SecurityHeaders: React.FC = () => {
             https://tpc.googlesyndication.com
             https://adservice.google.com
             https://syndication.realsrv.com
+            https://realsrv.com
+            https://inklinkor.com
+            https://www.topcreativeformat.com
             https://medium.com
             https://api.medium.com;
           frame-src 'self'
@@ -47,7 +55,9 @@ const SecurityHeaders: React.FC = () => {
             https://googleads.g.doubleclick.net
             https://tpc.googlesyndication.com
             https://adservice.google.com
-            https://syndication.realsrv.com;
+            https://syndication.realsrv.com
+            https://realsrv.com
+            https://www.topcreativeformat.com;
           object-src 'none';
           base-uri 'self';
           form-action 'self' https://medium.com;
