@@ -1,8 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -213,7 +209,7 @@
 
 /* Bengali Typography Enhancements */
 .font-bengali {
-  font-family: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Hind Siliguri', sans-serif;
+  font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
   line-height: 1.7;
   letter-spacing: 0.01em;
 }

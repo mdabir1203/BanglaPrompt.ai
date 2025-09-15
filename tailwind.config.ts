@@ -1,5 +1,6 @@
 
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -10,15 +11,21 @@ export default {
 		"./src/**/*.{ts,tsx}",
 	],
 	prefix: "",
-	theme: {
-		container: {
-			center: true,
-			padding: '2rem',
-			screens: {
-				'2xl': '1400px'
-			}
-		},
-		extend: {
+        theme: {
+                container: {
+                        center: true,
+                        padding: '2rem',
+                        screens: {
+                                '2xl': '1400px'
+                        }
+                },
+                fontWeight: {
+                        normal: '400',
+                        medium: '500',
+                        semibold: '600',
+                        bold: '700'
+                },
+                extend: {
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -79,8 +86,8 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
-				'bengali': ['Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Hind Siliguri', 'sans-serif'],
-				'display': ['Noto Sans Bengali', 'SolaimanLipi', 'sans-serif'],
+                                'bengali': ['Noto Sans Bengali', 'Hind Siliguri', 'sans-serif'],
+                                'display': ['Noto Sans Bengali', 'Hind Siliguri', 'sans-serif'],
 				mono: ['Space Mono', 'VT323', 'monospace'],
 				serif: ['Georgia', 'serif'],
 			},
@@ -155,5 +162,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+        plugins: [tailwindcssAnimate],
 } satisfies Config;
