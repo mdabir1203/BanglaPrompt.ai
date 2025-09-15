@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { LoadTester } from "@/components/LoadTester";
 import SEOHead from "@/components/SEOHead";
 import SecurityHeaders from "@/components/SecurityHeaders";
 import PerformanceOptimizer from "@/components/PerformanceOptimizer";
@@ -57,9 +56,6 @@ const Index = () => {
         <Suspense fallback={<LoadingFallback />}>
           <LazyContact />
         </Suspense>
-        
-        {/* Load Testing Dashboard */}
-        <LoadTester />
         
         <Footer />
       </OptimizedAdLayout>
