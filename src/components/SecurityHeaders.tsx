@@ -37,6 +37,7 @@ const SecurityHeaders: React.FC = () => {
             https://realsrv.com
             https://inklinkor.com
             https://www.topcreativeformat.com;
+
           connect-src 'self'
             https://pagead2.googlesyndication.com
             https://www.google-analytics.com
