@@ -14,6 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
+      marketplace_prompts: {
+        Row: {
+          author_avatar_url: string | null
+          author_id: string | null
+          author_name: string
+          commission_rate: string
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          is_active: boolean
+          metadata: Json
+          preview: string | null
+          price_cents: number
+          prompt: string
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_avatar_url?: string | null
+          author_id?: string | null
+          author_name: string
+          commission_rate?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          preview?: string | null
+          price_cents: number
+          prompt: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_avatar_url?: string | null
+          author_id?: string | null
+          author_name?: string
+          commission_rate?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          preview?: string | null
+          price_cents?: number
+          prompt?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_prompts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+            referencedSchema: "auth"
+          }
+        ]
+      }
+      marketplace_sales: {
+        Row: {
+          buyer_email: string | null
+          commission_cents: number
+          created_at: string
+          id: string
+          metadata: Json
+          payment_reference: string | null
+          prompt_id: string
+          sale_amount_cents: number
+          seller_earnings_cents: number
+        }
+        Insert: {
+          buyer_email?: string | null
+          commission_cents: number
+          created_at?: string
+          id?: string
+          metadata?: Json
+          payment_reference?: string | null
+          prompt_id: string
+          sale_amount_cents: number
+          seller_earnings_cents: number
+        }
+        Update: {
+          buyer_email?: string | null
+          commission_cents?: number
+          created_at?: string
+          id?: string
+          metadata?: Json
+          payment_reference?: string | null
+          prompt_id?: string
+          sale_amount_cents?: number
+          seller_earnings_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_sales_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_prompts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       prompt_comments: {
         Row: {
           author_name: string | null
@@ -197,6 +307,36 @@ export type Database = {
       get_newsletter_stats: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      get_seller_commission_summary: {
+        Args: {
+          p_author_id: string
+        }
+        Returns: {
+          prompt_id: string
+          prompt_title: string
+          total_sales: number
+          total_revenue_cents: number
+          total_commission_cents: number
+          total_payout_cents: number
+        }[]
+      }
+      record_marketplace_sale: {
+        Args: {
+          p_prompt_id: string
+          p_buyer_email?: string
+          p_payment_reference?: string
+          p_sale_amount_cents?: number
+          p_metadata?: Json
+        }
+        Returns: {
+          sale_id: string
+          prompt_id: string
+          sale_amount_cents: number
+          commission_cents: number
+          seller_earnings_cents: number
+          created_at: string
+        }[]
       }
     }
     Enums: {
