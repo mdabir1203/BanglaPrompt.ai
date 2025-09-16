@@ -13,6 +13,7 @@ https://github.com/user-attachments/assets/8af407b6-86fe-437c-a91b-82882949769c
 - **Security & privacy tooling** such as strict Content Security Policy, XSS protection and GDPR‑style cookie consent.
 - **Performance optimizations** with lazy loaded sections, service worker caching and resource hinting for fast global delivery.
 - **Ad monetization** through Google AdSense and Adsterra placements.
+- **Deployment check** through github actions for cloudflare
 
 ## Tech Stack
 
