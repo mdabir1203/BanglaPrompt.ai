@@ -1,50 +1,86 @@
+import React, { useEffect, useRef, useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+const RATE_LIMIT_ATTEMPTS = 3;
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [loading, setLoading] = useState(false);
+  const isMountedRef = useRef(true);
+  const { checkRateLimit, resetTime, remainingAttempts } = useRateLimit({
+    maxAttempts: RATE_LIMIT_ATTEMPTS,
+    timeWindow: RATE_LIMIT_WINDOW,
+    identifier: "contact-form",
+  });
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+
+    if (!navigator.onLine) {
+      toast.error("ইন্টারনেট সংযোগ নেই। পরে আবার চেষ্টা করুন।");
+      return;
+    }
+
+    if (!checkRateLimit()) {
+      const waitMs = Math.max(resetTime - Date.now(), 0);
+      const waitMinutes = Math.ceil(waitMs / 60000);
+      const attemptsLeft = Math.max(remainingAttempts, 0);
+      toast.warning(
+        `আপনি বার্তা পাঠানোর সীমা অতিক্রম করেছেন। ${waitMinutes} মিনিট পরে আবার চেষ্টা করুন। (${attemptsLeft} প্রচেষ্টা বাকি)`
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
-        body: formData
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: formData,
       });
 
       if (error) {
         throw error;
       }
 
-      toast.success('আপনার বার্তা সফলভাবে পাঠানো হয়েছে!');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error: any) {
-      console.error('Error sending message:', error);
-      toast.error('বার্তা পাঠাতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+      toast.success("আপনার বার্তা সফলভাবে পাঠানো হয়েছে!");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error: unknown) {
+      console.error("Error sending message:", error);
+      toast.error("বার্তা পাঠাতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
     } finally {
-      setLoading(false);
+      if (isMountedRef.current) {
+        setLoading(false);
+      }
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
