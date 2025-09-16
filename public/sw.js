@@ -1,115 +1,189 @@
-// Service Worker for caching static assets
-const CACHE_NAME = 'prompts-v1';
-const STATIC_CACHE = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
-];
+// Advanced service worker tuned for high-traffic scenarios
 
-// Cache strategy for different resource types
-const CACHE_STRATEGIES = {
-  STALE_WHILE_REVALIDATE: 'stale-while-revalidate',
-  CACHE_FIRST: 'cache-first',
-  NETWORK_FIRST: 'network-first'
-};
+const CACHE_VERSION = 'v2';
+const STATIC_CACHE = `prompts-static-${CACHE_VERSION}`;
+const ASSET_CACHE = `prompts-assets-${CACHE_VERSION}`;
+const API_CACHE = `prompts-api-${CACHE_VERSION}`;
+const FONT_CACHE = `prompts-fonts-${CACHE_VERSION}`;
 
-// Install event - cache static resources
+const PRECACHE_URLS = ['/', '/index.html'];
+const ASSET_PATTERN = /\/assets\/.*\.(?:js|css)$/;
+const FONT_HOSTNAMES = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+const IMAGE_EXTENSIONS = /\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico)$/;
+
+const MAX_ASSET_ENTRIES = 80;
+const MAX_API_ENTRIES = 40;
+const MAX_FONT_ENTRIES = 20;
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(STATIC_CACHE))
-      .then(() => self.skipWaiting())
+    caches
+      .open(STATIC_CACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .catch(() => Promise.resolve())
+      .finally(() => self.skipWaiting()),
   );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames
-            .filter((cacheName) => cacheName !== CACHE_NAME)
-            .map((cacheName) => caches.delete(cacheName))
-        );
-      })
-      .then(() => self.clients.claim())
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) =>
+              key !== STATIC_CACHE &&
+              key !== ASSET_CACHE &&
+              key !== API_CACHE &&
+              key !== FONT_CACHE,
+            )
+            .map((key) => caches.delete(key)),
+        ),
+      )
+      .then(() => self.clients.claim()),
   );
 });
 
-// Fetch event - implement caching strategies
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
-  
-  // Skip non-GET requests
-  if (request.method !== 'GET') return;
-  
-  // Skip chrome-extension requests
-  if (url.protocol === 'chrome-extension:') return;
-  
-  // Handle different resource types
-  if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2)$/)) {
-    // Static assets - Cache First
-    event.respondWith(cacheFirst(request));
-  } else if (url.pathname.startsWith('/api/')) {
-    // API requests - Network First
-    event.respondWith(networkFirst(request));
-  } else {
-    // HTML pages - Stale While Revalidate
-    event.respondWith(staleWhileRevalidate(request));
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });
 
-// Cache First Strategy
-async function cacheFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  const url = new URL(request.url);
+
+  if (request.mode === 'navigate') {
+    event.respondWith(networkFirst(request, STATIC_CACHE));
+    return;
+  }
+
+  if (url.origin === self.location.origin) {
+    if (ASSET_PATTERN.test(url.pathname)) {
+      event.respondWith(staleWhileRevalidate(request, ASSET_CACHE, MAX_ASSET_ENTRIES, event));
+      return;
+    }
+
+    if (IMAGE_EXTENSIONS.test(url.pathname)) {
+      event.respondWith(cacheFirst(request, ASSET_CACHE, MAX_ASSET_ENTRIES));
+      return;
+    }
+
+    if (url.pathname.startsWith('/api/')) {
+      event.respondWith(networkFirst(request, API_CACHE, MAX_API_ENTRIES));
+      return;
+    }
+  }
+
+  if (FONT_HOSTNAMES.includes(url.hostname)) {
+    event.respondWith(staleWhileRevalidate(request, FONT_CACHE, MAX_FONT_ENTRIES, event));
+    return;
+  }
+
+  if (url.protocol.startsWith('http')) {
+    event.respondWith(staleWhileRevalidate(request, API_CACHE, MAX_API_ENTRIES, event));
+  }
+});
+
+async function cacheFirst(request, cacheName, maxEntries) {
+  const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-  
   if (cached) {
     return cached;
   }
-  
+
   try {
     const response = await fetch(request);
-    if (response.status === 200) {
+    if (response.ok) {
       cache.put(request, response.clone());
+      await limitCacheSize(cache, maxEntries);
     }
     return response;
   } catch (error) {
-    console.error('Network request failed:', error);
     return new Response('Network error', { status: 503 });
   }
 }
 
-// Network First Strategy
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  
+async function networkFirst(request, cacheName, maxEntries) {
+  const cache = await caches.open(cacheName);
   try {
     const response = await fetch(request);
-    if (response.status === 200) {
+    if (response.ok) {
       cache.put(request, response.clone());
+      await limitCacheSize(cache, maxEntries);
+      return response;
     }
-    return response;
   } catch (error) {
     const cached = await cache.match(request);
-    return cached || new Response('Network error', { status: 503 });
+    if (cached) {
+      return cached;
+    }
+    if (request.mode === 'navigate') {
+      const fallback = await cache.match('/index.html');
+      if (fallback) {
+        return fallback;
+      }
+    }
   }
+
+  const cachedResponse = await cache.match(request);
+  return (
+    cachedResponse ||
+    new Response('Offline', {
+      status: 503,
+      statusText: 'Offline',
+    })
+  );
 }
 
-// Stale While Revalidate Strategy
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_NAME);
+async function staleWhileRevalidate(request, cacheName, maxEntries, event) {
+  const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-  
-  const fetchPromise = fetch(request).then((response) => {
-    if (response.status === 200) {
-      cache.put(request, response.clone());
+
+  const fetchPromise = fetch(request)
+    .then(async (response) => {
+      if (response && response.ok) {
+        await cache.put(request, response.clone());
+        await limitCacheSize(cache, maxEntries);
+      }
+      return response;
+    })
+    .catch(() => null);
+
+  if (cached) {
+    if (event) {
+      event.waitUntil(fetchPromise);
     }
-    return response;
-  });
-  
-  return cached || fetchPromise;
+    return cached;
+  }
+
+  const networkResponse = await fetchPromise;
+  if (networkResponse) {
+    return networkResponse;
+  }
+
+  return new Response('Offline', { status: 503 });
+}
+
+async function limitCacheSize(cache, maxEntries) {
+  if (!maxEntries) {
+    return;
+  }
+
+  const keys = await cache.keys();
+  const excess = keys.length - maxEntries;
+  if (excess <= 0) {
+    return;
+  }
+
+  for (let i = 0; i < excess; i += 1) {
+    await cache.delete(keys[i]);
+  }
 }

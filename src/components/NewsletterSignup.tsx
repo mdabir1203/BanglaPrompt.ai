@@ -1,54 +1,87 @@
-
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ExternalLink } from "lucide-react";
 import GoogleAd from "./GoogleAd";
 import { supabase } from "@/integrations/supabase/client";
+import { useRateLimit } from "@/hooks/useRateLimit";
+
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_ATTEMPTS = 3;
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const { checkRateLimit, remainingAttempts, resetTime } = useRateLimit({
+    maxAttempts: RATE_LIMIT_ATTEMPTS,
+    timeWindow: RATE_LIMIT_WINDOW,
+    identifier: "newsletter-signup",
+  });
+
+  useEffect(() => () => {
+    abortControllerRef.current?.abort();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    
+    if (!email || loading) return;
+
+    if (!navigator.onLine) {
+      toast.error("ইন্টারনেট সংযোগ নেই। পরে আবার চেষ্টা করুন।");
+      return;
+    }
+
+    if (!checkRateLimit()) {
+      const waitMs = Math.max(resetTime - Date.now(), 0);
+      const waitSeconds = Math.ceil(waitMs / 1000);
+      const attemptsLeft = Math.max(remainingAttempts, 0);
+      toast.warning(
+        `অনুগ্রহ করে ${waitSeconds} সেকেন্ড পরে আবার চেষ্টা করুন। (${attemptsLeft} প্রচেষ্টা বাকি)`
+      );
+      return;
+    }
+
     setLoading(true);
-    
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     try {
-      // Check if email already exists
-      const { data: existingSubscription } = await supabase
-        .from('newsletter_subscriptions')
-        .select('id')
-        .eq('email', email)
-        .single();
-
-      if (existingSubscription) {
-        toast.info("আপনি আগেই সাবস্ক্রাইব করেছেন!");
-        setEmail("");
-        setLoading(false);
-        return;
-      }
-
-      // Subscribe new email
       const { error } = await supabase
-        .from('newsletter_subscriptions')
-        .insert([{ email, source: 'website' }]);
+        .from("newsletter_subscriptions")
+        .insert(
+          [{
+            email,
+            source: "website",
+            subscribed_at: new Date().toISOString(),
+            is_active: true,
+          }],
+        )
+        .abortSignal(controller.signal);
 
       if (error) {
+        if ((error as { code?: string }).code === "23505") {
+          toast.info("আপনি আগেই সাবস্ক্রাইব করেছেন!");
+          setEmail("");
+          return;
+        }
+
         throw error;
       }
 
       setEmail("");
       toast.success("আপনি সফলভাবে সাবস্ক্রাইব করেছেন!");
-      
-      // Redirect to Medium profile after successful subscription
-      window.open("https://medium.com/@md.abir1203", "_blank");
-    } catch (error: any) {
-      console.error('Newsletter subscription error:', error);
+      window.open("https://medium.com/@md.abir1203", "_blank", "noopener");
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+
+      console.error("Newsletter subscription error:", error);
       toast.error("সাবস্ক্রিপশনে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
