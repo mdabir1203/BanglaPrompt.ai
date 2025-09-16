@@ -6,8 +6,64 @@ import type { Database } from './types';
 // ✅ Unified client using env vars
 type EnvRecord = Record<string, string | undefined>;
 
-const globalContextEnv: EnvRecord =
-  (globalThis as { context?: { env?: EnvRecord } }).context?.env ?? {};
+const getBrowserInjectedEnv = (): EnvRecord => {
+  if (typeof globalThis === 'undefined') {
+    return {};
+  }
+
+  const globalObject = globalThis as Record<string, unknown>;
+  const possibleEnvKeys = ['__ENV__', '__env__'];
+
+  for (const key of possibleEnvKeys) {
+    const value = Reflect.get(globalObject, key) as unknown;
+
+    if (typeof value === 'object' && value !== null) {
+      return value as EnvRecord;
+    }
+  }
+
+  const maybeWindow = Reflect.get(globalObject, 'window') as unknown;
+
+  if (typeof maybeWindow === 'object' && maybeWindow !== null) {
+    for (const key of possibleEnvKeys) {
+      const value = Reflect.get(
+        maybeWindow as Record<string, unknown>,
+        key,
+      ) as unknown;
+
+      if (typeof value === 'object' && value !== null) {
+        return value as EnvRecord;
+      }
+    }
+  }
+
+  return {};
+};
+
+const getCloudflareContextEnv = (): EnvRecord => {
+  if (typeof globalThis === 'undefined') {
+    return {};
+  }
+
+  const globalObject = globalThis as Record<string, unknown>;
+  const maybeContext = Reflect.get(globalObject, 'context') as unknown;
+
+  if (typeof maybeContext === 'object' && maybeContext !== null) {
+    const maybeEnv = Reflect.get(
+      maybeContext as Record<string, unknown>,
+      'env',
+    ) as unknown;
+
+    if (typeof maybeEnv === 'object' && maybeEnv !== null) {
+      return maybeEnv as EnvRecord;
+    }
+  }
+
+  return {};
+};
+
+const browserEnv: EnvRecord = getBrowserInjectedEnv();
+const cloudflareContextEnv: EnvRecord = getCloudflareContextEnv();
 
 let importMetaEnv: EnvRecord = {};
 try {
@@ -23,6 +79,13 @@ const processEnv: EnvRecord =
     ? (process.env as EnvRecord)
     : {};
 
+const envSources: EnvRecord[] = [
+  browserEnv,
+  cloudflareContextEnv,
+  importMetaEnv,
+  processEnv,
+];
+
 const resolveEnvVar = (key: string): string => {
   const candidates: string[] = [key];
 
@@ -37,13 +100,12 @@ const resolveEnvVar = (key: string): string => {
   }
 
   for (const candidate of candidates) {
-    const value =
-      globalContextEnv[candidate] ??
-      importMetaEnv[candidate] ??
-      processEnv[candidate];
+    for (const source of envSources) {
+      const value = source[candidate];
 
-    if (typeof value === 'string' && value.length > 0) {
-      return value;
+      if (typeof value === 'string' && value.length > 0) {
+        return value;
+      }
     }
   }
 
