@@ -24,8 +24,8 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+      Deno.env.get("NEXT_PUBLIC_SUPABASE_URL") ?? "",
+      Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? ""
     );
 
     const { name, email, subject, message }: ContactRequest = await req.json();
