@@ -11,8 +11,8 @@ const SUPABASE_ANON_KEY = context.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 // import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(
-  NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY,
   {
     auth: {
       storage: localStorage,
