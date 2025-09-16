@@ -25,6 +25,7 @@ const Navbar = () => {
     { name: "হোম", href: "#" },
     { name: "কোর্স", href: "#features" },
     { name: "রিসোর্স", href: "#resources" },
+    { name: "কমিউনিটি", href: "/community/prompts" },
     { name: "সম্পর্কে", href: "#about" },
   ];
 
@@ -61,10 +62,10 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center gap-4">
             <a
-              href="#contact"
+              href="/community/submit"
               className="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]"
             >
-              শুরু করুন
+              কমিউনিটিতে যোগ দিন
             </a>
           </div>
 
@@ -99,11 +100,11 @@ const Navbar = () => {
                 </a>
               ))}
               <a
-                href="#contact"
+                href="/community/submit"
                 className="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white font-medium text-center transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]"
                 onClick={() => setMenuOpen(false)}
               >
-                শুরু করুন
+                কমিউনিটিতে যোগ দিন
               </a>
             </nav>
           </div>

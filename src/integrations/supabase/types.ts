@@ -14,6 +14,124 @@ export type Database = {
   }
   public: {
     Tables: {
+      prompt_comments: {
+        Row: {
+          author_name: string | null
+          community_identity: string
+          content: string
+          created_at: string
+          id: string
+          prompt_id: string
+        }
+        Insert: {
+          author_name?: string | null
+          community_identity: string
+          content: string
+          created_at?: string
+          id?: string
+          prompt_id: string
+        }
+        Update: {
+          author_name?: string | null
+          community_identity?: string
+          content?: string
+          created_at?: string
+          id?: string
+          prompt_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_comments_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "prompts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      prompt_upvotes: {
+        Row: {
+          community_identity: string
+          created_at: string
+          id: string
+          prompt_id: string
+        }
+        Insert: {
+          community_identity: string
+          created_at?: string
+          id?: string
+          prompt_id: string
+        }
+        Update: {
+          community_identity?: string
+          created_at?: string
+          id?: string
+          prompt_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_upvotes_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "prompts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      prompts: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          language: string | null
+          prompt: string
+          submitter_email: string | null
+          submitter_name: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+          use_case: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          language?: string | null
+          prompt: string
+          submitter_email?: string | null
+          submitter_name?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+          use_case?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          language?: string | null
+          prompt?: string
+          submitter_email?: string | null
+          submitter_name?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          use_case?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompts_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+            referencedSchema: "auth"
+          }
+        ]
+      }
       newsletter_subscriptions: {
         Row: {
           email: string
