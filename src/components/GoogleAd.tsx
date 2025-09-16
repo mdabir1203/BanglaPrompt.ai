@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { createScopedLogger } from "@/lib/logger";
 
 interface GoogleAdProps {
   slot: string;
@@ -17,6 +18,8 @@ const AD_CLIENT = "ca-pub-6185927994614530";
 const AD_HOST = "ca-host-pub-6185927994614530";
 const ADSENSE_SCRIPT_ID = "google-adsense-script";
 const ADSENSE_SRC = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT}`;
+
+const googleAdLogger = createScopedLogger("google-ad");
 
 const GoogleAd: React.FC<GoogleAdProps> = ({
   slot,
@@ -80,7 +83,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
     } catch (error) {
       hasRenderedRef.current = false;
       setHasError(true);
-      console.error("Error rendering Google Ad:", error);
+      googleAdLogger.error("Error rendering Google Ad", { error });
     }
   }, [ensureAdsenseScript, resetAdElement]);
 

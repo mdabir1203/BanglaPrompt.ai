@@ -3,6 +3,9 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, X, Clock, Users, TrendingUp, Gift, Zap, Star, Shield } from 'lucide-react';
 import { csrfProtection, formRateLimiter } from '@/utils/security';
+import { createScopedLogger } from '@/lib/logger';
+
+const popupLogger = createScopedLogger('newsletter-popup');
 
 const NewsletterConversionPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,7 +74,7 @@ const NewsletterConversionPopup = () => {
 
     // CSRF validation
     if (!csrfProtection.validateToken(csrfToken)) {
-      console.error('CSRF token validation failed');
+      popupLogger.warn('CSRF token validation failed for newsletter popup join action');
       return;
     }
 

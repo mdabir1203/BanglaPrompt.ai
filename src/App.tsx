@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { createScopedLogger } from "@/lib/logger";
 
 const Index = React.lazy(() => import("./pages/Index"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
@@ -12,12 +13,14 @@ const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 const CookiePolicy = React.lazy(() => import("./pages/CookiePolicy"));
 
 // Initialize Google AdSense
+const adsLogger = createScopedLogger("adsense");
+
 const initAds = () => {
   try {
     // @ts-expect-error - AdSense global
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   } catch (e) {
-    console.error('AdSense error:', e);
+    adsLogger.error("Failed to initialize Google AdSense queue", { error: e });
   }
 };
 

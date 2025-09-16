@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { createScopedLogger } from "@/lib/logger";
 
 interface AnalyticsEvent {
   event_type: string;
@@ -14,6 +15,8 @@ interface QueuedAnalyticsEvent extends AnalyticsEvent {
 
 const STORAGE_KEY = "banglaprompt.analytics.queue";
 const SESSION_STORAGE_KEY = "banglaprompt.analytics.session";
+
+const analyticsLogger = createScopedLogger("analytics");
 
 class AnalyticsTracker {
   private sessionId: string;
@@ -72,7 +75,7 @@ class AnalyticsTracker {
       window.sessionStorage.setItem(SESSION_STORAGE_KEY, newId);
       return newId;
     } catch (error) {
-      console.warn("Unable to access sessionStorage for analytics:", error);
+      analyticsLogger.warn("Unable to access sessionStorage for analytics", { error });
       return this.generateSessionId();
     }
   }
@@ -115,7 +118,7 @@ class AnalyticsTracker {
         }))
         .filter((event) => now - event.timestamp <= this.maxEventAge);
     } catch (error) {
-      console.warn("Failed to load analytics queue from storage:", error);
+      analyticsLogger.warn("Failed to load analytics queue from storage", { error });
       return [];
     }
   }
@@ -129,7 +132,7 @@ class AnalyticsTracker {
       const serialized = JSON.stringify(this.queue);
       window.localStorage.setItem(STORAGE_KEY, serialized);
     } catch (error) {
-      console.warn("Failed to persist analytics queue:", error);
+      analyticsLogger.warn("Failed to persist analytics queue", { error });
     }
   }
 
@@ -204,7 +207,7 @@ class AnalyticsTracker {
       }
 
       this.persistQueue();
-      console.error("Analytics tracking error:", error);
+      analyticsLogger.error("Analytics tracking error", { error });
     } finally {
       this.isFlushing = false;
     }

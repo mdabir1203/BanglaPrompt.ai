@@ -2,11 +2,14 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { X, Shield, Cookie } from 'lucide-react';
+import { createScopedLogger } from '@/lib/logger';
+
+const cookieLogger = createScopedLogger('cookie-consent');
 
 // Extend Window interface to include clarity
 declare global {
   interface Window {
-    clarity?: any;
+    clarity?: (...args: unknown[]) => void;
   }
 }
 
@@ -68,7 +71,7 @@ const CookieConsent = () => {
   const initializeAnalytics = () => {
     // Initialize Microsoft Clarity only if analytics consent is given
     if (window.clarity) {
-      console.log('Analytics initialized with user consent');
+      cookieLogger.info('Analytics initialized with user consent');
     }
   };
 

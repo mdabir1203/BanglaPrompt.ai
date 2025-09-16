@@ -1,16 +1,21 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import hauntaudio from '../../public/haunt.mp3';
+import { createScopedLogger } from "@/lib/logger";
+
+const notFoundLogger = createScopedLogger("not-found");
 
 const NotFound = () => {
   const location = useLocation();
 
- useEffect(() => {
+  useEffect(() => {
     // ============ AUDIO ============
     const hauntAudio = new Audio(hauntaudio);
     hauntAudio.loop = true;
     hauntAudio.volume = 0.3;
-    hauntAudio.play().catch(e => console.warn("Audio autoplay blocked:", e));
+    hauntAudio.play().catch((error) => {
+      notFoundLogger.warn("Audio autoplay blocked", { error });
+    });
 
     // ============ STYLES ============
     const style = document.createElement('style');

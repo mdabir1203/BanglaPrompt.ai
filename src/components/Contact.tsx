@@ -7,9 +7,12 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useRateLimit } from "@/hooks/useRateLimit";
+import { createScopedLogger } from "@/lib/logger";
 
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
 const RATE_LIMIT_ATTEMPTS = 3;
+
+const contactLogger = createScopedLogger("contact-form");
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -66,7 +69,7 @@ const Contact = () => {
       toast.success("আপনার বার্তা সফলভাবে পাঠানো হয়েছে!");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error: unknown) {
-      console.error("Error sending message:", error);
+      contactLogger.error("Error sending contact form message", { error });
       toast.error("বার্তা পাঠাতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
     } finally {
       if (isMountedRef.current) {

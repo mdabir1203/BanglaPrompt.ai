@@ -1,3 +1,7 @@
+import { createScopedLogger } from "@/lib/logger";
+
+const securityLogger = createScopedLogger("security");
+
 // Security utility functions
 
 /**
@@ -109,26 +113,26 @@ export const formRateLimiter = new ScalableRateLimiter();
  * Securely stores data in localStorage with encryption
  */
 export const secureStorage = {
-  set: (key: string, value: any): void => {
+  set: (key: string, value: unknown): void => {
     try {
       const serializedValue = JSON.stringify(value);
       // Simple obfuscation (not real encryption, but better than plain text)
       const encoded = btoa(serializedValue);
       localStorage.setItem(`secure_${key}`, encoded);
     } catch (error) {
-      console.error('Failed to store data securely:', error);
+      securityLogger.error("Failed to store data securely", { error });
     }
   },
 
-  get: (key: string): any => {
+  get: <T = unknown>(key: string): T | null => {
     try {
       const encoded = localStorage.getItem(`secure_${key}`);
       if (!encoded) return null;
-      
+
       const decoded = atob(encoded);
-      return JSON.parse(decoded);
+      return JSON.parse(decoded) as T;
     } catch (error) {
-      console.error('Failed to retrieve secure data:', error);
+      securityLogger.error("Failed to retrieve secure data", { error });
       return null;
     }
   },
@@ -155,7 +159,7 @@ export const csrfProtection = {
   },
 
   getToken: (): string | null => {
-    return secureStorage.get('csrf_token');
+    return secureStorage.get<string>('csrf_token');
   },
 
   validateToken: (token: string): boolean => {

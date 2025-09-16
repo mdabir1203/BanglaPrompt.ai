@@ -4,9 +4,12 @@ import { ExternalLink } from "lucide-react";
 import GoogleAd from "./GoogleAd";
 import { supabase } from "@/integrations/supabase/client";
 import { useRateLimit } from "@/hooks/useRateLimit";
+import { createScopedLogger } from "@/lib/logger";
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
 const RATE_LIMIT_ATTEMPTS = 3;
+
+const newsletterLogger = createScopedLogger("newsletter-signup");
 
 const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
@@ -77,7 +80,7 @@ const NewsletterSignup = () => {
         return;
       }
 
-      console.error("Newsletter subscription error:", error);
+      newsletterLogger.error("Newsletter subscription error", { error });
       toast.error("সাবস্ক্রিপশনে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);

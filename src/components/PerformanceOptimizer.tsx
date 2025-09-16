@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { createScopedLogger } from "@/lib/logger";
 
 const PREFETCH_DOMAINS = [
   "https://fonts.googleapis.com",
@@ -12,6 +13,8 @@ const PRECONNECT_DOMAINS = [
   "https://fonts.googleapis.com",
   "https://fonts.gstatic.com",
 ];
+
+const performanceLogger = createScopedLogger("performance");
 
 const PerformanceOptimizer: React.FC = () => {
   useEffect(() => {
@@ -98,7 +101,7 @@ const PerformanceOptimizer: React.FC = () => {
           });
         });
       } catch (error) {
-        console.log("ServiceWorker registration failed:", error);
+        performanceLogger.error("ServiceWorker registration failed", { error });
       }
     };
 
@@ -115,19 +118,22 @@ const PerformanceOptimizer: React.FC = () => {
     const runPerformanceMonitoring = () => {
       import("web-vitals")
         .then(({ onLCP, onINP, onCLS, onFCP, onTTFB }) => {
-          const logger = (metric: unknown) => console.debug("web-vitals", metric);
-          onLCP(logger);
-          onINP(logger);
-          onCLS(logger);
-          onFCP(logger);
-          onTTFB(logger);
+          const logMetric = (metric: unknown) =>
+            performanceLogger.debug("web-vitals metric recorded", { metric });
+          onLCP(logMetric);
+          onINP(logMetric);
+          onCLS(logMetric);
+          onFCP(logMetric);
+          onTTFB(logMetric);
         })
-        .catch((error) => console.log("Failed to load web-vitals", error));
+        .catch((error) =>
+          performanceLogger.error("Failed to load web-vitals library", { error }),
+        );
 
       if ("memory" in performance) {
         const memory = (performance as Performance & { memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number } }).memory;
         if (memory && memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.9) {
-          console.warn("High memory usage detected");
+          performanceLogger.warn("High memory usage detected");
         }
       }
     };
