@@ -1,3 +1,4 @@
+import "@/polyfills/process";
 import winston from "winston";
 
 const { combine, colorize, errors, printf, splat, timestamp, uncolorize } = winston.format;
