@@ -14,114 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
-      marketplace_prompts: {
+      creator_tools: {
         Row: {
-          author_avatar_url: string | null
-          author_id: string | null
-          author_name: string
-          commission_rate: string
+          category: string
           created_at: string
+          creator_id: string
           currency: string
           description: string | null
           id: string
           is_active: boolean
-          metadata: Json
-          preview: string | null
+          metadata: Json | null
+          name: string
           price_cents: number
-          prompt: string
+          pricing_type: string
+          slug: string
+          subscription_interval: string | null
           tags: string[]
-          title: string
+          thumbnail_url: string | null
+          trial_period_days: number | null
           updated_at: string
         }
         Insert: {
-          author_avatar_url?: string | null
-          author_id?: string | null
-          author_name: string
-          commission_rate?: string
+          category: string
           created_at?: string
+          creator_id: string
           currency?: string
           description?: string | null
           id?: string
           is_active?: boolean
-          metadata?: Json
-          preview?: string | null
+          metadata?: Json | null
+          name: string
           price_cents: number
-          prompt: string
+          pricing_type: string
+          slug: string
+          subscription_interval?: string | null
           tags?: string[]
-          title: string
+          thumbnail_url?: string | null
+          trial_period_days?: number | null
           updated_at?: string
         }
         Update: {
-          author_avatar_url?: string | null
-          author_id?: string | null
-          author_name?: string
-          commission_rate?: string
+          category?: string
           created_at?: string
+          creator_id?: string
           currency?: string
           description?: string | null
           id?: string
           is_active?: boolean
-          metadata?: Json
-          preview?: string | null
+          metadata?: Json | null
+          name?: string
           price_cents?: number
-          prompt?: string
+          pricing_type?: string
+          slug?: string
+          subscription_interval?: string | null
           tags?: string[]
-          title?: string
+          thumbnail_url?: string | null
+          trial_period_days?: number | null
           updated_at?: string
         }
         Relationships: [
           {
+            foreignKeyName: "creator_tools_creator_id_fkey"
+            columns: ["creator_id"]
             foreignKeyName: "marketplace_prompts_author_id_fkey"
             columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-            referencedSchema: "auth"
-          }
-        ]
-      }
-      marketplace_sales: {
-        Row: {
-          buyer_email: string | null
-          commission_cents: number
-          created_at: string
-          id: string
-          metadata: Json
-          payment_reference: string | null
-          prompt_id: string
-          sale_amount_cents: number
-          seller_earnings_cents: number
-        }
-        Insert: {
-          buyer_email?: string | null
-          commission_cents: number
-          created_at?: string
-          id?: string
-          metadata?: Json
-          payment_reference?: string | null
-          prompt_id: string
-          sale_amount_cents: number
-          seller_earnings_cents: number
-        }
-        Update: {
-          buyer_email?: string | null
-          commission_cents?: number
-          created_at?: string
-          id?: string
-          metadata?: Json
-          payment_reference?: string | null
-          prompt_id?: string
-          sale_amount_cents?: number
-          seller_earnings_cents?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "marketplace_sales_prompt_id_fkey"
-            columns: ["prompt_id"]
-            isOneToOne: false
-            referencedRelation: "marketplace_prompts"
-            referencedColumns: ["id"]
-          }
+          },
         ]
       }
       prompt_comments: {
@@ -157,6 +114,73 @@ export type Database = {
             referencedRelation: "prompts"
             referencedColumns: ["id"]
           }
+        ]
+      }
+      tool_subscriptions: {
+        Row: {
+          buyer_id: string
+          cancel_at: string | null
+          created_at: string
+          currency: string
+          current_period_end: string | null
+          id: string
+          metadata: Json | null
+          payment_reference: string | null
+          price_cents: number
+          purchase_type: string
+          purchased_at: string
+          status: string
+          tool_id: string
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          cancel_at?: string | null
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          id?: string
+          metadata?: Json | null
+          payment_reference?: string | null
+          price_cents: number
+          purchase_type: string
+          purchased_at?: string
+          status?: string
+          tool_id: string
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          cancel_at?: string | null
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          id?: string
+          metadata?: Json | null
+          payment_reference?: string | null
+          price_cents?: number
+          purchase_type?: string
+          purchased_at?: string
+          status?: string
+          tool_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_subscriptions_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+            referencedSchema: "auth"
+          },
+          {
+            foreignKeyName: "tool_subscriptions_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "creator_tools"
+            referencedColumns: ["id"]
+          },
         ]
       }
       prompt_upvotes: {
