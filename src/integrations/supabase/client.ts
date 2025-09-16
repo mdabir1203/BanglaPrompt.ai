@@ -50,8 +50,8 @@ const resolveEnvVar = (key: string): string => {
   throw new Error(`Environment variable "${key}" is not defined`);
 };
 
-const SUPABASE_URL = resolveEnvVar('NEXT_PUBLIC_SUPABASE_URL');
-const SUPABASE_ANON_KEY = resolveEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+const SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
+const SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
