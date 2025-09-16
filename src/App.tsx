@@ -11,6 +11,8 @@ const Index = React.lazy(() => import("./pages/Index"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 const CookiePolicy = React.lazy(() => import("./pages/CookiePolicy"));
+const CommunityPrompts = React.lazy(() => import("./pages/Community/Prompts"));
+const SubmitPrompt = React.lazy(() => import("./pages/Community/SubmitPrompt"));
 
 // Initialize Google AdSense
 const adsLogger = createScopedLogger("adsense");
@@ -57,6 +59,8 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
+                <Route path="/community/prompts" element={<CommunityPrompts />} />
+                <Route path="/community/submit" element={<SubmitPrompt />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
