@@ -6,8 +6,29 @@ import type { Database } from './types';
 // ✅ Unified client using env vars
 type EnvRecord = Record<string, string | undefined>;
 
-const globalContextEnv: EnvRecord =
-  (globalThis as { context?: { env?: EnvRecord } }).context?.env ?? {};
+const getGlobalContextEnv = (): EnvRecord => {
+  if (typeof globalThis === 'undefined') {
+    return {};
+  }
+
+  const globalObject = globalThis as Record<string, unknown>;
+  const maybeContext = Reflect.get(globalObject, 'context') as unknown;
+
+  if (typeof maybeContext === 'object' && maybeContext !== null) {
+    const maybeEnv = Reflect.get(
+      maybeContext as Record<string, unknown>,
+      'env',
+    ) as unknown;
+
+    if (typeof maybeEnv === 'object' && maybeEnv !== null) {
+      return maybeEnv as EnvRecord;
+    }
+  }
+
+  return {};
+};
+
+const globalContextEnv: EnvRecord = getGlobalContextEnv();
 
 let importMetaEnv: EnvRecord = {};
 try {
