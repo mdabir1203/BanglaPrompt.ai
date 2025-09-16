@@ -76,10 +76,8 @@ export type Database = {
           {
             foreignKeyName: "creator_tools_creator_id_fkey"
             columns: ["creator_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-            referencedSchema: "auth"
+            foreignKeyName: "marketplace_prompts_author_id_fkey"
+            columns: ["author_id"]
           },
         ]
       }
@@ -333,6 +331,36 @@ export type Database = {
       get_newsletter_stats: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      get_seller_commission_summary: {
+        Args: {
+          p_author_id: string
+        }
+        Returns: {
+          prompt_id: string
+          prompt_title: string
+          total_sales: number
+          total_revenue_cents: number
+          total_commission_cents: number
+          total_payout_cents: number
+        }[]
+      }
+      record_marketplace_sale: {
+        Args: {
+          p_prompt_id: string
+          p_buyer_email?: string
+          p_payment_reference?: string
+          p_sale_amount_cents?: number
+          p_metadata?: Json
+        }
+        Returns: {
+          sale_id: string
+          prompt_id: string
+          sale_amount_cents: number
+          commission_cents: number
+          seller_earnings_cents: number
+          created_at: string
+        }[]
       }
     }
     Enums: {
