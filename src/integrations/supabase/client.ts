@@ -4,8 +4,54 @@ import type { Database } from './types';
 
 
 // ✅ Unified client using env vars
-const SUPABASE_URL = context.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = context.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+type EnvRecord = Record<string, string | undefined>;
+
+const globalContextEnv: EnvRecord =
+  (globalThis as { context?: { env?: EnvRecord } }).context?.env ?? {};
+
+let importMetaEnv: EnvRecord = {};
+try {
+  importMetaEnv = ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
+} catch (error) {
+  // `import.meta` isn't available in all runtimes (for example, during SSR in
+  // some worker environments). We intentionally swallow the error here and
+  // fall back to other environment sources.
+}
+
+const processEnv: EnvRecord =
+  typeof process !== 'undefined'
+    ? (process.env as EnvRecord)
+    : {};
+
+const resolveEnvVar = (key: string): string => {
+  const candidates: string[] = [key];
+
+  if (!key.startsWith('VITE_')) {
+    candidates.push(`VITE_${key}`);
+  }
+
+  if (key.startsWith('NEXT_PUBLIC_')) {
+    const suffix = key.replace(/^NEXT_PUBLIC_/, '');
+    candidates.push(suffix);
+    candidates.push(`VITE_${suffix}`);
+  }
+
+  for (const candidate of candidates) {
+    const value =
+      globalContextEnv[candidate] ??
+      importMetaEnv[candidate] ??
+      processEnv[candidate];
+
+    if (typeof value === 'string' && value.length > 0) {
+      return value;
+    }
+  }
+
+  throw new Error(`Environment variable "${key}" is not defined`);
+};
+
+const SUPABASE_URL = resolveEnvVar('NEXT_PUBLIC_SUPABASE_URL');
+const SUPABASE_ANON_KEY = resolveEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
