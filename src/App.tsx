@@ -13,6 +13,10 @@ const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 const CookiePolicy = React.lazy(() => import("./pages/CookiePolicy"));
 const CommunityPrompts = React.lazy(() => import("./pages/Community/Prompts"));
 const SubmitPrompt = React.lazy(() => import("./pages/Community/SubmitPrompt"));
+const ToolsMarketplace = React.lazy(() => import("./pages/ToolsMarketplace"));
+const CreatorDashboard = React.lazy(() => import("./pages/CreatorPortal/Dashboard"));
+const CreatorOnboarding = React.lazy(() => import("./pages/CreatorPortal/Onboarding"));
+const CreatorSubmitTool = React.lazy(() => import("./pages/CreatorPortal/SubmitTool"));
 
 // Initialize Google AdSense
 const adsLogger = createScopedLogger("adsense");
@@ -61,6 +65,10 @@ const App = () => {
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
                 <Route path="/community/prompts" element={<CommunityPrompts />} />
                 <Route path="/community/submit" element={<SubmitPrompt />} />
+                <Route path="/tools" element={<ToolsMarketplace />} />
+                <Route path="/creator/dashboard" element={<CreatorDashboard />} />
+                <Route path="/creator/onboarding" element={<CreatorOnboarding />} />
+                <Route path="/creator/submit" element={<CreatorSubmitTool />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

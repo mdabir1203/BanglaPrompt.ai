@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      creator_tools: {
+        Row: {
+          category: string
+          created_at: string
+          creator_id: string
+          currency: string
+          description: string | null
+          id: string
+          is_active: boolean
+          metadata: Json | null
+          name: string
+          price_cents: number
+          pricing_type: string
+          slug: string
+          subscription_interval: string | null
+          tags: string[]
+          thumbnail_url: string | null
+          trial_period_days: number | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          creator_id: string
+          currency?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          metadata?: Json | null
+          name: string
+          price_cents: number
+          pricing_type: string
+          slug: string
+          subscription_interval?: string | null
+          tags?: string[]
+          thumbnail_url?: string | null
+          trial_period_days?: number | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          creator_id?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          metadata?: Json | null
+          name?: string
+          price_cents?: number
+          pricing_type?: string
+          slug?: string
+          subscription_interval?: string | null
+          tags?: string[]
+          thumbnail_url?: string | null
+          trial_period_days?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_tools_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+            referencedSchema: "auth"
+          },
+        ]
+      }
       prompt_comments: {
         Row: {
           author_name: string | null
@@ -47,6 +116,73 @@ export type Database = {
             referencedRelation: "prompts"
             referencedColumns: ["id"]
           }
+        ]
+      }
+      tool_subscriptions: {
+        Row: {
+          buyer_id: string
+          cancel_at: string | null
+          created_at: string
+          currency: string
+          current_period_end: string | null
+          id: string
+          metadata: Json | null
+          payment_reference: string | null
+          price_cents: number
+          purchase_type: string
+          purchased_at: string
+          status: string
+          tool_id: string
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          cancel_at?: string | null
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          id?: string
+          metadata?: Json | null
+          payment_reference?: string | null
+          price_cents: number
+          purchase_type: string
+          purchased_at?: string
+          status?: string
+          tool_id: string
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          cancel_at?: string | null
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          id?: string
+          metadata?: Json | null
+          payment_reference?: string | null
+          price_cents?: number
+          purchase_type?: string
+          purchased_at?: string
+          status?: string
+          tool_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_subscriptions_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+            referencedSchema: "auth"
+          },
+          {
+            foreignKeyName: "tool_subscriptions_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "creator_tools"
+            referencedColumns: ["id"]
+          },
         ]
       }
       prompt_upvotes: {
