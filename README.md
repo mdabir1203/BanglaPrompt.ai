@@ -1,6 +1,6 @@
 # Prompt Bangla AI
 
-A Bangla-first AI prompt engineering platform built with React, Vite and Supabase. The project showcases production-ready patterns for scaling, security and monetization while teaching prompt engineering in Bengali.
+A Bangla-first AI prompt selling and creator platform built with React, Vite and Supabase. The project showcases production-ready patterns for scaling, security and monetization while teaching prompt engineering in Bengali.
 
 
 https://github.com/user-attachments/assets/8af407b6-86fe-437c-a91b-82882949769c

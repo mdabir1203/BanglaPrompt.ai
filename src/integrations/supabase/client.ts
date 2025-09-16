@@ -65,6 +65,7 @@ const getCloudflareContextEnv = (): EnvRecord => {
 const browserEnv: EnvRecord = getBrowserInjectedEnv();
 const cloudflareContextEnv: EnvRecord = getCloudflareContextEnv();
 
+
 let importMetaEnv: EnvRecord = {};
 try {
   importMetaEnv = ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
