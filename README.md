@@ -1,4 +1,4 @@
-# Prompt Shiksha
+# Prompt Bangla AI
 
 A Bangla-first AI prompt engineering platform built with React, Vite and Supabase. The project showcases production-ready patterns for scaling, security and monetization while teaching prompt engineering in Bengali.
 
