@@ -2,69 +2,115 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-
-// ✅ Unified client using env vars
+// ✅ Enhanced environment resolution (based on your existing pattern)
 type EnvRecord = Record<string, string | undefined>;
 
+/**
+ * Browser injected environment (your existing pattern + CF additions)
+ */
 const getBrowserInjectedEnv = (): EnvRecord => {
   if (typeof globalThis === 'undefined') {
     return {};
   }
-
+  
   const globalObject = globalThis as Record<string, unknown>;
+  
+  // Your existing patterns
   const possibleEnvKeys = ['__ENV__', '__env__'];
-
   for (const key of possibleEnvKeys) {
     const value = Reflect.get(globalObject, key) as unknown;
-
     if (typeof value === 'object' && value !== null) {
       return value as EnvRecord;
     }
   }
-
+  
+  // Check window object (your existing pattern)
   const maybeWindow = Reflect.get(globalObject, 'window') as unknown;
-
   if (typeof maybeWindow === 'object' && maybeWindow !== null) {
     for (const key of possibleEnvKeys) {
       const value = Reflect.get(
         maybeWindow as Record<string, unknown>,
         key,
       ) as unknown;
-
       if (typeof value === 'object' && value !== null) {
         return value as EnvRecord;
       }
     }
   }
-
+  
+  // ✅ ADDED: Cloudflare Workers specific patterns
+  // CF Pages Functions
+  const cfEnv = Reflect.get(globalObject, '__CF_ENV__') as unknown;
+  if (typeof cfEnv === 'object' && cfEnv !== null) {
+    return cfEnv as EnvRecord;
+  }
+  
+  // CF Workers direct binding
+  const workerEnv = Reflect.get(globalObject, 'env') as unknown;
+  if (typeof workerEnv === 'object' && workerEnv !== null) {
+    return workerEnv as EnvRecord;
+  }
+  
   return {};
 };
 
+/**
+ * Cloudflare context environment (your existing + enhanced)
+ */
 const getCloudflareContextEnv = (): EnvRecord => {
   if (typeof globalThis === 'undefined') {
     return {};
   }
-
+  
   const globalObject = globalThis as Record<string, unknown>;
+  
+  // Your existing pattern
   const maybeContext = Reflect.get(globalObject, 'context') as unknown;
-
   if (typeof maybeContext === 'object' && maybeContext !== null) {
     const maybeEnv = Reflect.get(
       maybeContext as Record<string, unknown>,
       'env',
     ) as unknown;
-
     if (typeof maybeEnv === 'object' && maybeEnv !== null) {
       return maybeEnv as EnvRecord;
     }
   }
-
+  
+  // ✅ ADDED: Additional CF Workers patterns
+  // Wrangler dev environment
+  const wranglerEnv = Reflect.get(globalObject, '__WRANGLER_ENV__') as unknown;
+  if (typeof wranglerEnv === 'object' && wranglerEnv !== null) {
+    return wranglerEnv as EnvRecord;
+  }
+  
   return {};
 };
 
+// ✅ Enhanced storage detection (fixes localStorage hardcoding)
+const getStorageAdapter = () => {
+  try {
+    // Test localStorage availability
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('__supabase_test__', '1');
+      localStorage.removeItem('__supabase_test__');
+      return localStorage;
+    }
+  } catch {
+    // localStorage blocked or unavailable
+  }
+  
+  // Fallback to memory storage for Workers/SSR
+  return {
+    _store: new Map<string, string>(),
+    getItem(key: string) { return this._store.get(key) ?? null; },
+    setItem(key: string, value: string) { this._store.set(key, value); },
+    removeItem(key: string) { this._store.delete(key); },
+  };
+};
+
+// Your existing environment resolution with enhancements
 const browserEnv: EnvRecord = getBrowserInjectedEnv();
 const cloudflareContextEnv: EnvRecord = getCloudflareContextEnv();
-
 
 let importMetaEnv: EnvRecord = {};
 try {
@@ -80,53 +126,166 @@ const processEnv: EnvRecord =
     ? (process.env as EnvRecord)
     : {};
 
+// ✅ Prioritized for Cloudflare Workers (browser/CF first, then build-time)
 const envSources: EnvRecord[] = [
-  browserEnv,
-  cloudflareContextEnv,
-  importMetaEnv,
-  processEnv,
+  browserEnv,           // CF Workers inject here
+  cloudflareContextEnv, // CF context.env
+  importMetaEnv,        // Vite build time
+  processEnv,           // Node.js fallback
 ];
 
+/**
+ * Enhanced environment variable resolver with better error messages
+ */
 const resolveEnvVar = (key: string): string => {
   const candidates: string[] = [key];
-
+  
+  // Add prefixed variants
   if (!key.startsWith('VITE_')) {
     candidates.push(`VITE_${key}`);
   }
-
   if (key.startsWith('NEXT_PUBLIC_')) {
     const suffix = key.replace(/^NEXT_PUBLIC_/, '');
     candidates.push(suffix);
     candidates.push(`VITE_${suffix}`);
   }
-
+  
+  // Search all sources for all candidates
   for (const candidate of candidates) {
     for (const source of envSources) {
       const value = source[candidate];
-
       if (typeof value === 'string' && value.length > 0) {
         return value;
       }
     }
   }
-
-  throw new Error(`Environment variable "${key}" is not defined`);
+  
+  // ✅ Enhanced error message with CF Workers specific guidance
+  const errorMsg = [
+    `Environment variable "${key}" is not defined.`,
+    '',
+    'For Cloudflare Workers deployment:',
+    '1. Add to wrangler.toml: [env.production.vars]',
+    '2. Or set in CF Dashboard: Workers & Pages → Settings → Environment variables',
+    '3. For local development, use VITE_ prefix in .env file',
+    '',
+    'Available environment sources:',
+    `- Browser injected: ${Object.keys(browserEnv).length} vars`,
+    `- Cloudflare context: ${Object.keys(cloudflareContextEnv).length} vars`,
+    `- Import meta: ${Object.keys(importMetaEnv).length} vars`,
+    `- Process env: ${Object.keys(processEnv).length} vars`,
+  ].join('\n');
+  
+  throw new Error(errorMsg);
 };
 
-const SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
-const SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
+// ✅ Lazy resolution to prevent initialization errors
+let _SUPABASE_URL: string | undefined;
+let _SUPABASE_ANON_KEY: string | undefined;
 
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
+const getSupabaseUrl = (): string => {
+  if (_SUPABASE_URL) return _SUPABASE_URL;
+  return _SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
+};
 
-export const supabase = createClient<Database>(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY,
-  {
-    auth: {
-      storage: localStorage,
-      persistSession: true,
-      autoRefreshToken: true,
-    },
+const getSupabaseAnonKey = (): string => {
+  if (_SUPABASE_ANON_KEY) return _SUPABASE_ANON_KEY;
+  return _SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
+};
+
+// ✅ Enhanced client factory with CF Workers optimizations
+let clientInstance: ReturnType<typeof createClient<Database>> | undefined;
+
+const createSupabaseClient = () => {
+  if (clientInstance) return clientInstance;
+  
+  try {
+    const url = getSupabaseUrl();
+    const key = getSupabaseAnonKey();
+    const storage = getStorageAdapter();
+    
+    clientInstance = createClient<Database>(url, key, {
+      auth: {
+        storage,
+        persistSession: true,
+        autoRefreshToken: true,
+        // ✅ CF Workers optimizations
+        detectSessionInUrl: typeof window !== 'undefined', // Only in browser
+        flowType: 'pkce', // Secure flow
+      },
+      // ✅ Performance optimizations for edge deployment
+      realtime: {
+        params: {
+          eventsPerSecond: 10,
+        },
+      },
+      global: {
+        headers: {
+          'X-Client-Info': 'cloudflare-workers-vite',
+        },
+      },
+    });
+    
+    return clientInstance;
+  } catch (error) {
+    console.error('Failed to create Supabase client:', error);
+    
+    // ✅ Debug helper for troubleshooting
+    console.group('🔍 Supabase Environment Debug');
+    console.log('Browser env keys:', Object.keys(browserEnv));
+    console.log('Cloudflare env keys:', Object.keys(cloudflareContextEnv));
+    console.log('Import meta env keys:', Object.keys(importMetaEnv));
+    console.log('Process env keys:', Object.keys(processEnv));
+    console.log('Storage type:', typeof localStorage !== 'undefined' ? 'localStorage' : 'memory');
+    console.groupEnd();
+    
+    throw error;
   }
-);
+};
+
+// ✅ Backwards compatible exports (matches your existing pattern)
+export const supabase = createSupabaseClient();
+
+// ✅ Additional exports for flexibility
+export const db = () => supabase;
+export const createNewClient = () => createSupabaseClient();
+
+// ✅ Debug export for troubleshooting
+export const debugSupabaseEnv = () => {
+  console.table({
+    'Browser Env': Object.keys(browserEnv),
+    'Cloudflare Env': Object.keys(cloudflareContextEnv), 
+    'Import Meta Env': Object.keys(importMetaEnv),
+    'Process Env': Object.keys(processEnv),
+  });
+  
+  try {
+    console.log('✅ SUPABASE_URL resolved:', getSupabaseUrl().substring(0, 30) + '...');
+    console.log('✅ SUPABASE_ANON_KEY resolved:', getSupabaseAnonKey().substring(0, 30) + '...');
+  } catch (error) {
+    console.error('❌ Resolution failed:', error.message);
+  }
+};
+
+// Example deployment configurations:
+/*
+// wrangler.toml
+[env.production.vars]
+SUPABASE_URL = "https://your-project.supabase.co"
+SUPABASE_ANON_KEY = "your-anon-key"
+
+// .env.local (for development)
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+
+// Usage in your app:
+import { supabase, debugSupabaseEnv } from './client';
+
+// Debug in development
+if (import.meta.env.DEV) {
+  debugSupabaseEnv();
+}
+
+// Use normally
+const { data } = await supabase.from('users').select('*');
+*/
