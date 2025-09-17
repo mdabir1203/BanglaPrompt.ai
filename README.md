@@ -69,18 +69,8 @@ A Supabase project is required for storing newsletter signups, analytics and con
 
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
-- `SUPABASE_SECRET`
 - `RESEND_API_KEY`
 
-### Cloudflare deployment notes
-
-Cloudflare Pages exposes runtime environment variables through `context.env`. Following [Cloudflare's documentation](https://developers.cloudflare.com/pages/functions/bindings/#environment-variables), the app now injects the public Supabase keys directly into the HTML response so the browser bundle can hydrate them without relying on non-standard globals. Configure your project as follows:
-
-1. **Public bindings** – Add `SUPABASE_URL` and `SUPABASE_ANON_KEY` as standard environment variables in the Cloudflare Pages dashboard (or with `wrangler pages project env vars`). These values are injected into `window.__ENV__` by `functions/_middleware.ts` and are safe to expose to the client.
-2. **Secret binding** – Store `SUPABASE_SECRET` with `wrangler secret put SUPABASE_SECRET` (or through the dashboard's encrypted secrets). The secret is **not** exposed to the browser; it remains available for Cloudflare Pages Functions or other server-side code that needs the Supabase service role key.
-3. Redeploy the project so the new bindings are available in the runtime environment.
-
-The Vite build still honours `import.meta.env` (including `VITE_*` aliases) and `process.env` for local development, so existing workflows continue to work while keeping Cloudflare's runtime as the source of truth in production.
 
 ## Project Structure
 
