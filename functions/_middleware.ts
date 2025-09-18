@@ -48,7 +48,7 @@ export const onRequest = async (context: MiddlewareContext): Promise<Response> =
     return response;
   }
 
-  const rewriter = new HTMLRewriter().on("head", {
+  const rewriter = new Rewriter().on("head", {
     element(element) {
       element.append(`\n<script data-runtime-env="supabase">${runtimeEnvScript}\n</script>\n`, {
         html: true,

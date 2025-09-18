@@ -77,17 +77,7 @@ const getCloudflareContextEnv = (): EnvRecord => {
       return maybeEnv as EnvRecord;
     }
   }
-  
-  // ✅ ADDED: Additional CF Workers patterns
-  // Wrangler dev environment
-  const wranglerEnv = Reflect.get(globalObject, '__WRANGLER_ENV__') as unknown;
-  if (typeof wranglerEnv === 'object' && wranglerEnv !== null) {
-    return wranglerEnv as EnvRecord;
-  }
-  
-  return {};
-};
-
+}
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
   try {
@@ -110,56 +100,6 @@ const getStorageAdapter = () => {
   };
 };
 
-// Your existing environment resolution with enhancements
-const loadImportMetaEnv = (): EnvRecord => {
-  try {
-    return ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
-  } catch (error) {
-    // `import.meta` isn't available in all runtimes (for example, during SSR in
-    // some worker environments). We intentionally swallow the error here and
-    // fall back to other environment sources.
-  }
-let importMetaEnv: EnvRecord = {};
-try {
-  importMetaEnv = ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
-} catch (error) {
-  // `import.meta` isn't available in all runtimes (for example, during SSR in
-  // some worker environments). We intentionally swallow the error here and
-  // fall back to other environment sources.
-}
-return {};
-};
-
-const loadProcessEnv = (): EnvRecord =>
-  typeof process !== 'undefined'
-    ? (process.env as EnvRecord)
-    : {};
-
-// ✅ Prioritized for Cloudflare Workers (browser/CF first, then build-time)
-const environmentLoaders = {
-  browser: getBrowserInjectedEnv,
-  cloudflare: getCloudflareContextEnv,
-  importMeta: loadImportMetaEnv,
-  process: loadProcessEnv,
-} satisfies Record<EnvSourceName, () => EnvRecord>;
-
-const orderedSourceNames: readonly EnvSourceName[] = [
-  'browser',    // CF Workers inject here
-  'cloudflare', // CF context.env
-  'importMeta', // Vite build time
-  'process',    // Node.js fallback
-];
-
-type EnvironmentSnapshot = Record<EnvSourceName, EnvRecord>;
-
-const snapshotEnvSources = (): EnvironmentSnapshot => ({
-  browser: environmentLoaders.browser(),
-  cloudflare: environmentLoaders.cloudflare(),
-  importMeta: environmentLoaders.importMeta(),
-  process: environmentLoaders.process(),
-});
-
-const snapshot = snapshotEnvSources();
 /**
  * Enhanced environment variable resolver with better error messages
  */
