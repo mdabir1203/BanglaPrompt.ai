@@ -77,17 +77,7 @@ const getCloudflareContextEnv = (): EnvRecord => {
       return maybeEnv as EnvRecord;
     }
   }
-  
-  // ✅ ADDED: Additional CF Workers patterns
-  // Wrangler dev environment
-  const wranglerEnv = Reflect.get(globalObject, '__WRANGLER_ENV__') as unknown;
-  if (typeof wranglerEnv === 'object' && wranglerEnv !== null) {
-    return wranglerEnv as EnvRecord;
-  }
-  
-  return {};
-};
-
+}
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
   try {
