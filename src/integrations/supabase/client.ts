@@ -186,10 +186,10 @@ const resolveEnvVar = (key: string): string => {
     '3. For local development, use VITE_ prefix in .env file',
     '',
     'Available environment sources:',
-    `- Browser injected: ${Object.keys(snapshot.browser).length} vars`,
-    `- Cloudflare context: ${Object.keys(snapshot.cloudflare).length} vars`,
-    `- Import meta: ${Object.keys(snapshot.importMeta).length} vars`,
-    `- Process env: ${Object.keys(snapshot.process).length} vars`,
+    `- Browser injected: ${Object.keys(snapshot.browser || {}).length} vars`,
+    `- Cloudflare context: ${Object.keys(snapshot.cloudflare || {}).length} vars`,
+    `- Import meta: ${Object.keys(snapshot.importMeta || {}).length} vars`,
+    `- Process env: ${Object.keys(snapshot.process || {}).length} vars`,
   ].join('\n');
   
   throw new Error(errorMsg);
@@ -201,12 +201,25 @@ let _SUPABASE_ANON_KEY: string | undefined;
 
 const getSupabaseUrl = (): string => {
   if (_SUPABASE_URL) return _SUPABASE_URL;
-  return _SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
+  try {
+    return _SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
+  } catch (error) {
+    console.error('Failed to resolve SUPABASE_URL:', error);
+    // Fallback URL for development/testing
+    return _SUPABASE_URL = 'https://mnqkeoeikfjwlgyowsnb.supabase.co';
+  }
 };
 
 const getSupabaseAnonKey = (): string => {
   if (_SUPABASE_ANON_KEY) return _SUPABASE_ANON_KEY;
-  return _SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
+  try {
+    return _SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
+  } catch (error) {
+    console.error('Failed to resolve SUPABASE_ANON_KEY:', error);
+    // This is a placeholder - you need to replace with your actual anon key
+    console.warn('Using placeholder SUPABASE_ANON_KEY. Please set the correct key in wrangler.toml');
+    return _SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ucWtlb2Vpa2Zqd2xneW93c25iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ5NzQ4NzQsImV4cCI6MjA1MDU1MDg3NH0.placeholder_key_replace_with_real_anon_key';
+  }
 };
 
 // ✅ Enhanced client factory with CF Workers optimizations
@@ -248,10 +261,10 @@ const createSupabaseClient = () => {
     
     // ✅ Debug helper for troubleshooting
     console.group('🔍 Supabase Environment Debug');
-    console.log('Browser env keys:', Object.keys(snapshot.browser));
-    console.log('Cloudflare env keys:', Object.keys(snapshot.cloudflare));
-    console.log('Import meta env keys:', Object.keys(snapshot.importMeta));
-    console.log('Process env keys:', Object.keys(snapshot.process));
+    console.log('Browser env keys:', Object.keys(snapshot.browser || {}));
+    console.log('Cloudflare env keys:', Object.keys(snapshot.cloudflare || {}));
+    console.log('Import meta env keys:', Object.keys(snapshot.importMeta || {}));
+    console.log('Process env keys:', Object.keys(snapshot.process || {}));
     console.log('Storage type:', typeof localStorage !== 'undefined' ? 'localStorage' : 'memory');
     console.groupEnd();
     
