@@ -269,6 +269,7 @@ const createSupabaseClient = () => {
   }
 };
 
+export const supabase = createSupabaseClient();
 
 // Example deployment configurations:
 /*
