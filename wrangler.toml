@@ -6,6 +6,6 @@ pages_build_output_dir = "dist"
 # MY_VARIABLE = "production_value"
 SUPABASE_URL = "https://mnqkeoeikfjwlgyowsnb.supabase.co"
 
-[env.staging.vars]
+[env.production.vars]
 # MY_VARIABLE = "production_value"
 SUPABASE_URL = "https://mnqkeoeikfjwlgyowsnb.supabase.co"
