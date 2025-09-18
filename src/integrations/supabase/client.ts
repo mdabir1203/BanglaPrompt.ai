@@ -75,17 +75,7 @@ const getCloudflareContextEnv = (): EnvRecord => {
       return maybeEnv as EnvRecord;
     }
   }
-  
-  // ✅ ADDED: Additional CF Workers patterns
-  // Wrangler dev environment
-  const wranglerEnv = Reflect.get(globalObject, '__WRANGLER_ENV__') as unknown;
-  if (typeof wranglerEnv === 'object' && wranglerEnv !== null) {
-    return wranglerEnv as EnvRecord;
-  }
-  
-  return {};
-};
-
+}
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
   try {
@@ -108,31 +98,9 @@ const getStorageAdapter = () => {
   };
 };
 
-// Your existing environment resolution with enhancements
-const browserEnv: EnvRecord = getBrowserInjectedEnv();
-const cloudflareContextEnv: EnvRecord = getCloudflareContextEnv();
 
-let importMetaEnv: EnvRecord = {};
-try {
-  importMetaEnv = ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
-} catch (error) {
-  // `import.meta` isn't available in all runtimes (for example, during SSR in
-  // some worker environments). We intentionally swallow the error here and
-  // fall back to other environment sources.
-}
 
-const processEnv: EnvRecord =
-  typeof process !== 'undefined'
-    ? (process.env as EnvRecord)
-    : {};
 
-// ✅ Prioritized for Cloudflare Workers (browser/CF first, then build-time)
-const envSources: EnvRecord[] = [
-  browserEnv,           // CF Workers inject here
-  cloudflareContextEnv, // CF context.env
-  importMetaEnv,        // Vite build time
-  processEnv,           // Node.js fallback
-];
 
 /**
  * Enhanced environment variable resolver with better error messages
