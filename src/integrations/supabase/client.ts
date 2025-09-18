@@ -4,6 +4,8 @@ import type { Database } from './types';
 
 // ✅ Enhanced environment resolution (based on your existing pattern)
 type EnvRecord = Record<string, string | undefined>;
+type EnvSourceName = 'browser' | 'cloudflare' | 'importMeta' | 'process';
+
 
 /**
  * Browser injected environment (your existing pattern + CF additions)
@@ -109,9 +111,14 @@ const getStorageAdapter = () => {
 };
 
 // Your existing environment resolution with enhancements
-const browserEnv: EnvRecord = getBrowserInjectedEnv();
-const cloudflareContextEnv: EnvRecord = getCloudflareContextEnv();
-
+const loadImportMetaEnv = (): EnvRecord => {
+  try {
+    return ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
+  } catch (error) {
+    // `import.meta` isn't available in all runtimes (for example, during SSR in
+    // some worker environments). We intentionally swallow the error here and
+    // fall back to other environment sources.
+  }
 let importMetaEnv: EnvRecord = {};
 try {
   importMetaEnv = ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
@@ -120,20 +127,39 @@ try {
   // some worker environments). We intentionally swallow the error here and
   // fall back to other environment sources.
 }
+return {};
+};
 
-const processEnv: EnvRecord =
+const loadProcessEnv = (): EnvRecord =>
   typeof process !== 'undefined'
     ? (process.env as EnvRecord)
     : {};
 
 // ✅ Prioritized for Cloudflare Workers (browser/CF first, then build-time)
-const envSources: EnvRecord[] = [
-  browserEnv,           // CF Workers inject here
-  cloudflareContextEnv, // CF context.env
-  importMetaEnv,        // Vite build time
-  processEnv,           // Node.js fallback
+const environmentLoaders = {
+  browser: getBrowserInjectedEnv,
+  cloudflare: getCloudflareContextEnv,
+  importMeta: loadImportMetaEnv,
+  process: loadProcessEnv,
+} satisfies Record<EnvSourceName, () => EnvRecord>;
+
+const orderedSourceNames: readonly EnvSourceName[] = [
+  'browser',    // CF Workers inject here
+  'cloudflare', // CF context.env
+  'importMeta', // Vite build time
+  'process',    // Node.js fallback
 ];
 
+type EnvironmentSnapshot = Record<EnvSourceName, EnvRecord>;
+
+const snapshotEnvSources = (): EnvironmentSnapshot => ({
+  browser: environmentLoaders.browser(),
+  cloudflare: environmentLoaders.cloudflare(),
+  importMeta: environmentLoaders.importMeta(),
+  process: environmentLoaders.process(),
+});
+
+const snapshot = snapshotEnvSources();
 /**
  * Enhanced environment variable resolver with better error messages
  */
@@ -152,8 +178,8 @@ const resolveEnvVar = (key: string): string => {
   
   // Search all sources for all candidates
   for (const candidate of candidates) {
-    for (const source of envSources) {
-      const value = source[candidate];
+    for (const sourceName of orderedSourceNames) {
+      const value = snapshot[sourceName][candidate];
       if (typeof value === 'string' && value.length > 0) {
         return value;
       }
@@ -170,10 +196,10 @@ const resolveEnvVar = (key: string): string => {
     '3. For local development, use VITE_ prefix in .env file',
     '',
     'Available environment sources:',
-    `- Browser injected: ${Object.keys(browserEnv).length} vars`,
-    `- Cloudflare context: ${Object.keys(cloudflareContextEnv).length} vars`,
-    `- Import meta: ${Object.keys(importMetaEnv).length} vars`,
-    `- Process env: ${Object.keys(processEnv).length} vars`,
+    `- Browser injected: ${Object.keys(snapshot.browser).length} vars`,
+    `- Cloudflare context: ${Object.keys(snapshot.cloudflare).length} vars`,
+    `- Import meta: ${Object.keys(snapshot.importMeta).length} vars`,
+    `- Process env: ${Object.keys(snapshot.process).length} vars`,
   ].join('\n');
   
   throw new Error(errorMsg);
@@ -232,10 +258,10 @@ const createSupabaseClient = () => {
     
     // ✅ Debug helper for troubleshooting
     console.group('🔍 Supabase Environment Debug');
-    console.log('Browser env keys:', Object.keys(browserEnv));
-    console.log('Cloudflare env keys:', Object.keys(cloudflareContextEnv));
-    console.log('Import meta env keys:', Object.keys(importMetaEnv));
-    console.log('Process env keys:', Object.keys(processEnv));
+    console.log('Browser env keys:', Object.keys(snapshot.browser));
+    console.log('Cloudflare env keys:', Object.keys(snapshot.cloudflare));
+    console.log('Import meta env keys:', Object.keys(snapshot.importMeta));
+    console.log('Process env keys:', Object.keys(snapshot.process));
     console.log('Storage type:', typeof localStorage !== 'undefined' ? 'localStorage' : 'memory');
     console.groupEnd();
     
@@ -243,29 +269,6 @@ const createSupabaseClient = () => {
   }
 };
 
-// ✅ Backwards compatible exports (matches your existing pattern)
-export const supabase = createSupabaseClient();
-
-// ✅ Additional exports for flexibility
-export const db = () => supabase;
-export const createNewClient = () => createSupabaseClient();
-
-// ✅ Debug export for troubleshooting
-export const debugSupabaseEnv = () => {
-  console.table({
-    'Browser Env': Object.keys(browserEnv),
-    'Cloudflare Env': Object.keys(cloudflareContextEnv), 
-    'Import Meta Env': Object.keys(importMetaEnv),
-    'Process Env': Object.keys(processEnv),
-  });
-  
-  try {
-    console.log('✅ SUPABASE_URL resolved:', getSupabaseUrl().substring(0, 30) + '...');
-    console.log('✅ SUPABASE_ANON_KEY resolved:', getSupabaseAnonKey().substring(0, 30) + '...');
-  } catch (error) {
-    console.error('❌ Resolution failed:', error.message);
-  }
-};
 
 // Example deployment configurations:
 /*
