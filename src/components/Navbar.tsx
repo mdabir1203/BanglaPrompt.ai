@@ -64,13 +64,15 @@ const Navbar = () => {
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         <a href="#top" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--gradient-aurora)] text-white shadow-[var(--shadow-soft)]">
-            <span className="text-lg font-semibold">BP</span>
-          </div>
+          <img
+            src="/promptbazar-logo.svg"
+            alt="PromptBazar.AI logo"
+            className="h-11 w-11 rounded-xl border border-emerald-100 bg-white p-1.5 shadow-[var(--shadow-soft)]"
+          />
           <div className="hidden text-left md:block">
-            <span className="text-sm font-semibold text-foreground md:text-base">BanglaPrompt.ai</span>
+            <span className="text-sm font-semibold text-foreground md:text-base">PromptBazar.AI</span>
             <span className="block text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground/80">
-              Global Prompt Marketplace
+              Bengali Prompt Marketplace
             </span>
           </div>
         </a>

@@ -46,7 +46,9 @@ const Features = () => {
         <div className="mx-auto max-w-3xl text-center">
           <p className="section-eyebrow">Creator Economy 2025</p>
           <h2 className="section-heading">
-            {isEnglish ? "Fortune 500 confidence. Bengali soul." : "ফর্চুন ৫০০ মানের নিশ্চয়তা। বাঙালি আবেগের সুর।"}
+            {isEnglish
+              ? "Enterprise-grade trust. Bengali brilliance."
+              : "এন্টারপ্রাইজ মানের আস্থা। বাঙালি মেধার দীপ্তি।"}
           </h2>
           <p className="section-subheading mx-auto mt-6">
             {isEnglish

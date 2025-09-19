@@ -49,11 +49,13 @@ const Footer = () => {
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gradient-aurora)] text-white">
-                <span className="text-lg font-semibold">BP</span>
-              </div>
+              <img
+                src="/promptbazar-logo.svg"
+                alt="PromptBazar.AI logo"
+                className="h-12 w-12 rounded-xl border border-white/20 bg-white/90 p-1.5 shadow-[var(--shadow-soft)]"
+              />
               <div>
-                <p className="text-base font-semibold">BanglaPrompt.ai</p>
+                <p className="text-base font-semibold">PromptBazar.AI</p>
                 <p className="text-xs uppercase tracking-[0.3em] text-white/70">
                   {isEnglish
                     ? "Bangladesh’s first prompt marketplace • Global reach"
@@ -64,7 +66,7 @@ const Footer = () => {
             <p className="text-sm leading-relaxed text-white/70 md:text-base">
               {isEnglish
                 ? "A global AI prompt marketplace connecting Bengali prompt creators with international buyers through bilingual storefronts, transparent revenue operations, and compliance-ready tooling."
-                : "দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে BanglaPrompt.ai।"}
+                : "দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে PromptBazar.AI।"}
             </p>
           </div>
 
@@ -130,7 +132,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
-          <p>© {currentYear} BanglaPrompt.ai. {isEnglish ? "All rights reserved." : "সমস্ত স্বত্ব সংরক্ষিত।"}</p>
+          <p>© {currentYear} PromptBazar.AI. {isEnglish ? "All rights reserved." : "সমস্ত স্বত্ব সংরক্ষিত।"}</p>
           <p>{isEnglish ? "Built with Bengali creativity for global teams." : "বাংলা সৃজনশীলতায় নির্মিত—গ্লোবাল টিমের জন্য।"}</p>
         </div>
       </div>
