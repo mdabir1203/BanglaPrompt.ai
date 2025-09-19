@@ -177,17 +177,19 @@ const Hero = () => {
                 <div className="relative space-y-8">
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100/80">
-                      {isEnglish ? "Marketplace snapshot" : "মার্কেটপ্লেস স্ন্যাপশট"}
+                      {isEnglish ? "Marketplace vision" : "মার্কেটপ্লেস ভিশন"}
                     </span>
                     <h2 id={statsHeadingId} className="mt-3 text-3xl font-semibold leading-tight text-white">
-                      {isEnglish ? "Built for prompt commerce in 2025." : "২০২৫ সালের প্রম্পট কমার্সের জন্য কিউরেটেড মার্কেটপ্লেস।"}
+                      {isEnglish
+                        ? "Vision: A top-decile launchpad for cultural prompt commerce."
+                        : "ভিশন: সাংস্কৃতিক প্রম্পট কমার্সের শীর্ষ ডেসাইল লঞ্চপ্যাড।"}
                     </h2>
                   </div>
 
                   <p id={statsSummaryId} className="text-sm text-emerald-100/80">
                     {isEnglish
-                      ? "Transparent stats help neurodivergent creators skim, scan, and decide faster."
-                      : "স্বচ্ছ পরিসংখ্যান নিউরোডাইভারজেন্ট ক্রিয়েটরদের দ্রুত স্কিম, স্ক্যান ও সিদ্ধান্ত নিতে সহায়তা করে।"}
+                      ? "Grounded in global marketplace research, we are engineering Bangladesh’s prompt exchange to rank in the top 10% worldwide—targeting 11% verified buyer conversion, a 28% uplift in average earnings per order (AEO) for Bengali creators, and transparent revenue intelligence that accelerates licensing across 70+ countries. The long game: multilingual catalogues in Bangla, English, Arabic, Spanish, Bahasa and beyond so creators can court global buyers, localized AI toolkits for education, finance, and climate teams, and a South Asian marketplace that can stand beside Singapore and Dubai on compliance and trust."
+                      : "গ্লোবাল মার্কেটপ্লেস গবেষণার ভিত্তিতে আমরা বাংলাদেশের প্রম্পট এক্সচেঞ্জকে বিশ্বের শীর্ষ ১০%-এ তুলতে কাজ করছি—যাচাইকৃত ক্রেতাদের ১১% কনভার্সন লক্ষ্য, বাংলা ক্রিয়েটরদের অর্ডারপ্রতি গড় আয়ে (AEO) ২৮% প্রবৃদ্ধি, এবং স্বচ্ছ রাজস্ব ইন্টেলিজেন্স দিয়ে ৭০+ দেশে লাইসেন্সিং দ্রুততর করছি। দীর্ঘমেয়াদে আমাদের লক্ষ্য: বাংলা, ইংরেজি, আরবি, স্প্যানিশ, বাহাসাসহ বহু ভাষার কিউরেটেড ক্যাটালগের মাধ্যমে ক্রিয়েটরদের বিশ্বব্যাপী ক্রেতার কাছে পৌঁছে দেওয়া; শিক্ষা, ফাইন্যান্স ও জলবায়ু টিমের জন্য লোকালাইজড এআই টুলকিট; এবং কমপ্লায়েন্স ও বিশ্বাসযোগ্যতায় সিঙ্গাপুর ও দুবাইয়ের সমমানের একটি দক্ষিণ এশীয় মার্কেটপ্লেস।"}
                   </p>
 
                   <dl
@@ -215,23 +217,29 @@ const Hero = () => {
                     <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
                       <div>
                         <span className="font-semibold uppercase tracking-[0.25em] text-secondary">
-                          {isEnglish ? "Priority buyer hubs" : "প্রাথমিক ক্রেতা কেন্দ্র"}
+                          {isEnglish ? "Global impact pillars" : "বিশ্বব্যাপী প্রভাবের স্তম্ভ"}
                         </span>
-                        <p className="mt-1 text-white/90">Dhaka • Singapore • Dubai • New York • Lagos</p>
+                        <p className="mt-1 text-white/90">
+                          {isEnglish
+                            ? "Inclusive education • Fintech inclusion • Climate resilience • Creative industries"
+                            : "অন্তর্ভুক্তিমূলক শিক্ষা • ফিনটেক অন্তর্ভুক্তি • জলবায়ু সহনশীলতা • সৃজনশীল শিল্প"}
+                        </p>
                       </div>
                       <div className="text-right">
                         <p className="text-xs uppercase tracking-[0.3em] text-emerald-100/70">
-                          {isEnglish ? "Marketplace flywheel" : "মার্কেটপ্লেস ফ্লাইহুইল"}
+                          {isEnglish ? "Ranking trajectory" : "র‌্যাঙ্কিং ট্রাজেক্টরি"}
                         </p>
                         <p className="text-sm text-emerald-100/85">
-                          {isEnglish ? "Discovery → Licensing → Revenue care" : "ডিসকভারি → লাইসেন্সিং → রেভিনিউ কেয়ার"}
+                          {isEnglish
+                            ? "Top 10% conversion → 28% AEO lift → Global compliance trust"
+                            : "শীর্ষ ১০% কনভার্সন → ২৮% AEO প্রবৃদ্ধি → গ্লোবাল কমপ্লায়েন্স ট্রাস্ট"}
                         </p>
                       </div>
                     </div>
                     <p className="mt-3 text-sm text-emerald-100/80">
                       {isEnglish
-                        ? "Culturally rich catalogs, licensing, and global support combine to create a commerce-ready marketplace."
-                        : "সংস্কৃতিময় প্রম্পট ক্যাটালগ, লাইসেন্সিং ও গ্লোবাল সমর্থনের সমন্বয়ে বানিজ্যিকভাবে প্রস্তুত মার্কেটপ্লেস।"}
+                        ? "We co-create cultural evaluation datasets, deliver ISO-aligned licensing, and our roadmap ships template libraries so creators can launch licensed prompt bundles in minutes—with 24/7 multilingual support keeping the marketplace bespoke as it scales to enterprise procurement."
+                        : "আমরা সংস্কৃতিনির্ভর ইভালুয়েশন ডেটাসেট যৌথভাবে তৈরি করি, ISO-সমন্বিত লাইসেন্সিং সরবরাহ করি, এবং আমাদের রোডম্যাপে থাকা টেমপ্লেট লাইব্রেরির মাধ্যমে ক্রিয়েটররা মিনিটেই লাইসেন্সড প্রম্পট বান্ডেল চালু করতে পারবেন—২৪/৭ বহু-ভাষিক সহায়তা মার্কেটপ্লেসকে বেসপোক রেখেই এন্টারপ্রাইজ প্রোকিউরমেন্টে স্কেল করে।"}
                     </p>
                   </div>
                 </div>
