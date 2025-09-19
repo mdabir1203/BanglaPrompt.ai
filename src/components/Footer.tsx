@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 
@@ -6,28 +7,28 @@ const footerLinks = [
     headingEn: "Product",
     headingBn: "প্রোডাক্ট",
     links: [
-      { labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস", href: "#marketplace" },
-      { labelEn: "Live Bidding", labelBn: "লাইভ বিডিং", href: "#exchange" },
-      { labelEn: "Creator Hub", labelBn: "ক্রিয়েটর হাব", href: "#creators" },
-      { labelEn: "Pricing", labelBn: "প্রাইসিং", href: "#pricing" },
+      { labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস", to: "/marketplace" },
+      { labelEn: "Live Bidding", labelBn: "লাইভ বিডিং", to: "/exchange" },
+      { labelEn: "Creator Hub", labelBn: "ক্রিয়েটর হাব", to: "/creators" },
+      { labelEn: "Pricing", labelBn: "প্রাইসিং", to: "/pricing" },
     ],
   },
   {
     headingEn: "Solutions",
     headingBn: "সমাধান",
     links: [
-      { labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ", href: "#enterprise" },
-      { labelEn: "Compliance", labelBn: "কমপ্লায়েন্স", href: "#enterprise" },
-      { labelEn: "Insights", labelBn: "ইনসাইটস", href: "#insights" },
+      { labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ", to: "/enterprise" },
+      { labelEn: "Compliance", labelBn: "কমপ্লায়েন্স", to: "/enterprise" },
+      { labelEn: "Insights", labelBn: "ইনসাইটস", to: "/insights" },
     ],
   },
   {
     headingEn: "Company",
     headingBn: "কোম্পানি",
     links: [
-      { labelEn: "Support", labelBn: "সাপোর্ট", href: "#support" },
-      { labelEn: "Community", labelBn: "কমিউনিটি", href: "/community/prompts" },
-      { labelEn: "Security", labelBn: "সিকিউরিটি", href: "#enterprise" },
+      { labelEn: "Support", labelBn: "সাপোর্ট", to: "/support" },
+      { labelEn: "Community", labelBn: "কমিউনিটি", to: "/community/prompts" },
+      { labelEn: "Security", labelBn: "সিকিউরিটি", to: "/enterprise" },
     ],
   },
 ];
@@ -106,9 +107,9 @@ const Footer = () => {
               <ul className="mt-4 space-y-3 text-sm text-white/70">
                 {group.links.map((link) => (
                   <li key={link.labelEn}>
-                    <a href={link.href} className="transition-colors hover:text-white">
+                    <Link to={link.to} className="transition-colors hover:text-white">
                       {isEnglish ? link.labelEn : link.labelBn}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

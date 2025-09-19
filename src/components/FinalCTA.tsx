@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const FinalCTA = () => {
@@ -31,27 +32,27 @@ const FinalCTA = () => {
                 {isEnglish ? "Choose your path" : "আপনার পথ বেছে নিন"}
               </p>
               <div className="grid gap-3 text-sm font-semibold text-foreground">
-                <a
-                  href="/community/submit"
+                <Link
+                  to="/community/submit"
                   className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 transition-all hover:bg-emerald-100/80"
                 >
                   <span>{isEnglish ? "Creator onboarding" : "ক্রিয়েটর অনবোর্ডিং"}</span>
                   <span aria-hidden className="text-emerald-700">→</span>
-                </a>
-                <a
-                  href="#enterprise"
+                </Link>
+                <Link
+                  to="/enterprise"
                   className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 transition-all hover:bg-emerald-100/80"
                 >
                   <span>{isEnglish ? "Enterprise discovery" : "এন্টারপ্রাইজ ডিসকভারি"}</span>
                   <span aria-hidden className="text-emerald-700">→</span>
-                </a>
-                <a
-                  href="#insights"
+                </Link>
+                <Link
+                  to="/insights"
                   className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 transition-all hover:bg-emerald-100/80"
                 >
                   <span>{isEnglish ? "Download insights" : "ইনসাইটস ডাউনলোড"}</span>
                   <span aria-hidden className="text-emerald-700">→</span>
-                </a>
+                </Link>
               </div>
 
               <div className="rounded-2xl border border-emerald-100 bg-emerald-50/90 p-4 text-sm text-muted-foreground">

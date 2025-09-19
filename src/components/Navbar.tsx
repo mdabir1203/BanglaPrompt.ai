@@ -1,26 +1,17 @@
 import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { Globe2, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const navLinks = [
-  { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
-  { href: "#exchange", labelEn: "Live Bids", labelBn: "লাইভ বিড" },
-  { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
-  { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
-  { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
-  { href: "#insights", labelEn: "Insights", labelBn: "ইনসাইটস" },
-  { href: "#support", labelEn: "Support", labelBn: "সাপোর্ট" },
-];
-
 const NAV_LINKS = [
-  { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
-  { href: "#exchange", labelEn: "Live Bids", labelBn: "লাইভ বিড" },
-  { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
-  { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
-  { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
-  { href: "#insights", labelEn: "Insights", labelBn: "ইনসাইটস" },
-  { href: "#support", labelEn: "Support", labelBn: "সাপোর্ট" },
+  { to: "/marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
+  { to: "/exchange", labelEn: "Live Bids", labelBn: "লাইভ বিড" },
+  { to: "/creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
+  { to: "/enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
+  { to: "/pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
+  { to: "/insights", labelEn: "Insights", labelBn: "ইনসাইটস" },
+  { to: "/support", labelEn: "Support", labelBn: "সাপোর্ট" },
 ];
 
 type LanguageCode = "en" | "bn";
@@ -42,17 +33,20 @@ const Navbar = () => {
 
   const renderNavLinks = (className?: string) =>
     NAV_LINKS.map((link) => (
-      <a
-        key={link.href}
-        href={link.href}
-        className={cn(
-          "flex flex-col items-center text-xs font-medium text-muted-foreground/80 transition-colors hover:text-foreground md:text-[0.85rem]",
-          className,
-        )}
+      <NavLink
+        key={link.to}
+        to={link.to}
+        className={({ isActive }) =>
+          cn(
+            "flex flex-col items-center text-xs font-medium transition-colors md:text-[0.85rem]",
+            isActive ? "text-foreground" : "text-muted-foreground/80 hover:text-foreground",
+            className,
+          )
+        }
         onClick={() => setMenuOpen(false)}
       >
         <span>{isEnglish ? link.labelEn : link.labelBn}</span>
-      </a>
+      </NavLink>
     ));
 
   return (
@@ -65,7 +59,7 @@ const Navbar = () => {
       )}
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 md:px-8">
-        <a href="#top" className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
           <img
             src="/promptbazar-logo.svg"
             alt="PromptBazar.AI logo"
@@ -77,7 +71,7 @@ const Navbar = () => {
               Bengali Prompt Marketplace
             </span>
           </div>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">{renderNavLinks()}</nav>
 
@@ -114,12 +108,13 @@ const Navbar = () => {
             <span>{isEnglish ? "Sign In" : "সাইন ইন"}</span>
           </a>
 
-          <a
-            href="#cta"
+          <Link
+            to="/pricing"
             className="rounded-full bg-[var(--gradient-aurora)] px-5 py-2 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]"
+            onClick={() => setMenuOpen(false)}
           >
             <span>{isEnglish ? "Get Started" : "আজই শুরু করুন"}</span>
-          </a>
+          </Link>
         </div>
 
         <button
@@ -177,12 +172,13 @@ const Navbar = () => {
               >
                 <span className="block">{isEnglish ? "Sign In" : "সাইন ইন"}</span>
               </a>
-              <a
-                href="#cta"
+              <Link
+                to="/pricing"
                 className="rounded-xl bg-[var(--gradient-aurora)] px-4 py-3 text-sm font-semibold text-white shadow-[var(--shadow-soft)]"
+                onClick={() => setMenuOpen(false)}
               >
                 <span className="block">{isEnglish ? "Get Started" : "আজই শুরু করুন"}</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
