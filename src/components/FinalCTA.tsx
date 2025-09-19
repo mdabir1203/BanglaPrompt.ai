@@ -16,10 +16,10 @@ const FinalCTA = () => {
                 </span>
               </h2>
               <p className="text-sm leading-relaxed text-white/80 md:text-base">
-                Join a Bengali-first creator economy designed with Disney’s wonder, Jobs’ focus, and Fortune 500-grade trust. We orchestrate monetisation, compliance, and community so you can concentrate on storytelling.
+                Join the Bengali-first prompt commerce network built for modern creators and enterprise buyers. We streamline monetisation, licensing, and compliance so you can focus on crafting high-impact prompts.
               </p>
               <p className="text-sm leading-relaxed text-white/70 md:text-base">
-                ডিজনির বিস্ময়, জবসের ফোকাস এবং ফর্চুন ৫০০ মানের আস্থা—সব মিলিয়ে তৈরি বাঙালি নির্মাতাদের জন্য অনন্য ক্রিয়েটর ইকোনমি। আমরা আয়, কমপ্লায়েন্স ও কমিউনিটি সামলাই; আপনি গল্প বলুন।
+                আধুনিক নির্মাতা ও এন্টারপ্রাইজ ক্রেতাদের জন্য নির্মিত বাঙালি প্রম্পট কমার্স নেটওয়ার্কে যোগ দিন। আয়, লাইসেন্সিং ও কমপ্লায়েন্স আমরা সামলাই—আপনি উচ্চমানের প্রম্পট নির্মাণে মন দিন।
               </p>
             </div>
 

@@ -4,11 +4,17 @@
 
 @layer base {
   :root {
-    --charcoal: 210 29% 6%;
-    --cloud: 216 33% 97%;
-    --emerald: 164 100% 33%;
-    --sungold: 37 100% 65%;
-    --sky: 202 100% 47%;
+    --bd-green: 140 76% 29%;
+    --bd-red: 348 95% 48%;
+    --bd-gold: 45 93% 58%;
+    --bd-crimson: 350 84% 40%;
+    --bd-emerald: 140 60% 35%;
+
+    --charcoal: 222 47% 11%;
+    --cloud: 210 20% 98%;
+    --emerald: 140 76% 29%;
+    --sungold: 45 93% 58%;
+    --sky: 348 95% 48%;
 
     --background: var(--cloud);
     --foreground: var(--charcoal);
@@ -18,43 +24,52 @@
     --popover: 0 0% 100%;
     --popover-foreground: var(--charcoal);
     --primary: var(--emerald);
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 210 40% 98%;
     --secondary: var(--sungold);
     --secondary-foreground: var(--charcoal);
-    --muted: 214 32% 92%;
-    --muted-foreground: 214 20% 45%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
     --accent: var(--sky);
     --accent-foreground: 210 40% 98%;
     --destructive: 0 82% 57%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214 30% 85%;
-    --input: 214 30% 85%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     --ring: var(--emerald);
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    --gradient-aurora: linear-gradient(135deg, hsl(var(--emerald)) 0%, #0094ff 50%, hsl(var(--sungold)) 100%);
-    --gradient-midnight: linear-gradient(135deg, rgba(12, 17, 21, 0.92), rgba(18, 28, 36, 0.92));
-    --shadow-elevated: 0 30px 60px -24px rgba(12, 17, 21, 0.45);
-    --shadow-soft: 0 18px 36px -20px rgba(12, 17, 21, 0.25);
+    --highlight: 261 100% 65%;
+    --highlight-foreground: 0 0% 100%;
+
+    --gradient-bangladesh: linear-gradient(135deg, hsl(var(--emerald)), hsl(var(--sky)));
+    --gradient-prosperity: linear-gradient(135deg, hsl(var(--sungold)), hsl(var(--bd-crimson)));
+    --gradient-nature: linear-gradient(135deg, hsl(var(--bd-emerald)), hsl(var(--emerald)));
+    --gradient-aurora: linear-gradient(135deg, hsl(var(--emerald)) 0%, hsl(var(--sungold)) 48%, hsl(var(--sky)) 100%);
+    --gradient-midnight: linear-gradient(135deg, rgba(31, 56, 43, 0.92), rgba(96, 20, 20, 0.9));
+
+    --shadow-cultural: 0 10px 30px -10px hsl(var(--emerald) / 0.35);
+    --shadow-prosperity: 0 0 40px hsl(var(--sungold) / 0.4);
+    --shadow-elevated: 0 30px 60px -24px rgba(31, 56, 43, 0.45);
+    --shadow-soft: 0 18px 36px -20px rgba(31, 56, 43, 0.28);
   }
 
   .dark {
-    --background: 210 29% 6%;
-    --foreground: 210 40% 96%;
-    --card: 213 33% 12%;
-    --card-foreground: 210 40% 96%;
-    --popover: 213 33% 12%;
-    --popover-foreground: 210 40% 96%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
     --primary: var(--emerald);
-    --primary-foreground: 210 40% 96%;
+    --primary-foreground: 222 47% 11%;
     --secondary: var(--sungold);
-    --secondary-foreground: 210 29% 6%;
-    --muted: 213 28% 18%;
-    --muted-foreground: 215 17% 72%;
-    --accent: 202 100% 60%;
-    --accent-foreground: 210 29% 6%;
-    --border: 213 28% 22%;
-    --input: 213 28% 22%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: var(--sky);
+    --accent-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
     --ring: var(--emerald);
   }
 }
@@ -66,6 +81,8 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(var(--background));
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   html {
@@ -73,10 +90,27 @@
   }
 
   ::selection {
-    background: hsl(var(--emerald) / 0.2);
+    background: hsl(var(--sungold) / 0.4);
     color: hsl(var(--charcoal));
   }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
 }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--sungold) / 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--sungold));
+    border: 2px solid hsl(var(--emerald));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--sungold) / 0.9);
+  }
 
 @layer components {
   .section {
@@ -121,7 +155,7 @@
     inset: -1px;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(120deg, rgba(0, 167, 127, 0.65), rgba(0, 148, 255, 0.6), rgba(255, 181, 71, 0.7));
+    background: linear-gradient(120deg, rgba(34, 94, 56, 0.7), rgba(217, 119, 6, 0.6), rgba(239, 68, 68, 0.55));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -129,7 +163,7 @@
   }
 
   .glass-panel {
-    @apply bg-white/80 backdrop-blur-xl border border-white/60;
-    box-shadow: var(--shadow-soft);
+    @apply bg-white/90 backdrop-blur-xl border border-white/70;
+    box-shadow: var(--shadow-cultural);
   }
 }

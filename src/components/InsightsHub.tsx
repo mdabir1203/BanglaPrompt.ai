@@ -46,10 +46,10 @@ const InsightsHub = () => {
             </span>
           </h2>
           <p className="section-subheading mx-auto mt-6">
-            Strategic research crafted with the meticulousness of Steve Jobs and the narrative richness of Walt Disney—designed to help teams localise responsibly.
+            Strategic research grounded in product rigour and cultural intelligence—built to help teams scale prompt commerce responsibly.
           </p>
           <p className="section-subheading mx-auto mt-2 text-muted-foreground">
-            স্টিভ জবসের নিখুঁততা ও ওয়াল্ট ডিজনির গল্পের বৈচিত্র্যে তৈরি কৌশলগত রিসার্চ—যা টিমগুলোকে দায়িত্বশীলভাবে লোকালাইজ করতে সাহায্য করে।
+            পণ্যের নিখুঁততা ও সাংস্কৃতিক বুদ্ধিমত্তার মেলবন্ধনে তৈরি কৌশলগত রিসার্চ—যা টিমগুলোকে দায়িত্বশীলভাবে প্রম্পট কমার্স স্কেল করতে সহায়তা করে।
           </p>
         </div>
 

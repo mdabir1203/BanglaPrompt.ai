@@ -38,10 +38,10 @@ const Features = () => {
             </span>
           </h2>
           <p className="section-subheading mx-auto mt-6">
-            Walt Disney’s showmanship meets Steve Jobs’ minimalism—pairing magical storycraft with product precision so every creator feels seen and every enterprise feels secure.
+            Human-centred prompt commerce keeps Bengali creativity visible while packaging revenue clarity, governance, and accessibility for enterprise teams.
           </p>
           <p className="section-subheading mx-auto mt-2 text-muted-foreground">
-            ডিজনির গল্পের মায়া ও স্টিভ জবসের সুনিপুণতা মিলিয়ে এমন অভিজ্ঞতা, যেখানে প্রতিটি নির্মাতা গুরুত্ব পায় আর প্রতিটি এন্টারপ্রাইজ নিশ্চিন্ত থাকে।
+            মানব-কেন্দ্রিক প্রম্পট কমার্স বাংলা সৃজনশীলতাকে সামনে আনে, একই সাথে এন্টারপ্রাইজ টিমের জন্য স্বচ্ছ আয়, গভর্নেন্স ও অ্যাক্সেসিবিলিটি নিশ্চিত করে।
           </p>
         </div>
 

@@ -10,10 +10,10 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "BanglaPrompt.ai – Bangladesh-born global AI prompt marketplace",
+  title = "BanglaPrompt.ai – Bangladesh’s first global AI prompt marketplace",
   description =
-    "Bengali-first creators and global enterprises collaborate on a Fortune 500-grade AI prompt marketplace with bilingual governance and revenue transparency.",
-  keywords = "BanglaPrompt.ai, Bengali AI prompts, global prompt marketplace, creator economy Bangladesh, enterprise AI localisation",
+    "Launch bilingual prompt storefronts, sell culturally rich AI workflows, and reach verified global buyers with transparent revenue tools and enterprise compliance.",
+  keywords = "BanglaPrompt.ai, Bengali AI prompts, sell prompts, global prompt marketplace, creator economy Bangladesh, enterprise AI localisation",
   image = "/og-image.png",
   url = "https://banglaprompt.ai/"
 }) => {

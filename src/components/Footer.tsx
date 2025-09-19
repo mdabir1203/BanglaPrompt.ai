@@ -43,15 +43,15 @@ const Footer = () => {
               <div>
                 <p className="text-base font-semibold">BanglaPrompt.ai</p>
                 <p className="text-xs uppercase tracking-[0.3em] text-white/70">
-                  Bangladesh-born • World-ready
+                  Bangladesh’s first prompt marketplace • Global reach
                 </p>
               </div>
             </div>
             <p className="text-sm leading-relaxed text-white/70 md:text-base">
-              A global AI prompt marketplace inspired by Walt Disney’s storytelling magic and Steve Jobs’ relentless clarity. Built in Bangladesh for the world, with Fortune 500-grade trust.
+              A global AI prompt marketplace connecting Bengali prompt creators with international buyers through bilingual storefronts, transparent revenue operations, and compliance-ready tooling.
             </p>
             <p className="text-sm leading-relaxed text-white/70 md:text-base">
-              ওয়াল্ট ডিজনির গল্পের জাদু ও স্টিভ জবসের নিখুঁততা নিয়ে তৈরি এই গ্লোবাল এআই প্রম্পট মার্কেটপ্লেস—বাংলাদেশে নির্মিত, বিশ্বব্যাপী আস্থার সাথে।
+              দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে BanglaPrompt.ai।
             </p>
           </div>
 

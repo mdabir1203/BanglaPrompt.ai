@@ -99,10 +99,10 @@ const Contact = () => {
               </span>
             </h2>
             <p className="section-subheading">
-              Our bilingual strategy desk blends Disney-style hospitality with Jobs-level precision. Whether you are launching a new prompt marketplace region or localising workflows, we are on standby.
+              Our bilingual strategy desk is your prompt success partner—licensing guidance, go-to-market localisation, and enterprise integrations handled with measurable precision.
             </p>
             <p className="section-subheading text-muted-foreground">
-              ডিজনির আতিথেয়তা আর স্টিভ জবসের নিখুঁততার সমন্বয়ে আমাদের দ্বিভাষিক স্ট্র্যাটেজি ডেস্ক সদা প্রস্তুত—নতুন বাজার চালু করা থেকে শুরু করে ওয়ার্কফ্লো লোকালাইজেশন পর্যন্ত।
+              লাইসেন্সিং নির্দেশনা, গো-টু-মার্কেট লোকালাইজেশন ও এন্টারপ্রাইজ ইন্টিগ্রেশন—সবকিছুতেই পরিমিত নির্ভুলতা নিয়ে আমাদের দ্বিভাষিক স্ট্র্যাটেজি ডেস্ক পাশে আছে।
             </p>
 
             <div className="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-[var(--shadow-soft)] backdrop-blur">

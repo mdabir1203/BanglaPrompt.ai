@@ -73,16 +73,16 @@ const PromptTemplates = () => {
               </span>
             </h2>
             <p className="section-subheading">
-              Stories curated with Disney-grade narrative arcs and Jobsian refinement, showcasing how Bangla-first creators thrive on a global revenue stage.
+              Spotlight journeys showing how Bengali prompt creators package expertise, grow recurring revenue, and earn trust from international buyers.
             </p>
             <p className="section-subheading text-muted-foreground">
-              ডিজনির গল্পের আর্ক ও স্টিভ জবসের মিতব্যয়ী পরিমার্জনে গড়া সাফল্যের কাহিনি—যেখানে বাংলা নির্মাতারা গ্লোবাল আয়ের মঞ্চে দ্যুতি ছড়াচ্ছেন।
+              বাংলাভাষী প্রম্পট নির্মাতারা কীভাবে অভিজ্ঞতাকে প্যাকেজ করছেন, পুনরাবৃত্ত আয় বাড়াচ্ছেন এবং বৈশ্বিক ক্রেতাদের আস্থা অর্জন করছেন—সেসব বাস্তব যাত্রার আলোকপাত।
             </p>
 
             <div className="glass-panel rounded-[2rem] p-8">
               <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
                 <Sparkles className="h-4 w-4 text-primary" />
-                <span>Imagineering Cohort 2025</span>
+                <span>Prompt Commerce Cohort 2025</span>
                 <span className="text-muted-foreground/60">•</span>
                 <span>72h payout track record</span>
                 <span className="text-muted-foreground/60">•</span>

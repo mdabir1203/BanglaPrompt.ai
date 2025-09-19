@@ -69,10 +69,10 @@ const PricingTransparency = () => {
             </span>
           </h2>
           <p className="section-subheading mx-auto mt-6">
-            Built with Jobsian simplicity and Disney-level generosity—clear splits, no hidden fees, and proactive growth insights.
+            Designed for prompt sellers and enterprise buyers alike—clear splits, zero hidden fees, and proactive growth insights.
           </p>
           <p className="section-subheading mx-auto mt-2 text-muted-foreground">
-            জবসের সরলতা ও ডিজনির উদারতার মেলবন্ধনে গড়া—স্বচ্ছ ভাগাভাগি, কোন লুকানো চার্জ নেই, এবং অগ্রগতির পূর্বাভাস।
+            প্রম্পট নির্মাতা ও এন্টারপ্রাইজ ক্রেতা—দু’পক্ষের জন্যই স্বচ্ছ ভাগাভাগি, কোন গোপন চার্জ নয় এবং অগ্রগতির পূর্বাভাস।
           </p>
         </div>
 
