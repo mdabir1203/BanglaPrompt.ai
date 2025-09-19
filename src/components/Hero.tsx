@@ -177,17 +177,19 @@ const Hero = () => {
                 <div className="relative space-y-8">
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100/80">
-                      {isEnglish ? "Marketplace snapshot" : "মার্কেটপ্লেস স্ন্যাপশট"}
+                      {isEnglish ? "Marketplace vision" : "মার্কেটপ্লেস ভিশন"}
                     </span>
                     <h2 id={statsHeadingId} className="mt-3 text-3xl font-semibold leading-tight text-white">
-                      {isEnglish ? "Built for prompt commerce in 2025." : "২০২৫ সালের প্রম্পট কমার্সের জন্য কিউরেটেড মার্কেটপ্লেস।"}
+                      {isEnglish
+                        ? "A luminous runway for prompt commerce in 2025."
+                        : "২০২৫ সালের প্রম্পট কমার্সের জন্য আলোকিত রানওয়ে।"}
                     </h2>
                   </div>
 
                   <p id={statsSummaryId} className="text-sm text-emerald-100/80">
                     {isEnglish
-                      ? "Transparent stats help neurodivergent creators skim, scan, and decide faster."
-                      : "স্বচ্ছ পরিসংখ্যান নিউরোডাইভারজেন্ট ক্রিয়েটরদের দ্রুত স্কিম, স্ক্যান ও সিদ্ধান্ত নিতে সহায়তা করে।"}
+                      ? "Every transparent metric is choreographed so neurodivergent creators move from idea to revenue with clarity, grace, and speed."
+                      : "প্রতিটি স্বচ্ছ মেট্রিক এমনভাবে সাজানো যে নিউরোডাইভারজেন্ট ক্রিয়েটররা ধারণা থেকে আয়ে পৌঁছাতে পারে স্পষ্টতা, সৌন্দর্য ও দ্রুততার সঙ্গে।"}
                   </p>
 
                   <dl
@@ -215,24 +217,26 @@ const Hero = () => {
                     <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
                       <div>
                         <span className="font-semibold uppercase tracking-[0.25em] text-secondary">
-                          {isEnglish ? "Priority buyer hubs" : "প্রাথমিক ক্রেতা কেন্দ্র"}
+                          {isEnglish ? "Premier buyer circles" : "প্রিমিয়ার ক্রেতা সার্কেল"}
                         </span>
-                        <p className="mt-1 text-white/90">Dhaka • Singapore • Dubai • New York • Lagos</p>
+                        <p className="mt-1 text-white/90">
+                          {isEnglish ? "Dhaka • Singapore • Dubai • New York • Lagos" : "ঢাকা • সিঙ্গাপুর • দুবাই • নিউ ইয়র্ক • লাগোস"}
+                        </p>
                       </div>
                       <div className="text-right">
                         <p className="text-xs uppercase tracking-[0.3em] text-emerald-100/70">
-                          {isEnglish ? "Marketplace flywheel" : "মার্কেটপ্লেস ফ্লাইহুইল"}
+                          {isEnglish ? "Marketplace cadence" : "মার্কেটপ্লেস রিদম"}
                         </p>
                         <p className="text-sm text-emerald-100/85">
-                          {isEnglish ? "Discovery → Licensing → Revenue care" : "ডিসকভারি → লাইসেন্সিং → রেভিনিউ কেয়ার"}
+                          {isEnglish ? "Discovery → Licensing → Revenue stewardship" : "ডিসকভারি → লাইসেন্সিং → রেভিনিউ স্টুয়ার্ডশিপ"}
                         </p>
                       </div>
                     </div>
                     <p className="mt-3 text-sm text-emerald-100/80">
                       {isEnglish
-                        ? "Culturally rich catalogs, licensing, and global support combine to create a commerce-ready marketplace."
-                        : "সংস্কৃতিময় প্রম্পট ক্যাটালগ, লাইসেন্সিং ও গ্লোবাল সমর্থনের সমন্বয়ে বানিজ্যিকভাবে প্রস্তুত মার্কেটপ্লেস।"}
-                    </p>
+                        ? "We weave culturally rich catalogs, ethical licensing, and devoted global support into a marketplace that feels bespoke yet infinitely scalable."
+                        : "আমরা সংস্কৃতিময় ক্যাটালগ, নৈতিক লাইসেন্সিং ও নিবেদিত গ্লোবাল সাপোর্ট একত্রে বুনে এমন একটি মার্কেটপ্লেস গড়ি যা বেসপোক অনুভূত হলেও অসীম স্কেলযোগ্য।"}
+                  </p>
                   </div>
                 </div>
               </div>
