@@ -56,6 +56,9 @@ const App = () => {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <a className="skip-link" href="#main-content">
+            Skip to main content
+          </a>
           <Toaster />
           <Sonner />
           <BrowserRouter>

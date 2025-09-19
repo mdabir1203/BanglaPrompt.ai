@@ -51,7 +51,8 @@
     --gradient-sunlit: radial-gradient(circle at 12% 18%, rgba(34, 94, 56, 0.22), transparent 55%),
       radial-gradient(circle at 88% 12%, rgba(217, 119, 6, 0.2), transparent 60%),
       radial-gradient(circle at 82% 82%, rgba(220, 38, 38, 0.18), transparent 58%);
-    --surface-hero: linear-gradient(140deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 52%, rgba(255, 245, 230, 0.92) 100%);
+    --surface-hero: linear-gradient(140deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 255, 247, 0.96) 52%, rgba(255, 245, 230, 0.94) 100%);
+    --surface-page: linear-gradient(160deg, rgba(240, 249, 244, 0.95) 0%, rgba(255, 255, 255, 0.98) 48%, rgba(255, 247, 235, 0.94) 100%);
     --surface-card: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 255, 246, 0.93) 48%, rgba(255, 242, 226, 0.95) 100%);
     --surface-highlight: linear-gradient(160deg, rgba(34, 94, 56, 0.08) 0%, rgba(217, 119, 6, 0.1) 55%, rgba(220, 38, 38, 0.1) 100%);
 
@@ -90,16 +91,48 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     color-scheme: light;
+    line-height: 1.6;
     background-color: hsl(var(--background));
-    background-image:
-      var(--gradient-sunlit),
-      url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233f6212' fill-opacity='0.08'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: var(--surface-page);
     background-attachment: fixed;
-    background-size: cover, 52px 26px;
+    background-size: cover;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 50%;
+    top: 1rem;
+    transform: translate(-50%, -250%);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    background: hsl(var(--charcoal));
+    color: hsl(var(--cloud));
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s ease;
+    z-index: 50;
+  }
+
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    transform: translate(-50%, 0);
+    outline: 3px solid hsl(var(--sungold));
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   ::selection {

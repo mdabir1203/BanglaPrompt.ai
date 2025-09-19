@@ -38,6 +38,7 @@ const Index = () => {
   return (
     <LanguageProvider>
       <div className="min-h-screen">
+        <div id="top" aria-hidden="true" className="sr-only" />
         <SEOHead />
         <SecurityHeaders />
         <PerformanceOptimizer />
