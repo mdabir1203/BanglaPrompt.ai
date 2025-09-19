@@ -105,8 +105,8 @@ const GlobalCommunity = () => {
             </div>
             <p className="mt-2 text-sm text-muted-foreground">
               {isEnglish
-                ? "Explore how BanglaPrompt.ai is embedded across creative, operational, and compliance teams."
-                : "ক্রিয়েটিভ, অপারেশনাল ও কমপ্লায়েন্স টিমে BanglaPrompt.ai কীভাবে প্রয়োগ হচ্ছে তা জানুন।"}
+                ? "Explore how PromptBazar.AI is embedded across creative, operational, and compliance teams."
+                : "ক্রিয়েটিভ, অপারেশনাল ও কমপ্লায়েন্স টিমে PromptBazar.AI কীভাবে প্রয়োগ হচ্ছে তা জানুন।"}
             </p>
 
             <div className="mt-6 grid gap-4">
