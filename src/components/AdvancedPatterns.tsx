@@ -16,6 +16,12 @@ const marketplacePrompts = [
     useCase: "Campaign" as const,
     model: "GPT-4.1" as const,
     region: "Dhaka • Toronto • Dubai",
+    startingBid: {
+      tierEn: "Growth tier",
+      tierBn: "গ্রোথ স্তর",
+      amountEn: "৳38,000 starting bid",
+      amountBn: "শুরু দর ৳৩৮,০০০",
+    },
   },
   {
     titleEn: "Sharia-compliant SME finance advisor",
@@ -26,6 +32,12 @@ const marketplacePrompts = [
     useCase: "Service" as const,
     model: "Claude 3" as const,
     region: "Chattogram • Kuala Lumpur • Doha",
+    startingBid: {
+      tierEn: "Enterprise tier",
+      tierBn: "এন্টারপ্রাইজ স্তর",
+      amountEn: "৳54,000 starting bid",
+      amountBn: "শুরু দর ৳৫৪,০০০",
+    },
   },
   {
     titleEn: "Heritage curriculum co-designer",
@@ -36,6 +48,12 @@ const marketplacePrompts = [
     useCase: "Training" as const,
     model: "Gemini Ultra" as const,
     region: "Sylhet • London • Singapore",
+    startingBid: {
+      tierEn: "Entry tier",
+      tierBn: "এন্ট্রি স্তর",
+      amountEn: "৳24,000 starting bid",
+      amountBn: "শুরু দর ৳২৪,০০০",
+    },
   },
   {
     titleEn: "Cross-border telehealth navigator",
@@ -46,6 +64,12 @@ const marketplacePrompts = [
     useCase: "Service" as const,
     model: "GPT-4.1" as const,
     region: "Dhaka • Delhi • Riyadh",
+    startingBid: {
+      tierEn: "Enterprise tier",
+      tierBn: "এন্টারপ্রাইজ স্তর",
+      amountEn: "৳60,000 starting bid",
+      amountBn: "শুরু দর ৳৬০,০০০",
+    },
   },
   {
     titleEn: "Diaspora news personalization",
@@ -56,6 +80,12 @@ const marketplacePrompts = [
     useCase: "Insight" as const,
     model: "Claude 3" as const,
     region: "New York • Sydney • Dhaka",
+    startingBid: {
+      tierEn: "Growth tier",
+      tierBn: "গ্রোথ স্তর",
+      amountEn: "৳36,000 starting bid",
+      amountBn: "শুরু দর ৳৩৬,০০০",
+    },
   },
 ];
 
@@ -200,6 +230,14 @@ const AdvancedPatterns = () => {
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {isEnglish ? prompt.descriptionEn : prompt.descriptionBn}
                 </p>
+              </div>
+              <div className="flex items-center justify-between rounded-2xl bg-primary/5 px-4 py-3 text-sm font-semibold">
+                <span className="text-primary">
+                  {isEnglish ? prompt.startingBid.tierEn : prompt.startingBid.tierBn}
+                </span>
+                <span className="text-foreground">
+                  {isEnglish ? prompt.startingBid.amountEn : prompt.startingBid.amountBn}
+                </span>
               </div>
               <div className="mt-auto flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
                 <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">{prompt.industry}</span>
