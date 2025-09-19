@@ -137,7 +137,7 @@ const Contact = () => {
                   <p className="text-foreground font-semibold">
                     {isEnglish ? "Creator Success" : "ক্রিয়েটর সাকসেস"}
                   </p>
-                  <p>creators@banglaprompt.ai</p>
+                  <p>creators@promptbazaar.ai</p>
                   <p className="text-muted-foreground">
                     {isEnglish ? "Guides, payouts, strategy" : "গাইড, পেআউট, স্ট্র্যাটেজি"}
                   </p>
@@ -162,7 +162,7 @@ const Contact = () => {
           <Card className="rounded-[2rem] border border-white/60 bg-white/90 shadow-[var(--shadow-soft)] backdrop-blur">
             <CardHeader>
               <CardTitle className="text-xl font-semibold text-foreground">
-                {isEnglish ? "Partner with BanglaPrompt.ai" : "BanglaPrompt.ai-এর সাথে পার্টনার হোন"}
+                {isEnglish ? "Partner with promptbazaar.ai" : "promptbazaar.ai-এর সাথে পার্টনার হোন"}
               </CardTitle>
               <CardDescription className="text-sm text-muted-foreground">
                 {isEnglish

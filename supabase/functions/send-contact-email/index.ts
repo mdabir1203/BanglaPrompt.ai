@@ -6,9 +6,9 @@ import { z } from "npm:zod@3.23.8";
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const ALLOWED_ORIGINS = new Set([
-  "https://banglaprompt.ai",
-  "https://www.banglaprompt.ai",
-  "https://banglaprompt-ai.pages.dev",
+  "https://promptbazaar.ai",
+  "https://www.promptbazaar.ai",
+  "https://promptbazaar-ai.pages.dev",
 ]);
 
 const RATE_LIMIT_MAX_REQUESTS = 3;
