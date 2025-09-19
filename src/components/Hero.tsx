@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const marketplaceStats = [
@@ -63,7 +64,6 @@ const Hero = () => {
 
   return (
     <section
-      id="main-content"
       aria-labelledby={headingId}
       aria-describedby={ariaDescription}
       tabIndex={-1}
@@ -138,20 +138,20 @@ const Hero = () => {
                 </ul>
 
                 <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
-                  <a
-                    href="#marketplace"
+                  <Link
+                    to="/marketplace"
                     aria-describedby={ctaSupportId}
                     className="rounded-full bg-gradient-to-r from-emerald-600 via-emerald-500 to-sungold-500 px-8 py-3 text-center text-base font-semibold text-white shadow-[0_20px_45px_-18px_rgba(34,94,56,0.55)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--emerald))]"
                   >
                     <span className="block">{isEnglish ? "Browse Marketplace" : "মার্কেটপ্লেস দেখুন"}</span>
-                  </a>
-                  <a
-                    href="#creators"
+                  </Link>
+                  <Link
+                    to="/creators"
                     aria-describedby={ctaSupportId}
                     className="rounded-full border border-emerald-300 bg-white px-8 py-3 text-center text-base font-semibold text-foreground shadow-[0_18px_40px_-20px_rgba(217,119,6,0.4)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--sungold))]"
                   >
                     <span className="block">{isEnglish ? "Start Selling Prompts" : "প্রম্পট বিক্রি শুরু করুন"}</span>
-                  </a>
+                  </Link>
                 </div>
 
                 <p id={ctaSupportId} className="text-sm text-muted-foreground">
