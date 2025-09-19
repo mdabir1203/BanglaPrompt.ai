@@ -74,10 +74,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "creator_tools_creator_id_fkey"
-            columns: ["creator_id"]
-            foreignKeyName: "marketplace_prompts_author_id_fkey"
-            columns: ["author_id"]
+            foreignKeyName: "creator_tools_creator_id_fkey",
+            columns: ["creator_id"],
+            isOneToOne: false,
+            referencedRelation: "users",
+            referencedColumns: ["id"],
+            referencedSchema: "auth",
           },
         ]
       }
