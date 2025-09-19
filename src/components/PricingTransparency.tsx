@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Coins, LineChart, ShieldCheck } from "lucide-react";
-
 import { useLanguage } from "@/contexts/LanguageContext";
 
 type Audience = "creators" | "enterprise";
@@ -65,6 +64,7 @@ const PricingTransparency = () => {
   const tierDescription = isEnglish ? tier.descriptionEn : tier.descriptionBn;
   const tierFeatures = isEnglish ? tier.features : tier.featuresBn;
   const tierCta = isEnglish ? tier.cta : tier.ctaBn;
+
 
   return (
     <section id="pricing" className="section bg-gradient-to-b from-primary/5 via-transparent to-background">

@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Globe2, Map, Search } from "lucide-react";
-
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const industries = ["Marketing", "Finance", "Education", "Healthcare", "Media"] as const;
@@ -63,7 +62,6 @@ const marketplacePrompts = [
 const AdvancedPatterns = () => {
   const { language } = useLanguage();
   const isEnglish = language === "en";
-
   const [search, setSearch] = useState("");
   const [industryFilter, setIndustryFilter] = useState<(typeof industries)[number] | "All">("All");
   const [useCaseFilter, setUseCaseFilter] = useState<(typeof useCases)[number] | "All">("All");
@@ -124,7 +122,6 @@ const AdvancedPatterns = () => {
       </div>
     );
   };
-
   return (
     <section id="marketplace" className="section bg-gradient-to-b from-white to-primary/5">
       <div className="mx-auto max-w-7xl px-4 md:px-8">

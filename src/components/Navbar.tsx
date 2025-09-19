@@ -12,6 +12,17 @@ const navLinks = [
   { href: "#support", labelEn: "Support", labelBn: "সাপোর্ট" },
 ];
 
+const navLinks = [
+  { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
+  { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
+  { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
+  { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
+  { href: "#insights", labelEn: "Insights", labelBn: "ইনসাইটস" },
+  { href: "#support", labelEn: "Support", labelBn: "সাপোর্ট" },
+];
+
+type LanguageCode = "en" | "bn";
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

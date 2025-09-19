@@ -1,5 +1,4 @@
 import { FileText, Library, NotebookPen } from "lucide-react";
-
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const resources = [

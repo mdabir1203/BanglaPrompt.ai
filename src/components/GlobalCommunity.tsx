@@ -1,5 +1,4 @@
 import { Globe2, Users } from "lucide-react";
-
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const regions = [
@@ -40,7 +39,6 @@ const regions = [
 const GlobalCommunity = () => {
   const { language } = useLanguage();
   const isEnglish = language === "en";
-
   return (
     <section className="section">
       <div className="mx-auto max-w-7xl px-4 md:px-8">

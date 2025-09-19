@@ -1,5 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 
+
 const footerLinks = [
   {
     headingEn: "Product",

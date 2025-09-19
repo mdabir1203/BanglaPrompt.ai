@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BarChart3, Building2, ShieldCheck } from "lucide-react";
-
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const enterpriseTracks = [
@@ -95,7 +94,6 @@ const About = () => {
                 ? "Launch culturally fluent AI experiences across South Asia, the Middle East, and diaspora markets with audit-grade oversight."
                 : "দক্ষিণ এশিয়া, মধ্যপ্রাচ্য ও প্রবাসী বাজারে সাংস্কৃতিকভাবে প্রাসঙ্গিক এআই অভিজ্ঞতা চালু করুন, অডিটযোগ্য নজরদারির নিশ্চয়তাসহ।"}
             </p>
-
             <div className="glass-panel rounded-[2rem] p-8">
               <div className="grid gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
                 {complianceBadges.map((badge) => (
@@ -130,7 +128,6 @@ const About = () => {
                 </button>
               ))}
             </div>
-
             <div className="mt-6 rounded-3xl border border-muted-foreground/20 bg-background/80 p-6 shadow-sm">
               <div className="flex items-center gap-3">
                 <track.icon className="h-10 w-10 text-primary" />

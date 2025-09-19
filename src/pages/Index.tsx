@@ -23,6 +23,7 @@ import InsightsHub from "@/components/InsightsHub";
 import FinalCTA from "@/components/FinalCTA";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
+
 // Loading fallback component
 const LoadingFallback = () => (
   <div className="flex items-center justify-center py-12">

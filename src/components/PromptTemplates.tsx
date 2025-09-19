@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { PlayCircle, Sparkles, TrendingUp } from "lucide-react";
-
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const creators = [
@@ -88,7 +87,6 @@ const PromptTemplates = () => {
   const { language } = useLanguage();
   const isEnglish = language === "en";
   const [activeCreatorId, setActiveCreatorId] = useState(creators[0].id);
-
   const activeCreator = creators.find((creator) => creator.id === activeCreatorId) ?? creators[0];
 
   return (

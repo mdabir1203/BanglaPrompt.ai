@@ -3,7 +3,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const FinalCTA = () => {
   const { language } = useLanguage();
   const isEnglish = language === "en";
-
   return (
     <section id="cta" className="py-20">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
