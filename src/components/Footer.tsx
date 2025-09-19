@@ -7,6 +7,7 @@ const footerLinks = [
     headingBn: "প্রোডাক্ট",
     links: [
       { labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস", href: "#marketplace" },
+      { labelEn: "Live Bidding", labelBn: "লাইভ বিডিং", href: "#exchange" },
       { labelEn: "Creator Hub", labelBn: "ক্রিয়েটর হাব", href: "#creators" },
       { labelEn: "Pricing", labelBn: "প্রাইসিং", href: "#pricing" },
     ],
@@ -65,8 +66,8 @@ const Footer = () => {
             </div>
             <p className="text-sm leading-relaxed text-white/70 md:text-base">
               {isEnglish
-                ? "A global AI prompt marketplace connecting Bengali prompt creators with international buyers through bilingual storefronts, transparent revenue operations, and compliance-ready tooling."
-                : "দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে PromptBazar.AI।"}
+                ? "A global AI prompt marketplace connecting Bengali prompt creators with international buyers through bilingual storefronts, transparent revenue operations, live bidding exchanges, and compliance-ready tooling."
+                : "দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা, লাইভ বিডিং এক্সচেঞ্জ ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে PromptBazar.AI।"}
             </p>
           </div>
 

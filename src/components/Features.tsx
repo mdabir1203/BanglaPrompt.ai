@@ -13,8 +13,8 @@ const pillars = [
     icon: ShieldCheck,
     titleEn: "Fair & Transparent Revenue",
     titleBn: "ন্যায্য ও স্বচ্ছ আয়",
-    descriptionEn: "Keep up to 80% per sale, monitor predictive royalties, and access a 72-hour payout promise backed by compliance reporting.",
-    descriptionBn: "প্রতি বিক্রয়ে ৮০% পর্যন্ত আয় রাখুন, প্রেডিক্টিভ রয়্যালটি ট্র্যাক করুন এবং কমপ্লায়েন্স রিপোর্টসহ ৭২ ঘণ্টায় পেমেন্ট পান।",
+    descriptionEn: "Keep up to 80% per sale, monitor predictive royalties, accept live bids, and access a 72-hour payout promise backed by compliance reporting.",
+    descriptionBn: "প্রতি বিক্রয়ে ৮০% পর্যন্ত আয় রাখুন, প্রেডিক্টিভ রয়্যালটি ট্র্যাক করুন, লাইভ বিড গ্রহণ করুন এবং কমপ্লায়েন্স রিপোর্টসহ ৭২ ঘণ্টায় পেমেন্ট পান।",
   },
   {
     icon: Lightbulb,
