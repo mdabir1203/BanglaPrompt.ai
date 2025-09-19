@@ -1,181 +1,73 @@
+import { Lightbulb, ShieldCheck, Sparkle } from "lucide-react";
 
-import FeatureCard from "./FeatureCard";
+const pillars = [
+  {
+    icon: Sparkle,
+    titleEn: "Built for Bengali Creators",
+    titleBn: "বাংলা নির্মাতাদের জন্য নির্মিত",
+    descriptionEn: "Earn globally with prompts tuned to Bengali idioms, festivals, and heritage while staying performance-ready for GPT-4.1, Claude 3, and Gemini Ultra.",
+    descriptionBn: "বাংলা বাগধারা, উৎসব ও ঐতিহ্যকে কেন্দ্র করে প্রম্পট তৈরি করে বিশ্বজুড়ে আয় করুন—GPT-4.1, Claude 3, Gemini Ultra-র জন্য অপ্টিমাইজড।",
+  },
+  {
+    icon: ShieldCheck,
+    titleEn: "Fair & Transparent Revenue",
+    titleBn: "ন্যায্য ও স্বচ্ছ আয়",
+    descriptionEn: "Keep up to 80% per sale, monitor predictive royalties, and access a 72-hour payout promise backed by compliance reporting.",
+    descriptionBn: "প্রতি বিক্রয়ে ৮০% পর্যন্ত আয় রাখুন, প্রেডিক্টিভ রয়্যালটি ট্র্যাক করুন এবং কমপ্লায়েন্স রিপোর্টসহ ৭২ ঘণ্টায় পেমেন্ট পান।",
+  },
+  {
+    icon: Lightbulb,
+    titleEn: "Global Demand Engine",
+    titleBn: "গ্লোবাল ডিমান্ড ইঞ্জিন",
+    descriptionEn: "Surface on dashboards used by Fortune 500 teams with localized curation, audit trails, and shared analytics hubs.",
+    descriptionBn: "লোকালাইজড কিউরেশন, অডিট ট্রেইল ও শেয়ারড অ্যানালিটিক্স হাবের মাধ্যমে Fortune 500 টিমের সামনে আপনার প্রম্পট পৌঁছে দিন।",
+  },
+];
 
 const Features = () => {
   return (
-    <section id="features" className="section bg-gray-50 py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="highlight-text">ফ্রি প্রম্পট ইঞ্জিনিয়ারিং</span> গাইড
+    <section id="value" className="section relative">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+      <div className="relative mx-auto max-w-7xl px-4 md:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="section-eyebrow">Creator Economy 2025</p>
+          <h2 className="section-heading">
+            Fortune 500 confidence. Bengali soul.
+            <span className="block text-xl font-medium text-muted-foreground md:text-2xl">
+              ফর্চুন ৫০০ মানের নিশ্চয়তা। বাঙালি আবেগের সুর।
+            </span>
           </h2>
-          <p className="text-muted-foreground text-lg">
-            বাংলায় অত্যন্ত বিস্তারিত উদাহরণ সহ প্রম্পট ইঞ্জিনিয়ারিং শিখুন
+          <p className="section-subheading mx-auto mt-6">
+            Human-centred prompt commerce keeps Bengali creativity visible while packaging revenue clarity, governance, and accessibility for enterprise teams.
+          </p>
+          <p className="section-subheading mx-auto mt-2 text-muted-foreground">
+            মানব-কেন্দ্রিক প্রম্পট কমার্স বাংলা সৃজনশীলতাকে সামনে আনে, একই সাথে এন্টারপ্রাইজ টিমের জন্য স্বচ্ছ আয়, গভর্নেন্স ও অ্যাক্সেসিবিলিটি নিশ্চিত করে।
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <FeatureCard
-            title="বেসিক প্রম্পট রাইটিং"
-            description="সাধারণ প্রম্পট লেখার মৌলিক কৌশল এবং নিয়ম"
-            example={`উদাহরণ: "আমাকে বাংলায় একটি ছোট গল্প বলো যেটি শিশুদের উপযোগী এবং নৈতিক শিক্ষা দেয়।"\n\nবিশ্লেষণ: এই প্রম্পটে নির্দিষ্ট করে বলা হয়েছে (১) ভাষা: বাংলা, (২) বিষয়: শিশুদের উপযোগী গল্প, (৩) উদ্দেশ্য: নৈতিক শিক্ষা দেওয়া।`}
-            promptTips={[
-              "সরল ও স্পষ্ট ভাষা ব্যবহার করুন",
-              "আপনি কী চান তা নির্দিষ্ট করে বলুন",
-              "প্রসঙ্গ দিন যেখানে প্রয়োজন"
-            ]}
-            icon={
-              <svg
-                className="w-6 h-6 text-blue-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                />
-              </svg>
-            }
-            iconClassName="bg-blue-500/10"
-          />
-
-          <FeatureCard
-            title="ডিটেলড প্রম্পট টেকনিক"
-            description="বিস্তারিত এবং কার্যকরী প্রম্পট লেখার কৌশল"
-            example={`উদাহরণ: "তুমি একজন SEO বিশেষজ্ঞ। আমি একটি ফুলের দোকানের জন্য ওয়েবসাইট বানাচ্ছি। আমাকে ১০টি SEO-ফ্রেন্ডলি কিওয়ার্ড দাও যা বাংলাদেশে ফুলের দোকানের জন্য সবচেয়ে বেশি সার্চ করা হয়, এবং প্রতিটি কিওয়ার্ডের জন্য বাংলায় একটি ছোট ব্লগ পোস্টের শিরোনাম সাজেস্ট করো।"\n\nবিশ্লেষণ: এই প্রম্পটে এআই-কে একটি নির্দিষ্ট ভূমিকা দেওয়া হয়েছে (SEO বিশেষজ্ঞ), প্রসঙ্গ দেওয়া হয়েছে (ফুলের দোকানের ওয়েবসাইট), এবং সুনির্দিষ্ট আউটপুট চাওয়া হয়েছে (১০টি কিওয়ার্ড এবং ব্লগ শিরোনাম)।`}
-            promptTips={[
-              "এআই-কে একটি নির্দিষ্ট ভূমিকা দিন",
-              "প্রসঙ্গ ও পটভূমি বিবরণ দিন",
-              "আউটপুটের ফর্ম্যাট নির্দিষ্ট করে বলুন"
-            ]}
-            icon={
-              <svg
-                className="w-6 h-6 text-violet-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                />
-              </svg>
-            }
-            iconClassName="bg-violet-500/10"
-          />
-
-          <FeatureCard
-            title="সৃজনশীল লেখনী"
-            description="এআই-এর সাহায্যে সৃজনশীল লেখার কৌশল"
-            example={`উদাহরণ: "তুমি একজন অভিজ্ঞ গল্প লেখক। এই প্লটে ভিত্তি করে একটি ছোট গল্প লেখো: একটি ভবিষ্যতের দুনিয়ায়, যেখানে মানুষ তাদের স্মৃতি বিক্রি করতে পারে, একজন যুবক তার প্রথম প্রেমের স্মৃতি বিক্রি করার সিদ্ধান্ত নেয়। গল্পটি লেখার সময় বিশেষ মনোযোগ দাও: অনুভূতি, আবেগ, পরিবেশের বর্ণনা, চরিত্রের মনোজগৎ। গল্পের শেষে একটি মোড় থাকুক যা পাঠককে ভাবতে বাধ্য করবে।"\n\nবিশ্লেষণ: এই প্রম্পটে শুধু গল্পের প্লট নয়, লেখার স্টাইল ও ফোকাস পয়েন্টও নির্দিষ্ট করে দেওয়া হয়েছে, যা এআই-কে আরও সুনির্দিষ্ট আউটপুট তৈরি করতে সাহায্য করে।`}
-            promptTips={[
-              "সৃজনশীল প্রম্পটে স্পেসিফিক নির্দেশনা দিন",
-              "টোন, পরিবেশ, ও স্টাইল নির্দেশ করুন",
-              "মুড ও আবেগ সম্পর্কে উল্লেখ করুন"
-            ]}
-            icon={
-              <svg
-                className="w-6 h-6 text-pink-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                />
-              </svg>
-            }
-            iconClassName="bg-pink-500/10"
-          />
-
-          <FeatureCard
-            title="কোডিং প্রম্পট"
-            description="প্রোগ্রামিং এবং কোডিং সমস্যা সমাধানের জন্য প্রম্পট"
-            example={`উদাহরণ: "আমি React.js শিখছি। আমাকে একটি প্রোডাক্ট লিস্টিং পেজ বানাতে সাহায্য করো যেখানে JSON এপিআই থেকে ডাটা লোড হবে। কম্পোনেন্টগুলো ভাগ করে দেখাও: একটি ProductList কম্পোনেন্ট, একটি ProductCard কম্পোনেন্ট, এবং ডাটা ফেচিং লজিক। প্রতিটি কম্পোনেন্টের কোড বাংলায় কমেন্ট সহ দেখাও এবং পুরো কোডটি কিভাবে একসাথে কাজ করে তা ব্যাখ্যা করো।"\n\nবিশ্লেষণ: এই প্রম্পটে স্পষ্টভাবে নির্দিষ্ট করা হয়েছে (১) টেকনোলজি: React.js, (২) উদ্দেশ্য: প্রোডাক্ট লিস্টিং পেজ, (৩) কোড ফর্ম্যাট: আলাদা কম্পোনেন্ট, (৪) অতিরিক্ত আবশ্যকতা: বাংলা কমেন্ট ও ব্যাখ্যা।`}
-            promptTips={[
-              "কোন প্রোগ্রামিং ল্যাঙ্গুয়েজ ব্যবহার করবেন তা নির্দিষ্ট করুন",
-              "কোডের উদ্দেশ্য ও কার্যকারিতা স্পষ্ট করুন",
-              "কোড ফর্ম্যাট ও স্টাইল সম্পর্কে নির্দেশনা দিন"
-            ]}
-            icon={
-              <svg
-                className="w-6 h-6 text-green-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                />
-              </svg>
-            }
-            iconClassName="bg-green-500/10"
-          />
-
-          <FeatureCard
-            title="চেইন প্রম্পটিং"
-            description="একাধিক প্রম্পট দিয়ে জটিল কাজ সম্পাদন করা"
-            example={`প্রথম প্রম্পট: "আমি একটি ই-কমার্স ওয়েবসাইট বানাচ্ছি। এই ওয়েবসাইটে কী কী ফিচার থাকা উচিত তার একটি তালিকা তৈরি করো।"\n\nএআই উত্তর দেওয়ার পর দ্বিতীয় প্রম্পট: "এই ফিচারগুলো বাস্তবায়ন করার জন্য আমার কী কী টেকনোলজি লাগবে? প্রতিটি ফিচারের জন্য সুপারিশকৃত টেকনোলজি উল্লেখ করো।"\n\nতৃতীয় প্রম্পট: "এখন আমাকে প্রথম ফেজে কোন কোন ফিচার বাস্তবায়ন করা উচিত এবং কোন কোন ফিচার পরবর্তী ফেজের জন্য রাখা উচিত, তার একটি রোডম্যাপ তৈরি করে দাও।"\n\nবিশ্লেষণ: এই চেইন প্রম্পটিং পদ্ধতিতে, প্রতিটি পরবর্তী প্রম্পট আগের প্রম্পটের উত্তরের উপর ভিত্তি করে তৈরি করা হয়, যা জটিল কাজকে ছোট ছোট ধাপে ভাগ করে সমাধান করতে সাহায্য করে।`}
-            promptTips={[
-              "বড় সমস্যাকে ছোট ছোট পর্যায়ে ভাগ করুন",
-              "প্রতিটি পরবর্তী প্রম্পট আগের উত্তরের উপর ভিত্তি করে তৈরি করুন",
-              "প্রতিটি ধাপে উত্তরগুলো পরীক্ষা করে দেখুন"
-            ]}
-            icon={
-              <svg
-                className="w-6 h-6 text-orange-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-                />
-              </svg>
-            }
-            iconClassName="bg-orange-500/10"
-          />
-
-          <FeatureCard
-            title="ইমেজ জেনারেশন প্রম্পট"
-            description="Midjourney, DALL-E, Stable Diffusion এর জন্য প্রম্পট"
-            example={`উদাহরণ: "একটি ফটোরিয়ালিস্টিক ছবি তৈরি করো: বাংলাদেশের গ্রামীণ পরিবেশে সূর্যাস্ত, শান্ত নদী, সবুজ ধানক্ষেত, দূরে কয়েকটি খড়ের ঘর, হালকা কুয়াশা, রোমান্টিক আলো, উচ্চ রেজলিউশন, ডিটেইলড টেক্সচার, সিনেমাটিক লাইটিং।"\n\nবিশ্লেষণ: এই প্রম্পটে ছবির প্রধান বিষয় (গ্রামীণ দৃশ্য), মূড (শান্ত, রোমান্টিক), পরিবেশগত উপাদান (নদী, ধানক্ষেত, খড়ের ঘর), টেকনিকাল স্পেসিফিকেশন (উচ্চ রেজলিউশন), এবং স্টাইল (সিনেমাটিক লাইটিং) নির্দিষ্ট করে দেওয়া হয়েছে।`}
-            promptTips={[
-              "ছবির মূল বিষয়বস্তু স্পষ্টভাবে উল্লেখ করুন",
-              "পরিবেশ, আলো, মেজাজ ও স্টাইল বর্ণনা করুন",
-              "টেকনিকাল বিবরণ দিন (রেজলিউশন, ডিটেইল, ইত্যাদি)"
-            ]}
-            icon={
-              <svg
-                className="w-6 h-6 text-teal-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            }
-            iconClassName="bg-teal-500/10"
-          />
+        <div className="mt-16 grid gap-8 md:grid-cols-3">
+          {pillars.map((pillar) => (
+            <div
+              key={pillar.titleEn}
+              className="glass-panel flex h-full flex-col gap-4 rounded-3xl p-8 text-left"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15 text-primary">
+                <pillar.icon className="h-5 w-5" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold text-foreground">
+                  {pillar.titleEn}
+                  <span className="mt-1 block text-base font-medium text-primary/80">{pillar.titleBn}</span>
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {pillar.descriptionEn}
+                </p>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {pillar.descriptionBn}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

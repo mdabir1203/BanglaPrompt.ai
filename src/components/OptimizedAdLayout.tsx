@@ -1,51 +1,48 @@
-import React from 'react';
-import AdsterraAds from './AdsterraAds';
-import MonetizationAds from './MonetizationAds';
+import React from "react";
+import MonetizationAds from "./MonetizationAds";
 
 interface OptimizedAdLayoutProps {
   children: React.ReactNode;
 }
 
 const OptimizedAdLayout: React.FC<OptimizedAdLayoutProps> = ({ children }) => {
+  const childArray = React.Children.toArray(children);
+
+  const contentWithInlineAd = childArray.flatMap((child, index) => {
+    const segments = [child];
+
+    if (index === 2) {
+      segments.push(
+        <div
+          key={`inline-ad-${index}`}
+          className="flex w-full justify-center px-4"
+          aria-label="sponsored highlight"
+        >
+          <div className="inline-flex w-full max-w-xs flex-col items-center gap-2 rounded-2xl border border-border/40 bg-white/80 p-4 text-center shadow-[var(--shadow-soft)] backdrop-blur">
+            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-muted-foreground/70">
+              Sponsored
+            </span>
+            <MonetizationAds placement="inline" className="mt-0 w-full" />
+          </div>
+        </div>
+      );
+    }
+
+    return segments;
+  });
+
   return (
-    <div className="min-h-screen relative">
-      {/* Main Content with Sidebar Ads */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1 order-2 lg:order-1">
-            <div className="sticky top-4">
-              <MonetizationAds placement="sidebar" />
-            </div>
-          </div>
+    <div className="relative flex min-h-screen flex-col bg-gradient-to-b from-white via-white to-muted/20">
+      <div className="flex-1 space-y-0">{contentWithInlineAd}</div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-3 order-1 lg:order-2">
-            {children}
-
-            <div className="my-12">
-              <AdsterraAds format="native" className="max-w-2xl mx-auto" />
-            </div>
-          </div>
+      <div className="border-t border-border/30 bg-white/90 py-10 backdrop-blur">
+        <div className="mx-auto flex max-w-sm flex-col items-center gap-3 px-4 text-center">
+          <span className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-muted-foreground/70">
+            Partner Message
+          </span>
+          <MonetizationAds placement="footer" className="mt-0 w-full max-w-[220px]" />
         </div>
       </div>
-
-      {/* Footer Ad */}
-      <div className="w-full bg-muted/30 py-4 mt-12">
-        <div className="container mx-auto px-4">
-          <MonetizationAds placement="footer" />
-        </div>
-      </div>
-
-      {/* Mobile-specific ads */}
-      <div className="block lg:hidden">
-        <div className="fixed bottom-20 left-4 right-4 z-40">
-          <MonetizationAds placement="mobile" />
-        </div>
-      </div>
-
-      {/* Social Bar */}
-      <AdsterraAds format="social-bar" />
     </div>
   );
 };
