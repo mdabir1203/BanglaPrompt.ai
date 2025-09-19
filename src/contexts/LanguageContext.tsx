@@ -15,7 +15,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
       return "en";
     }
 
-    const stored = window.localStorage.getItem("banglaprompt-language");
+    const stored = window.localStorage.getItem("promptbazaar-language");
     return stored === "bn" ? "bn" : "en";
   });
 
@@ -25,7 +25,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     }
 
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("banglaprompt-language", language);
+      window.localStorage.setItem("promptbazaar-language", language);
     }
   }, [language]);
 

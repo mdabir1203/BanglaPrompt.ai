@@ -13,8 +13,8 @@ interface QueuedAnalyticsEvent extends AnalyticsEvent {
   retries: number;
 }
 
-const STORAGE_KEY = "banglaprompt.analytics.queue";
-const SESSION_STORAGE_KEY = "banglaprompt.analytics.session";
+const STORAGE_KEY = "promptbazaar.analytics.queue";
+const SESSION_STORAGE_KEY = "promptbazaar.analytics.session";
 
 const analyticsLogger = createScopedLogger("analytics");
 
