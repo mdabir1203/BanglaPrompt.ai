@@ -3,7 +3,7 @@ import React from 'react';
 import GoogleAd from './GoogleAd';
 
 interface MonetizationAdsProps {
-  placement: 'header' | 'sidebar' | 'content' | 'footer' | 'mobile';
+  placement: 'header' | 'sidebar' | 'content' | 'footer' | 'mobile' | 'inline';
   className?: string;
 }
 
@@ -27,6 +27,12 @@ const MonetizationAds: React.FC<MonetizationAdsProps> = ({ placement, className 
           slot: '3456789012',
           format: 'rectangle' as const,
           className: 'my-8'
+        };
+      case 'inline':
+        return {
+          slot: '6789012345',
+          format: 'auto' as const,
+          className: 'my-4'
         };
       case 'footer':
         return {

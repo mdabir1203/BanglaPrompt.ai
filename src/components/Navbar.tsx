@@ -1,112 +1,174 @@
-
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Globe2, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const navLinks = [
+  { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
+  { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
+  { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
+  { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
+  { href: "#insights", labelEn: "Insights", labelBn: "ইনসাইটস" },
+  { href: "#support", labelEn: "Support", labelBn: "সাপোর্ট" },
+];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { language, setLanguage } = useLanguage();
+  const isEnglish = language === "en";
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
+      setScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrolled]);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const navLinks = [
-    { name: "হোম", href: "#" },
-    { name: "কোর্স", href: "#features" },
-    { name: "রিসোর্স", href: "#resources" },
-    { name: "কমিউনিটি", href: "/community/prompts" },
-    { name: "সম্পর্কে", href: "#about" },
-  ];
+  const renderNavLinks = (className?: string) =>
+    navLinks.map((link) => (
+      <a
+        key={link.href}
+        href={link.href}
+        className={cn(
+          "flex flex-col items-center text-xs font-medium text-muted-foreground/80 transition-colors hover:text-foreground md:text-[0.85rem]",
+          className,
+        )}
+        onClick={() => setMenuOpen(false)}
+      >
+        <span>{isEnglish ? link.labelEn : link.labelBn}</span>
+      </a>
+    ));
 
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4",
-        scrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        scrolled
+          ? "bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_-24px_rgba(12,17,21,0.45)]"
+          : "bg-transparent",
       )}
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-white font-bold">
-              পি
-            </div>
-            <span className="font-display font-bold text-xl hidden sm:block">
-              প্রম্পট শিক্ষা
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+        <a href="#top" className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--gradient-aurora)] text-white shadow-[var(--shadow-soft)]">
+            <span className="text-lg font-semibold">BP</span>
+          </div>
+          <div className="hidden text-left md:block">
+            <span className="text-sm font-semibold text-foreground md:text-base">BanglaPrompt.ai</span>
+            <span className="block text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground/80">
+              Global Prompt Marketplace
             </span>
-          </a>
+          </div>
+        </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="font-medium text-sm text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                {link.name}
-              </a>
-            ))}
-          </nav>
+        <nav className="hidden items-center gap-6 lg:flex">{renderNavLinks()}</nav>
 
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="/community/submit"
-              className="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]"
+        <div className="hidden items-center gap-3 lg:flex">
+          <div className="flex items-center gap-1 rounded-full border border-white/70 bg-white/40 px-3 py-1.5 text-xs shadow-sm backdrop-blur">
+            <Globe2 className="h-4 w-4 text-primary" />
+            <button
+              type="button"
+              onClick={() => setLanguage("en")}
+              className={cn(
+                "rounded-full px-2 py-1 font-medium transition-colors",
+                isEnglish ? "bg-primary text-white" : "text-muted-foreground",
+              )}
             >
-              কমিউনিটিতে যোগ দিন
-            </a>
+              EN
+            </button>
+            <span className="text-muted-foreground/60">|</span>
+            <button
+              type="button"
+              onClick={() => setLanguage("bn")}
+              className={cn(
+                "rounded-full px-2 py-1 font-medium transition-colors",
+                !isEnglish ? "bg-primary text-white" : "text-muted-foreground",
+              )}
+            >
+              বাংলা
+            </button>
           </div>
 
-          {/* Mobile Navigation */}
-          <button
-            className="md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle Menu"
+          <a
+            href="/community/prompts"
+            className="text-right text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
           >
-            {menuOpen ? (
-              <X className="w-6 h-6 text-gray-700" />
-            ) : (
-              <Menu className="w-6 h-6 text-gray-700" />
-            )}
-          </button>
+            <span>{isEnglish ? "Sign In" : "সাইন ইন"}</span>
+          </a>
+
+          <a
+            href="#cta"
+            className="rounded-full bg-[var(--gradient-aurora)] px-5 py-2 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]"
+          >
+            <span>{isEnglish ? "Get Started" : "আজই শুরু করুন"}</span>
+          </a>
         </div>
+
+        <button
+          type="button"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/80 bg-white/60 text-foreground shadow-sm backdrop-blur lg:hidden"
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label="Toggle navigation menu"
+        >
+          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg animate-fade-in">
-          <div className="container mx-auto px-4 py-4">
-            <nav className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="font-medium text-gray-700 hover:text-blue-600 transition-colors py-2"
-                  onClick={() => setMenuOpen(false)}
+        <div className="lg:hidden">
+          <div className="mx-4 mb-4 space-y-6 rounded-2xl border border-white/80 bg-white/90 p-6 shadow-[var(--shadow-soft)] backdrop-blur-lg">
+            <div className="flex items-center justify-between rounded-2xl bg-muted/40 px-4 py-3">
+              <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                <Globe2 className="h-4 w-4 text-primary" />
+                <span>Language</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setLanguage("en")}
+                  className={cn(
+                    "rounded-full px-3 py-1 text-xs font-semibold",
+                    isEnglish
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
-                  {link.name}
-                </a>
-              ))}
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage("bn")}
+                  className={cn(
+                    "rounded-full px-3 py-1 text-xs font-semibold",
+                    !isEnglish
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  বাংলা
+                </button>
+              </div>
+            </div>
+
+            <nav className="grid gap-4 text-center">{renderNavLinks("py-1")}</nav>
+
+            <div className="grid gap-3">
               <a
-                href="/community/submit"
-                className="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white font-medium text-center transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]"
-                onClick={() => setMenuOpen(false)}
+                href="/community/prompts"
+                className="rounded-xl border border-muted-foreground/20 px-4 py-3 text-sm font-semibold text-foreground shadow-sm"
               >
-                কমিউনিটিতে যোগ দিন
+                <span className="block">{isEnglish ? "Sign In" : "সাইন ইন"}</span>
               </a>
-            </nav>
+              <a
+                href="#cta"
+                className="rounded-xl bg-[var(--gradient-aurora)] px-4 py-3 text-sm font-semibold text-white shadow-[var(--shadow-soft)]"
+              >
+                <span className="block">{isEnglish ? "Get Started" : "আজই শুরু করুন"}</span>
+              </a>
+            </div>
           </div>
         </div>
       )}

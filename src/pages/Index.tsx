@@ -8,15 +8,20 @@ import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import OptimizedAdLayout from "@/components/OptimizedAdLayout";
 import CookieConsent from "@/components/CookieConsent";
-import { 
-  LazyAdvancedPatterns, 
-  LazyPromptTemplates, 
-  LazyAbout, 
+import {
+  LazyAdvancedPatterns,
+  LazyPromptTemplates,
+  LazyAbout,
   LazyContact,
   LazyMediumSubscriptionPopup,
   LazyNewsletterConversionPopup
 } from "@/components/LazyComponents";
 import Footer from "@/components/Footer";
+import PricingTransparency from "@/components/PricingTransparency";
+import GlobalCommunity from "@/components/GlobalCommunity";
+import InsightsHub from "@/components/InsightsHub";
+import FinalCTA from "@/components/FinalCTA";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -30,33 +35,41 @@ const Index = () => {
   useAnalytics();
   
   return (
-    <div className="min-h-screen">
-      <SEOHead />
-      <SecurityHeaders />
-      <PerformanceOptimizer />
-      
-      <OptimizedAdLayout>
+    <LanguageProvider>
+      <div className="min-h-screen">
+        <SEOHead />
+        <SecurityHeaders />
+        <PerformanceOptimizer />
+
+        <OptimizedAdLayout>
         <Navbar />
         <Hero />
         <Features />
-        
+
         {/* Lazy loaded components for better performance */}
         <Suspense fallback={<LoadingFallback />}>
           <LazyAdvancedPatterns />
         </Suspense>
-        
+
         <Suspense fallback={<LoadingFallback />}>
           <LazyPromptTemplates />
         </Suspense>
-        
+
+        <PricingTransparency />
+
         <Suspense fallback={<LoadingFallback />}>
           <LazyAbout />
         </Suspense>
-        
+
+        <GlobalCommunity />
+        <InsightsHub />
+
         <Suspense fallback={<LoadingFallback />}>
           <LazyContact />
         </Suspense>
-        
+
+        <FinalCTA />
+
         <Footer />
       </OptimizedAdLayout>
       
@@ -71,7 +84,8 @@ const Index = () => {
       <Suspense fallback={null}>
         <LazyNewsletterConversionPopup />
       </Suspense>
-    </div>
+      </div>
+    </LanguageProvider>
   );
 };
 
