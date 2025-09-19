@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import OptimizedAdLayout from "@/components/OptimizedAdLayout";
+import BidExchange from "@/components/BidExchange";
 import CookieConsent from "@/components/CookieConsent";
 import {
   LazyAdvancedPatterns,
@@ -47,6 +48,7 @@ const Index = () => {
         <Navbar />
         <Hero />
         <Features />
+        <BidExchange />
 
         {/* Lazy loaded components for better performance */}
         <Suspense fallback={<LoadingFallback />}>

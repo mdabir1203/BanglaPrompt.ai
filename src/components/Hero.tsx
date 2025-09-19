@@ -31,6 +31,17 @@ const highlightFeatures = [
       description: "চুক্তি, কমপ্লায়েন্স ও অ্যানালিটিক্স দিয়ে প্রোকিউরমেন্ট টিম দ্রুত আপনার প্রম্পট চালু করতে পারে।",
     },
   },
+  {
+    key: "bidding",
+    en: {
+      title: "Live bidding exchange",
+      description: "Match buyer bids and seller offers with streaming dashboards and liquidity signals.",
+    },
+    bn: {
+      title: "লাইভ বিডিং এক্সচেঞ্জ",
+      description: "স্ট্রিমিং ড্যাশবোর্ড ও লিকুইডিটি সিগন্যালের মাধ্যমে ক্রেতার বিড ও বিক্রেতার অফার মিল করুন।",
+    },
+  },
 ];
 
 const Hero = () => {
@@ -105,8 +116,8 @@ const Hero = () => {
                     className="bilingual-copy max-w-2xl text-base text-muted-foreground md:text-lg"
                   >
                     {isEnglish
-                      ? "Launch your prompt storefront, package workflows for GPT-4.1, Claude 3, and Gemini Ultra, and reach verified buyers with transparent revenue tools."
-                      : "আপনার প্রম্পট স্টোরফ্রন্ট চালু করুন, GPT-4.1, Claude 3 ও Gemini Ultra’র জন্য ওয়ার্কফ্লো প্রস্তুত করুন এবং স্বচ্ছ আয়ের ড্যাশবোর্ড নিয়ে যাচাইকৃত ক্রেতাদের কাছে পৌঁছান।"}
+                      ? "Launch your prompt storefront, package workflows for GPT-4.1, Claude 3, and Gemini Ultra, reach verified buyers with transparent revenue tools, and trade via live bidding analytics."
+                      : "আপনার প্রম্পট স্টোরফ্রন্ট চালু করুন, GPT-4.1, Claude 3 ও Gemini Ultra’র জন্য ওয়ার্কফ্লো প্রস্তুত করুন, স্বচ্ছ আয়ের ড্যাশবোর্ড নিয়ে যাচাইকৃত ক্রেতাদের কাছে পৌঁছান এবং লাইভ বিডিং অ্যানালিটিক্সে লেনদেন করুন।"}
                   </p>
                 </div>
 

@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const navLinks = [
   { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
+  { href: "#exchange", labelEn: "Live Bids", labelBn: "লাইভ বিড" },
   { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
   { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
   { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
@@ -14,6 +15,7 @@ const navLinks = [
 
 const NAV_LINKS = [
   { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
+  { href: "#exchange", labelEn: "Live Bids", labelBn: "লাইভ বিড" },
   { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
   { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
   { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
