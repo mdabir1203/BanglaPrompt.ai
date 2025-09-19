@@ -4,10 +4,15 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   BarChart3,
+  Brain,
   Clock,
   LineChart,
+  Lightbulb,
+  Palette,
   Sparkles,
   Users,
+  Video,
+  type LucideIcon,
 } from "lucide-react";
 
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -93,6 +98,298 @@ const INITIAL_LISTINGS: ExchangeListing[] = [
     watchers: 201,
     bidVelocity: 6.1,
     bidHistory: [84, 87, 92, 97, 102, 108, 113, 118, 122, 126, 130, 134],
+  },
+];
+
+type IconKey = "sparkles" | "palette" | "brain" | "video";
+
+const iconMap: Record<IconKey, LucideIcon> = {
+  sparkles: Sparkles,
+  palette: Palette,
+  brain: Brain,
+  video: Video,
+};
+
+interface PromptEntry {
+  title: LocalizedCopy;
+  instructions: LocalizedCopy;
+  psychology: LocalizedCopy;
+}
+
+interface PromptPlaybook {
+  id: string;
+  icon: IconKey;
+  title: LocalizedCopy;
+  description: LocalizedCopy;
+  prompts: PromptEntry[];
+}
+
+const promptPlaybooks: PromptPlaybook[] = [
+  {
+    id: "bidder-magnet",
+    icon: "sparkles",
+    title: {
+      en: "Bidder magnet ChatGPT prompts",
+      bn: "বিডার আকর্ষণকারী চ্যাটজিপিটি প্রম্পট",
+    },
+    description: {
+      en: "Persona-level scripts that nudge auction buyers using urgency, trust cues, and clarity.",
+      bn: "জরুরিতা, আস্থার সংকেত ও স্বচ্ছ বার্তায় নিলাম ক্রেতাদের উৎসাহিত করার পার্সোনা-ভিত্তিক স্ক্রিপ্ট।",
+    },
+    prompts: [
+      {
+        title: {
+          en: "Campaign-driven advertising brief",
+          bn: "ক্যাম্পেইন-নির্ভর বিজ্ঞাপন ব্রিফ",
+        },
+        instructions: {
+          en: "Act as an advertiser who can design a full-funnel campaign that attracts serious bidders to our upcoming online auction of rare vintage comics. Ask me questions about the bidder personas, highlight messaging angles that build urgency, recommend the best ad channels, and finish with a week-by-week launch plan.",
+          bn: "একজন বিজ্ঞাপন বিশেষজ্ঞের ভূমিকায় নিন যিনি আমাদের আসন্ন বিরল ভিনটেজ কমিকস অনলাইন নিলামের জন্য সিরিয়াস বিডারদের আকৃষ্ট করতে পূর্ণাঙ্গ ফানেল ক্যাম্পেইন তৈরি করবেন। বিডার পার্সোনা সম্পর্কে প্রশ্ন করুন, জরুরিতা বাড়ায় এমন মেসেজিং এঙ্গেল তুলে ধরুন, সেরা বিজ্ঞাপন চ্যানেল সুপারিশ করুন এবং সপ্তাহভিত্তিক লঞ্চ প্ল্যান দিয়ে শেষ করুন।",
+        },
+        psychology: {
+          en: "Frames scarcity and a clear plan so analytical bidders feel prepared.",
+          bn: "দুর্লভতা ও স্পষ্ট পরিকল্পনা তুলে ধরে বিশ্লেষণধর্মী বিডারদের প্রস্তুত বোধ করায়।",
+        },
+      },
+      {
+        title: {
+          en: "Influencer-led buzz builder",
+          bn: "ইনফ্লুয়েন্সার-নেতৃত্বাধীন বাজ নির্মাতা",
+        },
+        instructions: {
+          en: "You are a social media influencer known for hyping exclusive drops. Draft a TikTok script, Instagram carousel captions, and a YouTube Shorts outline that entice luxury handbag enthusiasts to register and bid in our charity auction. Include hooks, calls-to-action, and collaboration ideas.",
+          bn: "আপনি এক জন সোশ্যাল মিডিয়া ইনফ্লুয়েন্সার যিনি এক্সক্লুসিভ ড্রপ নিয়ে উত্তেজনা তৈরি করার জন্য পরিচিত। আমাদের চ্যারিটি নিলামে রেজিস্টার করে বিড করতে লাক্সারি হ্যান্ডব্যাগ অনুরাগীদের অনুপ্রাণিত করতে একটি টিকটক স্ক্রিপ্ট, ইনস্টাগ্রাম ক্যারোসেল ক্যাপশন এবং ইউটিউব শর্টস আউটলাইন লিখুন। আকর্ষণীয় হুক, কল-টু-অ্যাকশন এবং সহযোগিতার আইডিয়া অন্তর্ভুক্ত করুন।",
+        },
+        psychology: {
+          en: "Uses social proof and FOMO loops to energize trend-seeking bidders.",
+          bn: "সোশ্যাল প্রুফ ও FOMO লুপ ব্যবহার করে ট্রেন্ড-পিপাসু বিডারদের উদ্দীপ্ত করে।",
+        },
+      },
+      {
+        title: {
+          en: "Cross-platform community manager",
+          bn: "ক্রস-প্ল্যাটফর্ম কমিউনিটি ম্যানেজার",
+        },
+        instructions: {
+          en: "Take the role of our auction’s social media manager. Build a 10-day publishing calendar (Twitter, LinkedIn, Facebook, and email) that nurtures interested buyers, answers common bidding questions, spotlights high-value lots, and nudges followers to place early bids.",
+          bn: "আমাদের নিলামের সোশ্যাল মিডিয়া ম্যানেজারের ভূমিকায় নিন। টুইটার, লিংকডইন, ফেসবুক ও ইমেইলের জন্য ১০ দিনের পাবলিশিং ক্যালেন্ডার তৈরি করুন যা আগ্রহী ক্রেতাদের লালন করে, সাধারণ বিডিং প্রশ্নের উত্তর দেয়, উচ্চ-মূল্যের লটকে হাইলাইট করে এবং অনুসারীদের আগেভাগে বিড করতে উৎসাহিত করে।",
+        },
+        psychology: {
+          en: "Reduces friction by answering objections while reinforcing high-ticket value.",
+          bn: "অভিযোগের জবাব দিয়ে ঘর্ষণ কমায় এবং উচ্চমূল্যের লটের মূল্য তুলে ধরে।",
+        },
+      },
+      {
+        title: {
+          en: "Brand positioning strategist",
+          bn: "ব্র্যান্ড পজিশনিং স্ট্র্যাটেজিস্ট",
+        },
+        instructions: {
+          en: "Serve as a creative branding strategist for a premium real-estate bidding platform. Craft positioning statements, visual cues, tone-of-voice guidelines, and experiential marketing ideas that make affluent investors feel confident about placing multi-million-dollar bids.",
+          bn: "একটি প্রিমিয়াম রিয়েল-এস্টেট বিডিং প্ল্যাটফর্মের জন্য সৃজনশীল ব্র্যান্ডিং স্ট্র্যাটেজিস্টের ভূমিকায় কাজ করুন। পজিশনিং স্টেটমেন্ট, ভিজ্যুয়াল সংকেত, টোন-অব-ভয়েস নির্দেশিকা এবং অভিজ্ঞতাভিত্তিক মার্কেটিং আইডিয়া তৈরি করুন যাতে সচ্ছল বিনিয়োগকারীরা বহু-মিলিয়ন ডলারের বিড করতে আত্মবিশ্বাসী হন।",
+        },
+        psychology: {
+          en: "Establishes trust signals and identity for status-driven bidders.",
+          bn: "স্ট্যাটাসকেন্দ্রিক বিডারদের জন্য আস্থার সংকেত ও পরিচয় নির্মাণ করে।",
+        },
+      },
+      {
+        title: {
+          en: "High-conversion sales outreach",
+          bn: "হাই-কনভার্সন সেলস আউটরিচ",
+        },
+        instructions: {
+          en: "Role-play as an enterprise sales rep calling procurement directors. Draft a persuasive cold-call script and follow-up email sequence that convinces them to pre-register for our reverse-bid marketplace, emphasizing the exclusivity of suppliers and the cost-saving potential.",
+          bn: "একজন এন্টারপ্রাইজ সেলস রিপ হিসেবে প্রোকিউরমেন্ট ডিরেক্টরদের ফোন করুন। সরবরাহকারীদের এক্সক্লুসিভিটি ও খরচ সাশ্রয়ের সম্ভাবনা জোর দিয়ে তাদেরকে আমাদের রিভার্স-বিড মার্কেটপ্লেসে প্রি-রেজিস্টার করতে রাজি করানোর জন্য প্রভাবশালী কোল্ড-কল স্ক্রিপ্ট ও ফলো-আপ ইমেইল সিকোয়েন্স লিখুন।",
+        },
+        psychology: {
+          en: "Leverages exclusivity and ROI framing to persuade cost-focused buyers.",
+          bn: "এক্সক্লুসিভিটি ও ROI কাঠামো ব্যবহার করে ব্যয়সচেতন ক্রেতাদের রাজি করায়।",
+        },
+      },
+      {
+        title: {
+          en: "Event-based engagement planner",
+          bn: "ইভেন্ট-ভিত্তিক এনগেজমেন্ট প্ল্যানার",
+        },
+        instructions: {
+          en: "Plan a live-streamed preview night for our NFT art auction. Outline the event flow, featured speakers/artists, audience interaction tactics, and pre/post-event marketing that maximizes bidder sign-ups and live attendance.",
+          bn: "আমাদের NFT আর্ট নিলামের জন্য একটি লাইভস্ট্রিমড প্রিভিউ নাইট পরিকল্পনা করুন। ইভেন্ট ফ্লো, বিশেষ বক্তা/শিল্পী, দর্শকদের সম্পৃক্ততার কৌশল এবং ইভেন্টের আগে-পরে মার্কেটিং পরিকল্পনা করুন যা বিডার সাইন-আপ ও লাইভ উপস্থিতি সর্বাধিক করে।",
+        },
+        psychology: {
+          en: "Combines immersive preview and community interaction to convert curious spectators.",
+          bn: "ইমার্সিভ প্রিভিউ ও কমিউনিটি ইন্টারঅ্যাকশন একত্রে এনে কৌতূহলী দর্শকদের রূপান্তরিত করে।",
+        },
+      },
+    ],
+  },
+  {
+    id: "midjourney",
+    icon: "palette",
+    title: {
+      en: "Midjourney scene prompts for trust-first bidding UIs",
+      bn: "ট্রাস্ট-প্রথম বিডিং UI-এর জন্য মিডজার্নি দৃশ্য প্রম্পট",
+    },
+    description: {
+      en: "Visual design blueprints that balance confidence, urgency, and simplicity for your marketplace creatives.",
+      bn: "আপনার মার্কেটপ্লেস ক্রিয়েটিভের জন্য আত্মবিশ্বাস, জরুরিতা ও সরলতার ভারসাম্য রক্ষা করা ভিজ্যুয়াল ডিজাইন ব্লুপ্রিন্ট।",
+    },
+    prompts: [
+      {
+        title: {
+          en: "Trust-building hero visual",
+          bn: "আস্থা সৃষ্টিকারী হিরো ভিজ্যুয়াল",
+        },
+        instructions: {
+          en: `/imagine Hero illustration for a transparent bidding dashboard, confident Bangladeshi entrepreneur placing a bid on a floating holo screen, warm aurora gradients, soft ambient light, inclusive product design details, UI overlay with trust badges and realtime analytics, ultra clean digital art --ar 16:9 --style raw --s 750 --q 2`,
+          bn: `/imagine স্বচ্ছ বিডিং ড্যাশবোর্ডের জন্য হিরো ইলাস্ট্রেশন, আত্মবিশ্বাসী বাংলাদেশি উদ্যোক্তা ভাসমান হলোগ্রাফিক স্ক্রিনে বিড দিচ্ছেন, উষ্ণ অরোরা গ্রেডিয়েন্ট, কোমল অ্যাম্বিয়েন্ট লাইট, অন্তর্ভুক্তিমূলক প্রোডাক্ট ডিজাইন ডিটেইল, ট্রাস্ট ব্যাজ ও রিয়েলটাইম অ্যানালিটিক্সসহ UI ওভারলে, অতিরিক্ত পরিষ্কার ডিজিটাল আর্ট --ar 16:9 --style raw --s 750 --q 2`,
+        },
+        psychology: {
+          en: "Uses eye contact, warm hues, and transparency cues to reduce bidder anxiety.",
+          bn: "চোখের যোগাযোগ, উষ্ণ রং ও স্বচ্ছতার সংকেত ব্যবহার করে বিডারের উদ্বেগ কমায়।",
+        },
+      },
+      {
+        title: {
+          en: "Calm urgency countdown module",
+          bn: "শান্ত জরুরিতা কাউন্টডাউন মডিউল",
+        },
+        instructions: {
+          en: `/imagine Minimalist countdown widget for an auction marketplace, rounded edges, breathable white space, soft teal and amber palette, motion blur accents, microcopy that reads "Early bids close in 02:45", design thinking aesthetic emphasizing calm urgency, UX shot --ar 4:5 --v 6 --style raw`,
+          bn: `/imagine নিলাম মার্কেটপ্লেসের জন্য মিনিমালিস্ট কাউন্টডাউন উইজেট, গোলাকার প্রান্ত, স্বচ্ছন্দ সাদা স্থান, কোমল টিল ও অ্যাম্বার রঙের প্যালেট, হালকা মোশন ব্লার অ্যাকসেন্ট, "Early bids close in 02:45" মাইক্রোকপি সহ, শান্ত জরুরিতাকে জোর দেয় এমন ডিজাইন থিংকিং নান্দনিকতা, UX শট --ar 4:5 --v 6 --style raw`,
+        },
+        psychology: {
+          en: "Signals time pressure without panic so planners stay engaged.",
+          bn: "প্যানিক ছাড়াই সময়ের চাপের সংকেত দিয়ে পরিকল্পনাকারীদের সম্পৃক্ত রাখে।",
+        },
+      },
+      {
+        title: {
+          en: "Community proof mosaic",
+          bn: "কমিউনিটি প্রুফ মোজাইক",
+        },
+        instructions: {
+          en: `/imagine Collage of diverse bidders smiling during a hybrid auction event, mix of live video frames and UI screenshots, gentle depth of field, celebratory confetti particles, headline overlay "Trusted by 12,400 bidders", brand colors emerald and saffron, cinematic lighting --ar 3:2 --style raw --q 2`,
+          bn: `/imagine হাইব্রিড নিলাম ইভেন্টে হাসিমুখের বৈচিত্র্যময় বিডারদের কোলাজ, লাইভ ভিডিও ফ্রেম ও UI স্ক্রিনশটের মিশ্রণ, কোমল ডেপথ অফ ফিল্ড, উদযাপনমূলক কনফেটি পার্টিকল, "Trusted by 12,400 bidders" হেডলাইন ওভারলে, ব্র্যান্ডের রং এমেরাল্ড ও জাফরানি, সিনেমাটিক লাইটিং --ar 3:2 --style raw --q 2`,
+        },
+        psychology: {
+          en: "Stacks social proof imagery to normalize bidding commitment.",
+          bn: "সোশ্যাল প্রুফের ইমেজারি স্তরবিন্যাস করে বিডিং প্রতিশ্রুতি স্বাভাবিক করে তোলে।",
+        },
+      },
+    ],
+  },
+  {
+    id: "google-nano-banana",
+    icon: "brain",
+    title: {
+      en: "Google Gemini Nano “Banana” micro-prompts",
+      bn: "গুগল জেমিনি ন্যানো “বানানা” মাইক্রো-প্রম্পট",
+    },
+    description: {
+      en: "On-device assistants tuned for quick reassurance loops, bias-free nudges, and contextual bidding guidance.",
+      bn: "অন-ডিভাইস সহকারী যেগুলো দ্রুত আশ্বাস, পক্ষপাতহীন নাজ ও প্রাসঙ্গিক বিডিং গাইডেন্সের জন্য টিউন করা।",
+    },
+    prompts: [
+      {
+        title: {
+          en: "Bid alert digest",
+          bn: "বিড অ্যালার্ট ডাইজেস্ট",
+        },
+        instructions: {
+          en: "Gemini Nano, act as a privacy-safe notifier named Banana Breeze. Summarize the top three bids I received in the last hour with amount, bidder intent sentiment, and one recommended response action. Keep the update under 80 words so I can glance at it between meetings.",
+          bn: "জেমিনি ন্যানো, তুমি বানানা ব্রিজ নামে একটি প্রাইভেসি-নিরাপদ নোটিফায়ার হিসেবে কাজ করো। গত এক ঘণ্টায় পাওয়া শীর্ষ তিনটি বিড পরিমাণ, বিডারের অভিপ্রায়ের সেন্টিমেন্ট এবং একটি প্রস্তাবিত প্রতিক্রিয়া পদক্ষেপসহ সংক্ষেপে তুলে ধরো। আপডেটটি ৮০ শব্দের মধ্যে রাখো যাতে মিটিংয়ের ফাঁকে দ্রুত পড়ে নিতে পারি।",
+        },
+        psychology: {
+          en: "Delivers concise reassurance that the market is active without overwhelming the seller.",
+          bn: "বিক্রেতাকে অপ্রয়োজনীয় চাপ না দিয়ে বাজার সক্রিয় আছে এমন আশ্বাস সংক্ষেপে দেয়।",
+        },
+      },
+      {
+        title: {
+          en: "Negotiation microcopy coach",
+          bn: "আলোচনা মাইক্রোকপি কোচ",
+        },
+        instructions: {
+          en: "Gemini Nano Banana, rewrite this counter-offer message so it keeps our premium tone but adds a cooperative line that reduces defensiveness. Output three variations ranked by how friendly, firm, and fast they feel.",
+          bn: "জেমিনি ন্যানো বানানা, এই কাউন্টার-অফার বার্তাটি পুনর্লিখন করো যাতে আমাদের প্রিমিয়াম টোন বজায় থাকে কিন্তু আত্মরক্ষামূলক মনোভাব কমাতে সহযোগিতামূলক একটি লাইন যোগ হয়। বন্ধুত্বপূর্ণ, দৃঢ় ও দ্রুততার অনুভূতির ভিত্তিতে তিনটি ভ্যারিয়েশন শ্রেণিবদ্ধ করে দাও।",
+        },
+        psychology: {
+          en: "Balances authority with warmth so buyers stay in the negotiation.",
+          bn: "অধিকার প্রতিষ্ঠার সাথে উষ্ণতা বজায় রাখে যাতে ক্রেতারা আলোচনায় থাকেন।",
+        },
+      },
+      {
+        title: {
+          en: "Voice note sentiment mirror",
+          bn: "ভয়েস নোট সেন্টিমেন্ট মিরর",
+        },
+        instructions: {
+          en: "Banana, analyze this bidder voice memo and return a quick mirror script I can play back acknowledging their concern, restating value, and inviting the next step. Cap it at 20 seconds for smooth playback.",
+          bn: "বানানা, এই বিডারের ভয়েস মেমো বিশ্লেষণ করে একটি দ্রুত মিরর স্ক্রিপ্ট দাও যাতে তাদের উদ্বেগ স্বীকার করা, মূল মূল্য পুনরায় ব্যাখ্যা করা এবং পরবর্তী ধাপের আমন্ত্রণ থাকে। মসৃণ প্লেব্যাকের জন্য ২০ সেকেন্ডের মধ্যে রাখো।",
+        },
+        psychology: {
+          en: "Reflects empathy to keep hesitant bidders emotionally engaged.",
+          bn: "সমবেদনা প্রতিফলিত করে দ্বিধাগ্রস্ত বিডারদের আবেগগতভাবে সম্পৃক্ত রাখে।",
+        },
+      },
+    ],
+  },
+  {
+    id: "video-prompts",
+    icon: "video",
+    title: {
+      en: "Video prompt scripts for auction storytelling",
+      bn: "নিলাম স্টোরিটেলিংয়ের জন্য ভিডিও প্রম্পট স্ক্রিপ্ট",
+    },
+    description: {
+      en: "Storyboard-ready prompts for Runway, Pika, or Synthesia clips that drive bids through narrative emotion.",
+      bn: "রানওয়ে, পিকা বা সিন্থেসিয়া ক্লিপের জন্য স্টোরিবোর্ড প্রস্তুত প্রম্পট যা গল্পের আবেগ দিয়ে বিড বাড়ায়।",
+    },
+    prompts: [
+      {
+        title: {
+          en: "30-second preview trailer",
+          bn: "৩০ সেকেন্ডের প্রিভিউ ট্রেলার",
+        },
+        instructions: {
+          en: `Generate a 30-second video script for a hybrid auction preview. Scene 1: close-up of premium lots with overlay stats. Scene 2: bidder testimonials in split-screen. Scene 3: host invite with animated countdown. Aim for uplifting music cues and end on a clear "Bid live this Friday" call-to-action.`,
+          bn: `একটি হাইব্রিড নিলাম প্রিভিউর জন্য ৩০ সেকেন্ডের ভিডিও স্ক্রিপ্ট তৈরি করুন। দৃশ্য ১: প্রিমিয়াম লটের ক্লোজ-আপ ওভারলে পরিসংখ্যানসহ। দৃশ্য ২: স্প্লিট-স্ক্রিনে বিডার টেস্টিমোনিয়াল। দৃশ্য ৩: এনিমেটেড কাউন্টডাউনসহ হোস্টের আমন্ত্রণ। উদ্দীপক সঙ্গীত নির্দেশ রাখুন এবং "Bid live this Friday" স্পষ্ট কল-টু-অ্যাকশনে শেষ করুন।`,
+        },
+        psychology: {
+          en: "Stacks authority, proof, and urgency in one micro-story to trigger commitment.",
+          bn: "একটি মাইক্রো-স্টোরিতে কর্তৃত্ব, প্রমাণ ও জরুরিতা একত্রে এনে প্রতিশ্রুতি উদ্দীপিত করে।",
+        },
+      },
+      {
+        title: {
+          en: "Buyer success reel",
+          bn: "ক্রেতা সফলতার রিল",
+        },
+        instructions: {
+          en: "Write a vertical video prompt that spotlights three bidder wins. Use motion typography for their savings percentages, overlay friendly host narration, and close with a swipe-up CTA to join the bidding room. Keep clips under 8 seconds each for social retention.",
+          bn: "তিনটি বিডারের সফলতা তুলে ধরার জন্য একটি ভার্টিকাল ভিডিও প্রম্পট লিখুন। তাদের সাশ্রয়ের শতাংশ মোশন টাইপোগ্রাফিতে দেখান, বন্ধুত্বপূর্ণ হোস্টের বর্ণনা ওভারলে করুন এবং বিডিং রুমে যোগ দেওয়ার জন্য সুইপ-আপ CTA দিয়ে শেষ করুন। সোশ্যাল রিটেনশনের জন্য প্রতিটি ক্লিপ ৮ সেকেন্ডের মধ্যে রাখুন।",
+        },
+        psychology: {
+          en: "Celebrates peer wins so prospective bidders imagine their own outcome.",
+          bn: "সহকর্মীদের সাফল্য উদযাপন করে সম্ভাব্য বিডারদের নিজেদের ফলাফল কল্পনা করতে সাহায্য করে।",
+        },
+      },
+      {
+        title: {
+          en: "Live-room atmosphere loop",
+          bn: "লাইভ রুম আবহ লুপ",
+        },
+        instructions: {
+          en: "Prompt a looping background video that shows the bidding room interface, subtle cursor movements, ambient chat bubbles, and a slow zoom toward the featured lot. Keep colors warm and typography crisp to suggest momentum without stress.",
+          bn: "একটি লুপিং ব্যাকগ্রাউন্ড ভিডিওর জন্য প্রম্পট লিখুন যেখানে বিডিং রুম ইন্টারফেস, সূক্ষ্ম কার্সর চলাচল, অ্যাম্বিয়েন্ট চ্যাট বাবল এবং ফিচার্ড লটের দিকে ধীর জুম দেখা যায়। রং উষ্ণ ও টাইপোগ্রাফি তীক্ষ্ণ রাখুন যাতে চাপ ছাড়াই গতি নির্দেশ করে।",
+        },
+        psychology: {
+          en: "Keeps attention anchored in the space so viewers feel ready to participate.",
+          bn: "দর্শকের মনোযোগকে সেই পরিবেশে স্থির রাখে যাতে তারা অংশ নিতে প্রস্তুত বোধ করে।",
+        },
+      },
+    ],
   },
 ];
 
@@ -547,6 +844,73 @@ const BidExchange = () => {
                           height: `${Math.max(8, (point / maxHistory) * 60)}px`,
                         }}
                       />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-20 space-y-10">
+          <div className="max-w-3xl space-y-4">
+            <p className="section-eyebrow">
+              {isEnglish ? "Design psychology playbooks" : "ডিজাইন সাইকোলজি প্লেবুক"}
+            </p>
+            <h3 className="section-heading text-balance text-emerald-950">
+              {isEnglish
+                ? "Pre-built bidder flows you can paste into your favorite models."
+                : "আপনার পছন্দের মডেলে পেস্ট করার মতো বিডার-কেন্দ্রিক ফ্লো তৈরি করা আছে।"}
+            </h3>
+            <p className="section-subheading">
+              {isEnglish
+                ? "Each card pairs a high-intent prompt with the psychology lever it activates so you ship assets fast."
+                : "প্রতিটি কার্ডে উচ্চ-ইচ্ছুক প্রম্পটের সাথে তার মনস্তাত্ত্বিক ট্রিগারও দেওয়া হয়েছে—যাতে দ্রুত সম্পদ তৈরি করতে পারেন।"}
+            </p>
+          </div>
+
+          <div className="grid gap-8">
+            {promptPlaybooks.map((playbook) => {
+              const Icon = iconMap[playbook.icon];
+              return (
+                <div
+                  key={playbook.id}
+                  className="glass-panel space-y-6 rounded-3xl border border-emerald-100 bg-white/85 p-8 shadow-[0_32px_65px_-42px_rgba(34,94,56,0.55)] backdrop-blur"
+                >
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <h4 className="text-xl font-semibold text-emerald-950">
+                        {isEnglish ? playbook.title.en : playbook.title.bn}
+                      </h4>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                        {isEnglish ? playbook.description.en : playbook.description.bn}
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-900">
+                      <Icon className="h-4 w-4" />
+                      <span>{isEnglish ? "Design cues" : "ডিজাইন সংকেত"}</span>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {playbook.prompts.map((prompt) => (
+                      <div
+                        key={prompt.title.en}
+                        className="rounded-2xl border border-emerald-100/70 bg-white/70 p-5 shadow-sm"
+                      >
+                        <h5 className="text-base font-semibold text-emerald-950">
+                          {isEnglish ? prompt.title.en : prompt.title.bn}
+                        </h5>
+                        <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                          {isEnglish ? prompt.instructions.en : prompt.instructions.bn}
+                        </p>
+                        <div className="mt-4 flex items-start gap-2 text-xs font-semibold text-emerald-700">
+                          <Lightbulb className="mt-0.5 h-4 w-4" />
+                          <span>
+                            {isEnglish ? prompt.psychology.en : prompt.psychology.bn}
+                          </span>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
