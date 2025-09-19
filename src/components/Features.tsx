@@ -30,8 +30,18 @@ const Features = () => {
   const isEnglish = language === "en";
 
   return (
-    <section id="value" className="section relative">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+    <section id="value" className="section relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(247, 255, 246, 0.82) 0%, rgba(255, 246, 223, 0.7) 55%, rgba(255, 255, 255, 0.9) 100%)",
+          }}
+        />
+        <div className="absolute -top-24 left-[-10%] h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(34, 94, 56, 0.18)" }} />
+        <div className="absolute -bottom-28 right-[-12%] h-80 w-80 rounded-full blur-[130px]" style={{ background: "rgba(217, 119, 6, 0.2)" }} />
+      </div>
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="section-eyebrow">Creator Economy 2025</p>
@@ -49,10 +59,13 @@ const Features = () => {
           {pillars.map((pillar) => (
             <div
               key={pillar.titleEn}
-              className="glass-panel flex h-full flex-col gap-4 rounded-3xl p-8 text-left"
+              className="glass-panel flex h-full flex-col gap-5 rounded-3xl p-8 text-left shadow-[0_32px_65px_-40px_rgba(34,94,56,0.45)]"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15 text-primary">
-                <pillar.icon className="h-5 w-5" />
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-[0_24px_40px_-24px_rgba(27,67,50,0.65)]"
+                style={{ backgroundImage: "var(--gradient-aurora)" }}
+              >
+                <pillar.icon className="h-5 w-5" aria-hidden="true" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-foreground">

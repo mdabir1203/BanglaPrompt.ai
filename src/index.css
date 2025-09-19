@@ -9,6 +9,8 @@
     --bd-gold: 45 93% 58%;
     --bd-crimson: 350 84% 40%;
     --bd-emerald: 140 60% 35%;
+    --bd-teal: 168 68% 38%;
+    --bd-sunrise: 22 96% 58%;
 
     --charcoal: 222 47% 11%;
     --cloud: 210 20% 98%;
@@ -46,6 +48,12 @@
     --gradient-nature: linear-gradient(135deg, hsl(var(--bd-emerald)), hsl(var(--emerald)));
     --gradient-aurora: linear-gradient(135deg, hsl(var(--emerald)) 0%, hsl(var(--sungold)) 48%, hsl(var(--sky)) 100%);
     --gradient-midnight: linear-gradient(135deg, rgba(31, 56, 43, 0.92), rgba(96, 20, 20, 0.9));
+    --gradient-sunlit: radial-gradient(circle at 12% 18%, rgba(34, 94, 56, 0.22), transparent 55%),
+      radial-gradient(circle at 88% 12%, rgba(217, 119, 6, 0.2), transparent 60%),
+      radial-gradient(circle at 82% 82%, rgba(220, 38, 38, 0.18), transparent 58%);
+    --surface-hero: linear-gradient(140deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 52%, rgba(255, 245, 230, 0.92) 100%);
+    --surface-card: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 255, 246, 0.93) 48%, rgba(255, 242, 226, 0.95) 100%);
+    --surface-highlight: linear-gradient(160deg, rgba(34, 94, 56, 0.08) 0%, rgba(217, 119, 6, 0.1) 55%, rgba(220, 38, 38, 0.1) 100%);
 
     --shadow-cultural: 0 10px 30px -10px hsl(var(--emerald) / 0.35);
     --shadow-prosperity: 0 0 40px hsl(var(--sungold) / 0.4);
@@ -81,8 +89,13 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    color-scheme: light;
     background-color: hsl(var(--background));
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image:
+      var(--gradient-sunlit),
+      url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233f6212' fill-opacity='0.08'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover, 52px 26px;
   }
 
   html {
@@ -163,7 +176,49 @@
   }
 
   .glass-panel {
-    @apply bg-white/90 backdrop-blur-xl border border-white/70;
+    @apply backdrop-blur-xl border border-white/70;
+    background: var(--surface-card);
     box-shadow: var(--shadow-cultural);
+  }
+
+  .illuminated-card {
+    position: relative;
+    background: var(--surface-card);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .illuminated-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--surface-highlight);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .illuminated-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-panel {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(27, 67, 50, 0.95) 0%, rgba(217, 119, 6, 0.92) 55%, rgba(220, 38, 38, 0.88) 100%);
+    box-shadow: 0 40px 85px -40px rgba(27, 67, 50, 0.75);
+  }
+
+  .hero-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 58%),
+      radial-gradient(circle at 80% 10%, rgba(255, 248, 232, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-panel > * {
+    position: relative;
+    z-index: 1;
   }
 }
