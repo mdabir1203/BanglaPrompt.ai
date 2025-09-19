@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { Globe2, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const navLinks = [
+  { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
+  { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
+  { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
+  { href: "#pricing", labelEn: "Pricing", labelBn: "প্রাইসিং" },
+  { href: "#insights", labelEn: "Insights", labelBn: "ইনসাইটস" },
+  { href: "#support", labelEn: "Support", labelBn: "সাপোর্ট" },
+];
 
 const NAV_LINKS = [
   { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
@@ -16,7 +26,8 @@ type LanguageCode = "en" | "bn";
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeLanguage, setActiveLanguage] = useState<LanguageCode>("en");
+  const { language, setLanguage } = useLanguage();
+  const isEnglish = language === "en";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,10 +37,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = activeLanguage;
-  }, [activeLanguage]);
 
   const renderNavLinks = (className?: string) =>
     NAV_LINKS.map((link) => (
@@ -42,8 +49,7 @@ const Navbar = () => {
         )}
         onClick={() => setMenuOpen(false)}
       >
-        <span>{link.labelEn}</span>
-        <span className="text-[0.7rem] tracking-wide text-muted-foreground">{link.labelBn}</span>
+        <span>{isEnglish ? link.labelEn : link.labelBn}</span>
       </a>
     ));
 
@@ -76,10 +82,10 @@ const Navbar = () => {
             <Globe2 className="h-4 w-4 text-primary" />
             <button
               type="button"
-              onClick={() => setActiveLanguage("en")}
+              onClick={() => setLanguage("en")}
               className={cn(
                 "rounded-full px-2 py-1 font-medium transition-colors",
-                activeLanguage === "en" ? "bg-primary text-white" : "text-muted-foreground",
+                isEnglish ? "bg-primary text-white" : "text-muted-foreground",
               )}
             >
               EN
@@ -87,10 +93,10 @@ const Navbar = () => {
             <span className="text-muted-foreground/60">|</span>
             <button
               type="button"
-              onClick={() => setActiveLanguage("bn")}
+              onClick={() => setLanguage("bn")}
               className={cn(
                 "rounded-full px-2 py-1 font-medium transition-colors",
-                activeLanguage === "bn" ? "bg-primary text-white" : "text-muted-foreground",
+                !isEnglish ? "bg-primary text-white" : "text-muted-foreground",
               )}
             >
               বাংলা
@@ -101,16 +107,14 @@ const Navbar = () => {
             href="/community/prompts"
             className="text-right text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
           >
-            <span>Sign In</span>
-            <span className="block text-[0.7rem] font-normal text-muted-foreground/80">সাইন ইন</span>
+            <span>{isEnglish ? "Sign In" : "সাইন ইন"}</span>
           </a>
 
           <a
             href="#cta"
             className="rounded-full bg-[var(--gradient-aurora)] px-5 py-2 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]"
           >
-            <span>Get Started</span>
-            <span className="block text-[0.7rem] font-medium text-white/80">আজই শুরু করুন</span>
+            <span>{isEnglish ? "Get Started" : "আজই শুরু করুন"}</span>
           </a>
         </div>
 
@@ -135,10 +139,10 @@ const Navbar = () => {
               <div className="flex items-center gap-1">
                 <button
                   type="button"
-                  onClick={() => setActiveLanguage("en")}
+                  onClick={() => setLanguage("en")}
                   className={cn(
                     "rounded-full px-3 py-1 text-xs font-semibold",
-                    activeLanguage === "en"
+                    isEnglish
                       ? "bg-primary text-white shadow-sm"
                       : "text-muted-foreground hover:text-foreground",
                   )}
@@ -147,10 +151,10 @@ const Navbar = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setActiveLanguage("bn")}
+                  onClick={() => setLanguage("bn")}
                   className={cn(
                     "rounded-full px-3 py-1 text-xs font-semibold",
-                    activeLanguage === "bn"
+                    !isEnglish
                       ? "bg-primary text-white shadow-sm"
                       : "text-muted-foreground hover:text-foreground",
                   )}
@@ -167,15 +171,13 @@ const Navbar = () => {
                 href="/community/prompts"
                 className="rounded-xl border border-muted-foreground/20 px-4 py-3 text-sm font-semibold text-foreground shadow-sm"
               >
-                <span className="block">Sign In</span>
-                <span className="text-[0.75rem] font-normal text-muted-foreground">সাইন ইন</span>
+                <span className="block">{isEnglish ? "Sign In" : "সাইন ইন"}</span>
               </a>
               <a
                 href="#cta"
                 className="rounded-xl bg-[var(--gradient-aurora)] px-4 py-3 text-sm font-semibold text-white shadow-[var(--shadow-soft)]"
               >
-                <span className="block">Get Started</span>
-                <span className="text-[0.75rem] font-medium text-white/80">আজই শুরু করুন</span>
+                <span className="block">{isEnglish ? "Get Started" : "আজই শুরু করুন"}</span>
               </a>
             </div>
           </div>

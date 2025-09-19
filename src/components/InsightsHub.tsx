@@ -1,4 +1,5 @@
 import { FileText, Library, NotebookPen } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const resources = [
   {
@@ -34,22 +35,23 @@ const resources = [
 ];
 
 const InsightsHub = () => {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+
   return (
     <section id="insights" className="section bg-gradient-to-b from-background to-primary/10">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="section-eyebrow">Insights & Research</p>
+          <p className="section-eyebrow">{isEnglish ? "Insights & Research" : "ইনসাইটস ও রিসার্চ"}</p>
           <h2 className="section-heading">
-            Intelligence hub for the Bengali prompt economy.
-            <span className="block text-xl font-medium text-muted-foreground md:text-2xl">
-              বাংলা প্রম্পট অর্থনীতির ইন্টেলিজেন্স হাব।
-            </span>
+            {isEnglish
+              ? "Intelligence hub for the Bengali prompt economy."
+              : "বাংলা প্রম্পট অর্থনীতির ইন্টেলিজেন্স হাব।"}
           </h2>
           <p className="section-subheading mx-auto mt-6">
-            Strategic research grounded in product rigour and cultural intelligence—built to help teams scale prompt commerce responsibly.
-          </p>
-          <p className="section-subheading mx-auto mt-2 text-muted-foreground">
-            পণ্যের নিখুঁততা ও সাংস্কৃতিক বুদ্ধিমত্তার মেলবন্ধনে তৈরি কৌশলগত রিসার্চ—যা টিমগুলোকে দায়িত্বশীলভাবে প্রম্পট কমার্স স্কেল করতে সহায়তা করে।
+            {isEnglish
+              ? "Strategic research grounded in product rigour and cultural intelligence—built to help teams scale prompt commerce responsibly."
+              : "পণ্যের নিখুঁততা ও সাংস্কৃতিক বুদ্ধিমত্তার মেলবন্ধনে তৈরি কৌশলগত রিসার্চ—যা টিমগুলোকে দায়িত্বশীলভাবে প্রম্পট কমার্স স্কেল করতে সহায়তা করে।"}
           </p>
         </div>
 
@@ -64,13 +66,13 @@ const InsightsHub = () => {
                 <resource.icon className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-foreground">
-                {resource.titleEn}
-                <span className="mt-1 block text-base font-medium text-primary/80">{resource.titleBn}</span>
+                {isEnglish ? resource.titleEn : resource.titleBn}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{resource.summaryEn}</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">{resource.summaryBn}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {isEnglish ? resource.summaryEn : resource.summaryBn}
+              </p>
               <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                Download briefing • ব্রিফিং ডাউনলোড
+                {isEnglish ? "Download briefing" : "ব্রিফিং ডাউনলোড"}
                 <span aria-hidden>→</span>
               </span>
             </a>

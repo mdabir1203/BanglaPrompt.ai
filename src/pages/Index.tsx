@@ -21,6 +21,8 @@ import PricingTransparency from "@/components/PricingTransparency";
 import GlobalCommunity from "@/components/GlobalCommunity";
 import InsightsHub from "@/components/InsightsHub";
 import FinalCTA from "@/components/FinalCTA";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -34,12 +36,13 @@ const Index = () => {
   useAnalytics();
   
   return (
-    <div className="min-h-screen">
-      <SEOHead />
-      <SecurityHeaders />
-      <PerformanceOptimizer />
-      
-      <OptimizedAdLayout>
+    <LanguageProvider>
+      <div className="min-h-screen">
+        <SEOHead />
+        <SecurityHeaders />
+        <PerformanceOptimizer />
+
+        <OptimizedAdLayout>
         <Navbar />
         <Hero />
         <Features />
@@ -82,7 +85,8 @@ const Index = () => {
       <Suspense fallback={null}>
         <LazyNewsletterConversionPopup />
       </Suspense>
-    </div>
+      </div>
+    </LanguageProvider>
   );
 };
 

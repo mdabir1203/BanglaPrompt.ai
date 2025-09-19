@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Coins, LineChart, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Audience = "creators" | "enterprise";
 
@@ -54,25 +55,31 @@ const tiers: Record<Audience, {
 };
 
 const PricingTransparency = () => {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
   const [audience, setAudience] = useState<Audience>("creators");
   const tier = tiers[audience];
+  const tierHeadline = isEnglish ? tier.headlineEn : tier.headlineBn;
+  const tierPrice = isEnglish ? tier.price : tier.priceBn;
+  const tierDescription = isEnglish ? tier.descriptionEn : tier.descriptionBn;
+  const tierFeatures = isEnglish ? tier.features : tier.featuresBn;
+  const tierCta = isEnglish ? tier.cta : tier.ctaBn;
+
 
   return (
     <section id="pricing" className="section bg-gradient-to-b from-primary/5 via-transparent to-background">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="text-center">
-          <p className="section-eyebrow">Pricing & Revenue Transparency</p>
+          <p className="section-eyebrow">{isEnglish ? "Pricing & Revenue Transparency" : "প্রাইসিং ও রেভিনিউ স্বচ্ছতা"}</p>
           <h2 className="section-heading">
-            Predictable economics for every collaborator.
-            <span className="block text-xl font-medium text-muted-foreground md:text-2xl">
-              প্রত্যেক অংশীদারের জন্য পূর্বানুমানযোগ্য অর্থনীতি।
-            </span>
+            {isEnglish
+              ? "Predictable economics for every collaborator."
+              : "প্রত্যেক অংশীদারের জন্য পূর্বানুমানযোগ্য অর্থনীতি।"}
           </h2>
           <p className="section-subheading mx-auto mt-6">
-            Designed for prompt sellers and enterprise buyers alike—clear splits, zero hidden fees, and proactive growth insights.
-          </p>
-          <p className="section-subheading mx-auto mt-2 text-muted-foreground">
-            প্রম্পট নির্মাতা ও এন্টারপ্রাইজ ক্রেতা—দু’পক্ষের জন্যই স্বচ্ছ ভাগাভাগি, কোন গোপন চার্জ নয় এবং অগ্রগতির পূর্বাভাস।
+            {isEnglish
+              ? "Designed for prompt sellers and enterprise buyers alike—clear splits, zero hidden fees, and proactive growth insights."
+              : "প্রম্পট নির্মাতা ও এন্টারপ্রাইজ ক্রেতা—দু’পক্ষের জন্যই স্বচ্ছ ভাগাভাগি, কোন গোপন চার্জ নয় এবং অগ্রগতির পূর্বাভাস।"}
           </p>
         </div>
 
@@ -86,7 +93,7 @@ const PricingTransparency = () => {
                 : "bg-white text-muted-foreground hover:text-foreground"
             }`}
           >
-            Creators • নির্মাতা
+            {isEnglish ? "Creators" : "ক্রিয়েটরস"}
           </button>
           <button
             type="button"
@@ -97,7 +104,7 @@ const PricingTransparency = () => {
                 : "bg-white text-muted-foreground hover:text-foreground"
             }`}
           >
-            Enterprise • এন্টারপ্রাইজ
+            {isEnglish ? "Enterprise" : "এন্টারপ্রাইজ"}
           </button>
         </div>
 
@@ -105,25 +112,21 @@ const PricingTransparency = () => {
           <div className="rounded-[2rem] border border-white/60 bg-white/80 p-8 shadow-[var(--shadow-soft)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">{tier.headlineEn}</p>
-                <p className="text-sm font-medium text-primary/80">{tier.headlineBn}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">{tierHeadline}</p>
               </div>
               <Coins className="h-6 w-6 text-primary" />
             </div>
 
             <div className="mt-6">
-              <p className="text-3xl font-semibold text-foreground">{tier.price}</p>
-              <p className="text-lg text-muted-foreground">{tier.priceBn}</p>
+              <p className="text-3xl font-semibold text-foreground">{tierPrice}</p>
             </div>
 
-            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{tier.descriptionEn}</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">{tier.descriptionBn}</p>
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{tierDescription}</p>
 
             <div className="mt-8 grid gap-3 text-sm text-muted-foreground">
-              {tier.features.map((feature, index) => (
+              {tierFeatures.map((feature) => (
                 <div key={feature} className="rounded-2xl border border-muted-foreground/20 bg-background/80 p-4">
                   <p className="text-foreground">{feature}</p>
-                  <p className="text-muted-foreground">{tier.featuresBn[index]}</p>
                 </div>
               ))}
             </div>
@@ -132,7 +135,7 @@ const PricingTransparency = () => {
               href={audience === "creators" ? "/community/submit" : "#enterprise"}
               className="mt-8 inline-flex items-center justify-center rounded-full bg-[var(--gradient-aurora)] px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]"
             >
-              {tier.cta} • {tier.ctaBn}
+              {tierCta}
             </a>
           </div>
 
@@ -141,15 +144,15 @@ const PricingTransparency = () => {
               <div className="flex items-center gap-3">
                 <LineChart className="h-6 w-6 text-secondary" />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Predictive royalty modeling</p>
-                  <p className="text-xs text-muted-foreground">প্রেডিক্টিভ রয়্যালটি মডেলিং</p>
+                  <p className="text-sm font-semibold text-foreground">
+                    {isEnglish ? "Predictive royalty modeling" : "প্রেডিক্টিভ রয়্যালটি মডেলিং"}
+                  </p>
                 </div>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                See future payout trends before you launch. Toggle between USD, BDT, EUR, and SAR projections in a single pane.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                লঞ্চের আগেই পেআউট ট্রেন্ড দেখে নিন। USD, BDT, EUR ও SAR পূর্বাভাস একসাথে পর্যবেক্ষণ করুন।
+                {isEnglish
+                  ? "See future payout trends before you launch. Toggle between USD, BDT, EUR, and SAR projections in a single pane."
+                  : "লঞ্চের আগেই পেআউট ট্রেন্ড দেখে নিন। USD, BDT, EUR ও SAR পূর্বাভাস একসাথে পর্যবেক্ষণ করুন।"}
               </p>
             </div>
 
@@ -157,15 +160,15 @@ const PricingTransparency = () => {
               <div className="flex items-center gap-3">
                 <ShieldCheck className="h-6 w-6 text-primary" />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Fairness charter</p>
-                  <p className="text-xs text-muted-foreground">ফেয়ারনেস চার্টার</p>
+                  <p className="text-sm font-semibold text-foreground">
+                    {isEnglish ? "Fairness charter" : "ফেয়ারনেস চার্টার"}
+                  </p>
                 </div>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                Transparent dispute resolution, co-creation credits, and legal-safe collaboration agreements.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                স্বচ্ছ বিরোধ নিষ্পত্তি, কো-ক্রিয়েশন ক্রেডিট এবং আইন-সম্মত সহযোগিতা চুক্তি।
+                {isEnglish
+                  ? "Transparent dispute resolution, co-creation credits, and legal-safe collaboration agreements."
+                  : "স্বচ্ছ বিরোধ নিষ্পত্তি, কো-ক্রিয়েশন ক্রেডিট এবং আইন-সম্মত সহযোগিতা চুক্তি।"}
               </p>
             </div>
           </div>

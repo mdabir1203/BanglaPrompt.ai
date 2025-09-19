@@ -1,3 +1,6 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+
+
 const footerLinks = [
   {
     headingEn: "Product",
@@ -28,8 +31,17 @@ const footerLinks = [
   },
 ];
 
+const complianceItems = [
+  { en: "GDPR Ready", bn: "GDPR প্রস্তুত" },
+  { en: "ISO 27001", bn: "ISO 27001" },
+  { en: "SOC 2", bn: "SOC 2" },
+  { en: "Bangladesh Data Protection", bn: "বাংলাদেশ ডেটা প্রোটেকশন" },
+];
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
 
   return (
     <footer className="bg-[#0C1115] text-white">
@@ -43,38 +55,40 @@ const Footer = () => {
               <div>
                 <p className="text-base font-semibold">BanglaPrompt.ai</p>
                 <p className="text-xs uppercase tracking-[0.3em] text-white/70">
-                  Bangladesh’s first prompt marketplace • Global reach
+                  {isEnglish
+                    ? "Bangladesh’s first prompt marketplace • Global reach"
+                    : "বাংলাদেশের প্রথম প্রম্পট মার্কেটপ্লেস • গ্লোবাল রিচ"}
                 </p>
               </div>
             </div>
             <p className="text-sm leading-relaxed text-white/70 md:text-base">
-              A global AI prompt marketplace connecting Bengali prompt creators with international buyers through bilingual storefronts, transparent revenue operations, and compliance-ready tooling.
-            </p>
-            <p className="text-sm leading-relaxed text-white/70 md:text-base">
-              দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে BanglaPrompt.ai।
+              {isEnglish
+                ? "A global AI prompt marketplace connecting Bengali prompt creators with international buyers through bilingual storefronts, transparent revenue operations, and compliance-ready tooling."
+                : "দ্বিভাষিক স্টোরফ্রন্ট, স্বচ্ছ আয় ব্যবস্থাপনা ও কমপ্লায়েন্স-প্রস্তুত টুলিংয়ের মাধ্যমে বাংলা প্রম্পট নির্মাতাদেরকে আন্তর্জাতিক ক্রেতাদের সাথে যুক্ত করে BanglaPrompt.ai।"}
             </p>
           </div>
 
           <div className="grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-white/80 backdrop-blur">
-            <p className="font-semibold uppercase tracking-[0.3em] text-white/60">Stay ahead</p>
-            <p className="text-sm text-white/80">
-              Subscribe for bilingual insights on the 2025 creator economy, localisation strategy, and responsible AI practices.
+            <p className="font-semibold uppercase tracking-[0.3em] text-white/60">
+              {isEnglish ? "Stay ahead" : "আপডেট থাকুন"}
             </p>
-            <p className="text-sm text-white/70">
-              দ্বিভাষিক ইনসাইট পেতে সাবস্ক্রাইব করুন—২০২৫ ক্রিয়েটর ইকোনমি, লোকালাইজেশন কৌশল ও রেসপনসিবল এআই সম্পর্কে।
+            <p className="text-sm text-white/80">
+              {isEnglish
+                ? "Subscribe for insights on the 2025 creator economy, localisation strategy, and responsible AI practices."
+                : "২০২৫ ক্রিয়েটর ইকোনমি, লোকালাইজেশন কৌশল ও রেসপনসিবল এআই সম্পর্কে ইনসাইটস পেতে সাবস্ক্রাইব করুন।"}
             </p>
             <form className="mt-4 flex flex-col gap-3 sm:flex-row">
               <input
                 type="email"
                 required
-                placeholder="Work email / কর্মস্থলের ইমেইল"
+                placeholder={isEnglish ? "Work email" : "কর্মস্থলের ইমেইল"}
                 className="flex-1 rounded-full border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-white focus:outline-none"
               />
               <button
                 type="submit"
                 className="rounded-full bg-[var(--gradient-aurora)] px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]"
               >
-                Subscribe • সাবস্ক্রাইব
+                {isEnglish ? "Subscribe" : "সাবস্ক্রাইব"}
               </button>
             </form>
           </div>
@@ -84,18 +98,13 @@ const Footer = () => {
           {footerLinks.map((group) => (
             <div key={group.headingEn}>
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
-                {group.headingEn}
+                {isEnglish ? group.headingEn : group.headingBn}
               </p>
-              <p className="text-xs text-white/60">{group.headingBn}</p>
               <ul className="mt-4 space-y-3 text-sm text-white/70">
                 {group.links.map((link) => (
                   <li key={link.labelEn}>
-                    <a
-                      href={link.href}
-                      className="transition-colors hover:text-white"
-                    >
-                      {link.labelEn}
-                      <span className="block text-xs text-white/60">{link.labelBn}</span>
+                    <a href={link.href} className="transition-colors hover:text-white">
+                      {isEnglish ? link.labelEn : link.labelBn}
                     </a>
                   </li>
                 ))}
@@ -104,22 +113,25 @@ const Footer = () => {
           ))}
 
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">Compliance</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
+              {isEnglish ? "Compliance" : "কমপ্লায়েন্স"}
+            </p>
             <ul className="space-y-2 text-sm text-white/70">
-              <li>GDPR • GDPR প্রস্তুত</li>
-              <li>ISO 27001 • ISO 27001</li>
-              <li>SOC 2 • SOC 2</li>
-              <li>Bangladesh Data Protection • বাংলাদেশ ডেটা প্রোটেকশন</li>
+              {complianceItems.map((item) => (
+                <li key={item.en}>{isEnglish ? item.en : item.bn}</li>
+              ))}
             </ul>
             <p className="text-xs text-white/60">
-              Data residency: Singapore • Frankfurt • Mumbai • Dhaka
+              {isEnglish
+                ? "Data residency: Singapore • Frankfurt • Mumbai • Dhaka"
+                : "ডাটা রেসিডেন্সি: সিঙ্গাপুর • ফ্রাঙ্কফুর্ট • মুম্বাই • ঢাকা"}
             </p>
           </div>
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
-          <p>© {currentYear} BanglaPrompt.ai. All rights reserved.</p>
-          <p>বাংলা এবং ইংরেজি—দুই ভাষাতেই স্বচ্ছতা ও আস্থা।</p>
+          <p>© {currentYear} BanglaPrompt.ai. {isEnglish ? "All rights reserved." : "সমস্ত স্বত্ব সংরক্ষিত।"}</p>
+          <p>{isEnglish ? "Built with Bengali creativity for global teams." : "বাংলা সৃজনশীলতায় নির্মিত—গ্লোবাল টিমের জন্য।"}</p>
         </div>
       </div>
     </footer>

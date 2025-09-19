@@ -1,4 +1,5 @@
 import { Lightbulb, ShieldCheck, Sparkle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const pillars = [
   {
@@ -25,6 +26,9 @@ const pillars = [
 ];
 
 const Features = () => {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+
   return (
     <section id="value" className="section relative">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
@@ -32,16 +36,12 @@ const Features = () => {
         <div className="mx-auto max-w-3xl text-center">
           <p className="section-eyebrow">Creator Economy 2025</p>
           <h2 className="section-heading">
-            Fortune 500 confidence. Bengali soul.
-            <span className="block text-xl font-medium text-muted-foreground md:text-2xl">
-              ফর্চুন ৫০০ মানের নিশ্চয়তা। বাঙালি আবেগের সুর।
-            </span>
+            {isEnglish ? "Fortune 500 confidence. Bengali soul." : "ফর্চুন ৫০০ মানের নিশ্চয়তা। বাঙালি আবেগের সুর।"}
           </h2>
           <p className="section-subheading mx-auto mt-6">
-            Human-centred prompt commerce keeps Bengali creativity visible while packaging revenue clarity, governance, and accessibility for enterprise teams.
-          </p>
-          <p className="section-subheading mx-auto mt-2 text-muted-foreground">
-            মানব-কেন্দ্রিক প্রম্পট কমার্স বাংলা সৃজনশীলতাকে সামনে আনে, একই সাথে এন্টারপ্রাইজ টিমের জন্য স্বচ্ছ আয়, গভর্নেন্স ও অ্যাক্সেসিবিলিটি নিশ্চিত করে।
+            {isEnglish
+              ? "Human-centred prompt commerce keeps Bengali creativity visible while packaging revenue clarity, governance, and accessibility for enterprise teams."
+              : "মানব-কেন্দ্রিক প্রম্পট কমার্স বাংলা সৃজনশীলতাকে সামনে আনে, একই সাথে এন্টারপ্রাইজ টিমের জন্য স্বচ্ছ আয়, গভর্নেন্স ও অ্যাক্সেসিবিলিটি নিশ্চিত করে।"}
           </p>
         </div>
 
@@ -56,14 +56,10 @@ const Features = () => {
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-foreground">
-                  {pillar.titleEn}
-                  <span className="mt-1 block text-base font-medium text-primary/80">{pillar.titleBn}</span>
+                  {isEnglish ? pillar.titleEn : pillar.titleBn}
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  {pillar.descriptionEn}
-                </p>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {pillar.descriptionBn}
+                  {isEnglish ? pillar.descriptionEn : pillar.descriptionBn}
                 </p>
               </div>
             </div>

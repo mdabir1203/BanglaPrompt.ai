@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BarChart3, Building2, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const enterpriseTracks = [
   {
@@ -72,6 +73,8 @@ const complianceBadges = [
 ];
 
 const About = () => {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
   const [activeTrack, setActiveTrack] = useState(enterpriseTracks[0].key);
   const track = enterpriseTracks.find((item) => item.key === activeTrack) ?? enterpriseTracks[0];
 
@@ -80,38 +83,30 @@ const About = () => {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-8">
-            <p className="section-eyebrow">Enterprise Solutions</p>
+            <p className="section-eyebrow">{isEnglish ? "Enterprise Solutions" : "এন্টারপ্রাইজ সল্যুশন"}</p>
             <h2 className="section-heading">
-              Cultural intelligence with enterprise rigour.
-              <span className="block text-xl font-medium text-muted-foreground md:text-2xl">
-                সাংস্কৃতিক বুদ্ধিমত্তা, এন্টারপ্রাইজ কঠোরতার সাথে।
-              </span>
+              {isEnglish
+                ? "Cultural intelligence with enterprise rigour."
+                : "সাংস্কৃতিক বুদ্ধিমত্তা, এন্টারপ্রাইজ কঠোরতার সাথে।"}
             </h2>
             <p className="section-subheading">
-              Launch culturally fluent AI experiences across South Asia, the Middle East, and diaspora markets with audit-grade oversight.
+              {isEnglish
+                ? "Launch culturally fluent AI experiences across South Asia, the Middle East, and diaspora markets with audit-grade oversight."
+                : "দক্ষিণ এশিয়া, মধ্যপ্রাচ্য ও প্রবাসী বাজারে সাংস্কৃতিকভাবে প্রাসঙ্গিক এআই অভিজ্ঞতা চালু করুন, অডিটযোগ্য নজরদারির নিশ্চয়তাসহ।"}
             </p>
-            <p className="section-subheading text-muted-foreground">
-              দক্ষিণ এশিয়া, মধ্যপ্রাচ্য ও প্রবাসী বাজারে সাংস্কৃতিকভাবে প্রাসঙ্গিক এআই অভিজ্ঞতা চালু করুন, অডিটযোগ্য নজরদারির নিশ্চয়তাসহ।
-            </p>
-
             <div className="glass-panel rounded-[2rem] p-8">
               <div className="grid gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
                 {complianceBadges.map((badge) => (
-                  <span
-                    key={badge.labelEn}
-                    className="rounded-full border border-white/60 bg-white/70 px-4 py-2 text-center shadow-sm"
-                  >
-                    {badge.labelEn}
-                    <span className="block text-[0.65rem] font-medium text-muted-foreground/80">{badge.labelBn}</span>
+                  <span key={badge.labelEn} className="rounded-full border border-white/60 bg-white/70 px-4 py-2 text-center shadow-sm">
+                    {isEnglish ? badge.labelEn : badge.labelBn}
                   </span>
                 ))}
               </div>
 
               <p className="mt-6 text-sm text-muted-foreground">
-                Each enterprise deployment includes bilingual onboarding, governance workshops, and white-glove migration from legacy prompt repositories.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                প্রতিটি এন্টারপ্রাইজ ডিপ্লয়মেন্টে থাকে দ্বিভাষিক অনবোর্ডিং, গভর্নেন্স ওয়ার্কশপ এবং লেগেসি প্রম্পট রিপোজিটরি থেকে হোয়াইট-গ্লাভ মাইগ্রেশন।
+                {isEnglish
+                  ? "Each enterprise deployment includes bilingual onboarding, governance workshops, and white-glove migration from legacy prompt repositories."
+                  : "প্রতিটি এন্টারপ্রাইজ ডিপ্লয়মেন্টে থাকে অনবোর্ডিং, গভর্নেন্স ওয়ার্কশপ এবং লেগেসি প্রম্পট রিপোজিটরি থেকে হোয়াইট-গ্লাভ মাইগ্রেশন।"}
               </p>
             </div>
           </div>
@@ -129,33 +124,28 @@ const About = () => {
                       : "bg-white text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {item.titleEn}
+                  {isEnglish ? item.titleEn : item.titleBn}
                 </button>
               ))}
             </div>
-
             <div className="mt-6 rounded-3xl border border-muted-foreground/20 bg-background/80 p-6 shadow-sm">
               <div className="flex items-center gap-3">
                 <track.icon className="h-10 w-10 text-primary" />
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground">{track.titleEn}</h3>
-                  <p className="text-sm font-medium text-primary/80">{track.titleBn}</p>
-                </div>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {isEnglish ? track.titleEn : track.titleBn}
+                </h3>
               </div>
 
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{track.descriptionEn}</p>
-              <p className="text-sm leading-relaxed text-muted-foreground">{track.descriptionBn}</p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                {isEnglish ? track.descriptionEn : track.descriptionBn}
+              </p>
 
               <div className="mt-6 grid gap-3 text-sm text-muted-foreground">
-                {track.highlights.map((highlight, index) => {
-                  const localized = track.highlightsBn[index] ?? highlight;
-                  return (
-                    <div key={highlight} className="rounded-2xl border border-muted-foreground/20 bg-white/80 p-3">
-                      <p className="text-foreground">{highlight}</p>
-                      <p className="text-muted-foreground">{localized}</p>
-                    </div>
-                  );
-                })}
+                {(isEnglish ? track.highlights : track.highlightsBn).map((highlight) => (
+                  <div key={highlight} className="rounded-2xl border border-muted-foreground/20 bg-white/80 p-3">
+                    <p className="text-foreground">{highlight}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

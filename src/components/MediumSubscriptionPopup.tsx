@@ -2,34 +2,42 @@ import { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, X, Users, Star, TrendingUp } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const MediumSubscriptionPopup = () => {
+  const { language } = useLanguage();
+  const isBn = language === 'bn';
+
   const [isOpen, setIsOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes countdown
+  const [timeLeft, setTimeLeft] = useState(300);
 
   useEffect(() => {
-    // Show popup after 8 seconds for better timing
+    if (!isBn) {
+      setIsOpen(false);
+      return;
+    }
+
     const timer = setTimeout(() => {
       const hasSeenPopup = localStorage.getItem('mediumPopupSeen');
       const lastShown = localStorage.getItem('mediumPopupLastShown');
       const now = Date.now();
-      
-      // Show if never seen or if it's been more than 24 hours
+
       if (!hasSeenPopup || (lastShown && now - parseInt(lastShown) > 24 * 60 * 60 * 1000)) {
         setIsOpen(true);
       }
     }, 8000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isBn]);
 
   useEffect(() => {
-    let countdown: NodeJS.Timeout;
-    if (isOpen && timeLeft > 0) {
-      countdown = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    if (!isBn || !isOpen || timeLeft <= 0) {
+      return;
     }
+
+    const countdown = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     return () => clearTimeout(countdown);
-  }, [isOpen, timeLeft]);
+  }, [isBn, isOpen, timeLeft]);
 
   const handleSubscribe = () => {
     localStorage.setItem('mediumPopupSeen', 'true');
@@ -49,6 +57,10 @@ const MediumSubscriptionPopup = () => {
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+
+  if (!isBn) {
+    return null;
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
