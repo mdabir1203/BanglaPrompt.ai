@@ -1,106 +1,121 @@
-
-import { ArrowRight } from "lucide-react";
-import GlassCard from "./ui-custom/GlassCard";
-
 const Hero = () => {
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bangladesh-pattern">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-primary/5 -z-10" />
-      
-      {/* Traditional decorative elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/10 blur-xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-accent/10 blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
-      
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-          {/* Cultural badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full mb-8 border border-primary/20">
-            <span className="text-2xl">🇧🇩</span>
-            <span className="font-bengali font-medium">বাংলাদেশের প্রথম AI শিক্ষা প্ল্যাটফর্ম</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold font-display mb-6 bg-gradient-to-r from-primary via-accent to-secondary text-transparent bg-clip-text">
-            প্রম্পট শিক্ষা
-          </h1>
-          <p className="text-xl md:text-2xl font-bengali text-gray-700 mb-4 leading-relaxed">
-            বাংলায় AI এর শক্তি আনলক করুন
-          </p>
-          <p className="text-lg font-bengali text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            দেশের সবচেয়ে বড় প্রম্পট ইঞ্জিনিয়ারিং কমিউনিটিতে যোগ দিন। 
-            বিশেষজ্ঞদের থেকে শিখুন, নিজের দক্ষতা বাড়ান এবং AI যুগে এগিয়ে থাকুন।
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="#features" className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white px-8 py-4 text-lg font-bengali rounded-lg shadow-cultural transition-all duration-200 hover:scale-105">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-              শেখা শুরু করুন
-            </a>
-            <a href="#contact" className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary/5 px-8 py-4 text-lg font-bengali rounded-lg transition-all duration-200">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a2.5 2.5 0 015 0H17m-5 8l-3-3h6l-3 3z" />
-              </svg>
-              ডেমো দেখুন
-            </a>
-          </div>
-          
-          {/* Cultural statistics */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="cultural-card p-4 rounded-lg">
-              <div className="text-2xl font-bold text-primary font-display">১০,০০০+</div>
-              <div className="text-sm font-bengali text-gray-600">শিক্ষার্থী</div>
+    <section
+      id="top"
+      className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32"
+    >
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-32 top-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute right-0 top-0 h-full w-[55%] bg-[var(--gradient-midnight)] opacity-[0.92]" />
+        <div className="absolute -right-32 bottom-[-10rem] h-96 w-96 rounded-full bg-secondary/20 blur-3xl" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 md:px-8">
+        <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="space-y-10">
+            <div className="inline-flex flex-wrap items-center gap-3 rounded-full border border-white/40 bg-white/70 px-4 py-2 text-xs font-semibold tracking-[0.18em] uppercase text-muted-foreground shadow-sm backdrop-blur">
+              <span className="text-foreground">🇧🇩 Bangladesh Born</span>
+              <span className="text-muted-foreground/70">|</span>
+              <span className="text-primary">বাংলা হৃদয়ের স্পন্দন</span>
             </div>
-            <div className="cultural-card p-4 rounded-lg">
-              <div className="text-2xl font-bold text-accent font-display">৯৮%</div>
-              <div className="text-sm font-bengali text-gray-600">সফলতার হার</div>
-            </div>
-            <div className="cultural-card p-4 rounded-lg">
-              <div className="text-2xl font-bold text-secondary font-display">৫০+</div>
-              <div className="text-sm font-bengali text-gray-600">কোর্স মডিউল</div>
-            </div>
-            <div className="cultural-card p-4 rounded-lg">
-              <div className="text-2xl font-bold text-primary font-display">২৪/৭</div>
-              <div className="text-sm font-bengali text-gray-600">সাপোর্ট</div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
-          <div className="cartoon-card animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center mb-4 border-4 border-black">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
+
+            <div className="space-y-6">
+              <h1 className="text-4xl font-semibold leading-tight text-foreground md:text-5xl lg:text-6xl">
+                <span className="block">Bangladesh-born. World-ready.</span>
+                <span className="block bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-aurora)" }}>
+                  The Global AI Prompt Marketplace.
+                </span>
+                <span className="mt-4 block text-2xl font-medium text-white/90 md:text-3xl">
+                  বাংলাদেশের মাটিতে জন্ম, বিশ্বজুড়ে প্রভাব। গ্লোবাল এআই প্রম্পট মার্কেটপ্লেস।
+                </span>
+              </h1>
+
+              <div className="grid gap-6 text-base md:text-lg">
+                <p className="bilingual-copy max-w-2xl text-foreground">
+                  Imagineering Bengali-first storytelling for a global stage while keeping revenue, compliance, and community at the centre—crafted with Walt Disney’s wonder and Steve Jobs’ clarity.
+                </p>
+                <p className="bilingual-copy max-w-2xl">
+                  বাঙালি নির্মাতাদের কণ্ঠে বিশ্বজুড়ে AI অভিজ্ঞতা—ডিজনির গল্পের জাদু ও স্টিভ জবসের মিতব্যয়ী নিখুঁততার মিলনে। ন্যায়সংগত আয়, সাংস্কৃতিক সূক্ষ্মতা ও এন্টারপ্রাইজ মান রক্ষিত।
+                </p>
               </div>
-              <h3 className="cartoon-subtitle mb-2">বাংলায় শিক্ষা</h3>
-              <p className="font-bengali text-black/70 text-lg">নিজের মাতৃভাষায় সহজবোধ্য প্রম্পট ইঞ্জিনিয়ারিং শিখুন</p>
+
+              <ul className="grid gap-4 text-sm md:grid-cols-2 md:text-base">
+                <li className="rounded-2xl border border-white/60 bg-white/70 px-5 py-4 shadow-sm backdrop-blur">
+                  <span className="block font-semibold text-foreground">Imagine Global Storyworlds</span>
+                  <span className="text-sm text-muted-foreground">Dhaka থেকে Lagos—AI narrative staging tailored to culture.</span>
+                  <span className="mt-1 block text-sm text-muted-foreground">ঢাকা থেকে লাগোস—সংস্কৃতি-ভিত্তিক এআই স্টোরিওয়ার্ল্ড।</span>
+                </li>
+                <li className="rounded-2xl border border-white/60 bg-white/70 px-5 py-4 shadow-sm backdrop-blur">
+                  <span className="block font-semibold text-foreground">Design for Fortune 500 Velocity</span>
+                  <span className="text-sm text-muted-foreground">Audit-grade governance, predictive royalties, 72-hour payouts.</span>
+                  <span className="mt-1 block text-sm text-muted-foreground">অডিট-গ্রেড গভর্নেন্স, প্রেডিক্টিভ রয়্যালটি, ৭২ ঘণ্টায় পেমেন্ট।</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <a
+                href="#marketplace"
+                className="rounded-full bg-[var(--gradient-aurora)] px-8 py-3 text-base font-semibold text-white shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]"
+              >
+                <span className="block">Explore Prompts</span>
+                <span className="text-sm font-medium text-white/80">প্রম্পট দেখুন</span>
+              </a>
+              <a
+                href="#creators"
+                className="rounded-full border border-white/70 bg-white/70 px-8 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+              >
+                <span className="block">Become a Creator</span>
+                <span className="text-sm font-medium text-muted-foreground">ক্রিয়েটর হোন</span>
+              </a>
             </div>
           </div>
-          
-          <div className="cartoon-card animate-fade-in" style={{ animationDelay: "0.5s" }}>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center mb-4 border-4 border-black">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+
+          <div className="relative">
+            <div className="gradient-border glass-panel relative overflow-hidden rounded-[2rem] p-8 text-white">
+              <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-secondary/40 blur-3xl" />
+              <div className="absolute -bottom-16 left-12 h-56 w-56 rounded-full bg-primary/40 blur-3xl" />
+
+              <div className="relative space-y-8">
+                <div>
+                  <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/80">Global Creator Constellation</span>
+                  <h2 className="mt-3 text-3xl font-semibold leading-tight">
+                    Curated for 2025 enterprise demand.
+                    <span className="block text-base font-normal text-white/70">
+                      ২০২৫ এন্টারপ্রাইজ ডিমান্ডের জন্য কিউরেটেড প্রম্পট ইউনিভার্স।
+                    </span>
+                  </h2>
+                </div>
+
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {[{ value: "42K+", en: "curated prompts", bn: "কিউরেটেড প্রম্পট" }, { value: "70+", en: "countries activated", bn: "দেশে ব্যবহৃত" }, { value: "72h", en: "creator payouts", bn: "ক্রিয়েটর পেআউট" }, { value: "300+", en: "enterprise teams", bn: "এন্টারপ্রাইজ টিম" }].map((stat) => (
+                    <div key={stat.value} className="rounded-2xl border border-white/30 bg-white/10 px-4 py-5 shadow-sm backdrop-blur">
+                      <div className="text-3xl font-semibold">{stat.value}</div>
+                      <div className="text-sm uppercase tracking-[0.2em] text-white/70">{stat.en}</div>
+                      <div className="text-sm text-white/70">{stat.bn}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-2xl border border-white/25 bg-white/10 px-6 py-5 shadow-sm backdrop-blur">
+                  <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
+                    <div>
+                      <span className="font-semibold uppercase tracking-[0.25em] text-secondary">Launch Corridors</span>
+                      <p className="mt-1 text-white/80">
+                        Dhaka • Singapore • Dubai • New York • Lagos
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/60">Vision Track</p>
+                      <p className="text-sm text-white/80">Disney Imagineering × Jobsian focus</p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-sm text-white/70">
+                    সাংস্কৃতিক গল্প বলার মাধুর্য এবং ডিজাইনের নিখুঁততা একসাথে এনে গ্লোবাল শ্রোতাদের জন্য প্রম্পট কিউরেশন।
+                  </p>
+                </div>
               </div>
-              <h3 className="cartoon-subtitle mb-2">হাতে-কলমে প্রশিক্ষণ</h3>
-              <p className="font-bengali text-black/70 text-lg">ব্যবহারিক প্রকল্পের মাধ্যমে আত্মবিশ্বাসী হয়ে উঠুন</p>
-            </div>
-          </div>
-          
-          <div className="cartoon-card animate-fade-in" style={{ animationDelay: "0.6s" }}>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center mb-4 border-4 border-black">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="cartoon-subtitle mb-2">দক্ষতা উন্নয়ন</h3>
-              <p className="font-bengali text-black/70 text-lg">আধুনিক এআই টুল ব্যবহারে দক্ষতা অর্জন করুন</p>
             </div>
           </div>
         </div>

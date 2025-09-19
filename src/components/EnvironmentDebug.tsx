@@ -20,7 +20,7 @@ const EnvironmentDebug: React.FC<EnvironmentDebugProps> = ({
 
       // Check browser injected env
       try {
-        const browserEnv = (globalThis as any).__ENV__;
+        const browserEnv = (globalThis as { __ENV__?: Record<string, unknown> }).__ENV__;
         info.browserEnv = browserEnv ? Object.keys(browserEnv) : 'Not available';
         info.supabaseUrl = browserEnv?.SUPABASE_URL ? 'Available' : 'Missing';
         info.supabaseKey = browserEnv?.SUPABASE_ANON_KEY ? 'Available' : 'Missing';
