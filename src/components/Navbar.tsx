@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Globe2, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
+const NAV_LINKS = [
   { href: "#marketplace", labelEn: "Marketplace", labelBn: "মার্কেটপ্লেস" },
   { href: "#creators", labelEn: "For Creators", labelBn: "ক্রিয়েটরদের জন্য" },
   { href: "#enterprise", labelEn: "Enterprise", labelBn: "এন্টারপ্রাইজ" },
@@ -32,7 +32,7 @@ const Navbar = () => {
   }, [activeLanguage]);
 
   const renderNavLinks = (className?: string) =>
-    navLinks.map((link) => (
+    NAV_LINKS.map((link) => (
       <a
         key={link.href}
         href={link.href}
