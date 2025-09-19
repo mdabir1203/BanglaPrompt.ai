@@ -181,7 +181,7 @@ const Hero = () => {
                     </span>
                     <h2 id={statsHeadingId} className="mt-3 text-3xl font-semibold leading-tight text-white">
                       {isEnglish
-                        ? "Vision: A top-decile launchpad for cultural prompt commerce."
+                        ? "Vision: A top-decile launchpad for multicultural and global prompt commerce."
                         : "ভিশন: সাংস্কৃতিক প্রম্পট কমার্সের শীর্ষ ডেসাইল লঞ্চপ্যাড।"}
                     </h2>
                   </div>
