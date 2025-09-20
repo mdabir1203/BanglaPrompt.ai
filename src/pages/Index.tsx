@@ -6,6 +6,7 @@ import SecurityHeaders from "@/components/SecurityHeaders";
 import PerformanceOptimizer from "@/components/PerformanceOptimizer";
 import Hero from "@/components/Hero";
 import FinalCTA from "@/components/FinalCTA";
+import CreatorToolsShowcase from "@/components/CreatorToolsShowcase";
 import RootLayout from "@/components/RootLayout";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -113,6 +114,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+        <CreatorToolsShowcase />
         <FinalCTA />
       </RootLayout>
     </>
