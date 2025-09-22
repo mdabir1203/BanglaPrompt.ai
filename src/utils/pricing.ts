@@ -3,6 +3,8 @@ import {
   type MarketPricingBenchmark,
 } from "@/data/marketPricing";
 
+export type SupportedCurrency = "USD" | "EUR" | "BDT";
+
 export interface PromptPricingInput {
   floorPriceUsd: number;
   highestBidUsd: number;
@@ -18,10 +20,14 @@ export interface PromptPricingResult {
   recommendedBidEur: number;
   recommendedAskEur: number;
   bidBandEur: [number, number];
+  recommendedBidBdt: number;
+  recommendedAskBdt: number;
+  bidBandBdt: [number, number];
   momentumScore: number;
   demandScore: number;
   marketRangeUsd: [number, number];
   marketRangeEur: [number, number];
+  marketRangeBdt: [number, number];
   marketComparables: MarketComparable[];
 }
 
@@ -30,8 +36,10 @@ export interface MarketComparable {
   offering: MarketPricingBenchmark["offering"];
   usdRange: [number, number];
   eurRange: [number, number];
+  bdtRange: [number, number];
   usdPremiumAnchor: number;
   eurPremiumAnchor: number;
+  bdtPremiumAnchor: number;
   sampleSize: number;
   notes: MarketPricingBenchmark["notes"];
   sourceUrl: string;
@@ -39,11 +47,30 @@ export interface MarketComparable {
 }
 
 const USD_TO_EUR_RATE = 0.92;
+const USD_TO_BDT_RATE = 109.5;
+
+export const convertUsdToCurrency = (value: number, currency: SupportedCurrency) => {
+  const rate =
+    currency === "USD"
+      ? 1
+      : currency === "EUR"
+      ? USD_TO_EUR_RATE
+      : USD_TO_BDT_RATE;
+
+  return Number((value * rate).toFixed(2));
+};
+
+export const convertCurrencyToUsd = (value: number, currency: SupportedCurrency) => {
+  if (currency === "USD") {
+    return value;
+  }
+
+  const rate = currency === "EUR" ? USD_TO_EUR_RATE : USD_TO_BDT_RATE;
+  return Number((value / rate).toFixed(2));
+};
 
 const clamp = (value: number, minimum: number, maximum: number) =>
   Math.min(Math.max(value, minimum), maximum);
-
-const convertUsdToEur = (value: number) => Number((value * USD_TO_EUR_RATE).toFixed(2));
 
 export const computeOptimizedPromptPricing = (
   input: PromptPricingInput,
@@ -74,11 +101,16 @@ export const computeOptimizedPromptPricing = (
       Number(benchmark.usdRange[1].toFixed(2)),
     ],
     eurRange: [
-      convertUsdToEur(benchmark.usdRange[0]),
-      convertUsdToEur(benchmark.usdRange[1]),
+      convertUsdToCurrency(benchmark.usdRange[0], "EUR"),
+      convertUsdToCurrency(benchmark.usdRange[1], "EUR"),
+    ],
+    bdtRange: [
+      convertUsdToCurrency(benchmark.usdRange[0], "BDT"),
+      convertUsdToCurrency(benchmark.usdRange[1], "BDT"),
     ],
     usdPremiumAnchor: Number(benchmark.usdPremiumAnchor.toFixed(2)),
-    eurPremiumAnchor: convertUsdToEur(benchmark.usdPremiumAnchor),
+    eurPremiumAnchor: convertUsdToCurrency(benchmark.usdPremiumAnchor, "EUR"),
+    bdtPremiumAnchor: convertUsdToCurrency(benchmark.usdPremiumAnchor, "BDT"),
     sampleSize: benchmark.sampleSize,
     notes: benchmark.notes,
     sourceUrl: benchmark.sourceUrl,
@@ -110,8 +142,12 @@ export const computeOptimizedPromptPricing = (
     Number(aggregatedRangeHighUsd.toFixed(2)),
   ];
   const marketRangeEur: [number, number] = [
-    convertUsdToEur(aggregatedRangeLowUsd),
-    convertUsdToEur(aggregatedRangeHighUsd),
+    convertUsdToCurrency(aggregatedRangeLowUsd, "EUR"),
+    convertUsdToCurrency(aggregatedRangeHighUsd, "EUR"),
+  ];
+  const marketRangeBdt: [number, number] = [
+    convertUsdToCurrency(aggregatedRangeLowUsd, "BDT"),
+    convertUsdToCurrency(aggregatedRangeHighUsd, "BDT"),
   ];
 
   const marketWeight = marketPricingBenchmarks.length
@@ -166,13 +202,17 @@ export const computeOptimizedPromptPricing = (
     recommendedBidUsd,
     recommendedAskUsd,
     bidBandUsd,
-    recommendedBidEur: convertUsdToEur(recommendedBidUsd),
-    recommendedAskEur: convertUsdToEur(recommendedAskUsd),
-    bidBandEur: [convertUsdToEur(bandLowUsd), convertUsdToEur(bandHighUsd)],
+    recommendedBidEur: convertUsdToCurrency(recommendedBidUsd, "EUR"),
+    recommendedAskEur: convertUsdToCurrency(recommendedAskUsd, "EUR"),
+    bidBandEur: [convertUsdToCurrency(bandLowUsd, "EUR"), convertUsdToCurrency(bandHighUsd, "EUR")],
+    recommendedBidBdt: convertUsdToCurrency(recommendedBidUsd, "BDT"),
+    recommendedAskBdt: convertUsdToCurrency(recommendedAskUsd, "BDT"),
+    bidBandBdt: [convertUsdToCurrency(bandLowUsd, "BDT"), convertUsdToCurrency(bandHighUsd, "BDT")],
     momentumScore,
     demandScore,
     marketRangeUsd,
     marketRangeEur,
+    marketRangeBdt,
     marketComparables,
   };
 };
