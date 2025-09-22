@@ -562,6 +562,23 @@ const BidExchange = () => {
     });
   }, [displayCurrency]);
 
+  const optimizedPricingById = useMemo(() => {
+    return listings.reduce<
+      Record<string, ReturnType<typeof computeOptimizedPromptPricing>>
+    >((accumulator, listing) => {
+      accumulator[listing.id] = computeOptimizedPromptPricing({
+        floorPriceUsd: listing.floorPrice,
+        highestBidUsd: listing.highestBid,
+        bidHistoryUsd: listing.bidHistory,
+        watchers: listing.watchers,
+        bidVelocity: listing.bidVelocity,
+      });
+      return accumulator;
+    }, {});
+  }, [listings]);
+
+  const activeListingPricing = activeListing ? optimizedPricingById[activeListing.id] : null;
+
   useEffect(() => {
     const interval = window.setInterval(() => {
       setListings((current) =>
