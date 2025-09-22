@@ -29,6 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { computeOptimizedPromptPricing } from "@/utils/pricing";
 
 interface LocalizedCopy {
   en: string;
@@ -393,10 +394,10 @@ const promptPlaybooks: PromptPlaybook[] = [
   },
 ];
 
-const formatCurrency = (value: number) =>
+const formatCurrency = (value: number, currency: "USD" | "EUR" = "USD") =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency,
     maximumFractionDigits: value >= 100 ? 0 : 2,
   }).format(value);
 
@@ -416,6 +417,23 @@ const BidExchange = () => {
   const [activeListing, setActiveListing] = useState<ExchangeListing | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [bidAmount, setBidAmount] = useState("");
+
+  const optimizedPricingById = useMemo(() => {
+    return listings.reduce<
+      Record<string, ReturnType<typeof computeOptimizedPromptPricing>>
+    >((accumulator, listing) => {
+      accumulator[listing.id] = computeOptimizedPromptPricing({
+        floorPriceUsd: listing.floorPrice,
+        highestBidUsd: listing.highestBid,
+        bidHistoryUsd: listing.bidHistory,
+        watchers: listing.watchers,
+        bidVelocity: listing.bidVelocity,
+      });
+      return accumulator;
+    }, {});
+  }, [listings]);
+
+  const activeListingPricing = activeListing ? optimizedPricingById[activeListing.id] : null;
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -742,6 +760,13 @@ const BidExchange = () => {
 
           <div className="order-1 space-y-6 lg:order-2">
             {listings.map((listing) => {
+              const optimized = optimizedPricingById[listing.id];
+              const sellBandUsd = optimized
+                ? ([optimized.recommendedAskUsd, optimized.bidBandUsd[1]] as [number, number])
+                : null;
+              const sellBandEur = optimized
+                ? ([optimized.recommendedAskEur, optimized.bidBandEur[1]] as [number, number])
+                : null;
               const trendMeta = getTrendMeta(listing.bidHistory);
               const maxHistory = Math.max(...listing.bidHistory);
 
@@ -785,8 +810,9 @@ const BidExchange = () => {
                   </div>
 
                   <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                    <div className="flex flex-1 flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2 rounded-full border border-emerald-100/80 bg-white/70 px-3 py-2">
+                    <div className="flex flex-1 flex-col gap-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-4">
+                        <div className="flex items-center gap-2 rounded-full border border-emerald-100/80 bg-white/70 px-3 py-2">
                         <Sparkles className="h-4 w-4 text-primary" />
                         <span>
                           {isEnglish
@@ -818,6 +844,145 @@ const BidExchange = () => {
                             : `${trendMeta.direction === "up" ? "উর্ধ্বমুখী" : "শীতল"} ${formatCurrency(Math.abs(trendMeta.change))}`}
                         </span>
                       </div>
+                      </div>
+
+                      {optimized && (
+                        <>
+                          <div className="grid gap-3 sm:grid-cols-2">
+                            <div className="rounded-2xl border border-emerald-100/80 bg-white/70 p-4 shadow-sm">
+                              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                                {isEnglish ? "Optimized buy bid" : "অপ্টিমাইজড ক্রয় বিড"}
+                              </p>
+                              <p className="mt-2 text-lg font-semibold text-emerald-900">
+                                {formatCurrency(optimized.recommendedBidUsd)}
+                                <span className="ml-2 text-sm text-muted-foreground">
+                                  {formatCurrency(optimized.recommendedBidEur, "EUR")}
+                                </span>
+                              </p>
+                              <p className="mt-2 text-xs text-muted-foreground">
+                                {isEnglish
+                                  ? `Entry band ${formatCurrency(optimized.bidBandUsd[0])} – ${formatCurrency(optimized.recommendedBidUsd)}`
+                                  : `এন্ট্রি পরিসর ${formatCurrency(optimized.bidBandUsd[0])} – ${formatCurrency(optimized.recommendedBidUsd)}`}
+                                <br />
+                                <span className="text-[11px] text-muted-foreground/80">
+                                  {formatCurrency(optimized.bidBandEur[0], "EUR")} –
+                                  {" "}
+                                  {formatCurrency(optimized.recommendedBidEur, "EUR")}
+                                </span>
+                              </p>
+                            </div>
+
+                            <div className="rounded-2xl border border-emerald-100/80 bg-emerald-50/80 p-4 shadow-sm">
+                              <p className="text-xs uppercase tracking-[0.3em] text-emerald-900/70">
+                                {isEnglish ? "Optimized sell ask" : "অপ্টিমাইজড বিক্রয় অফার"}
+                              </p>
+                              <p className="mt-2 text-lg font-semibold text-emerald-900">
+                                {formatCurrency(optimized.recommendedAskUsd)}
+                                <span className="ml-2 text-sm text-emerald-700">
+                                  {formatCurrency(optimized.recommendedAskEur, "EUR")}
+                                </span>
+                              </p>
+                              {sellBandUsd && sellBandEur && (
+                                <p className="mt-2 text-xs text-emerald-900/80">
+                                  {isEnglish
+                                    ? `Exit band ${formatCurrency(sellBandUsd[0])} – ${formatCurrency(sellBandUsd[1])}`
+                                    : `প্রস্থান পরিসর ${formatCurrency(sellBandUsd[0])} – ${formatCurrency(sellBandUsd[1])}`}
+                                  <br />
+                                  <span className="text-[11px] text-emerald-900/70">
+                                    {formatCurrency(sellBandEur[0], "EUR")} –
+                                    {" "}
+                                    {formatCurrency(sellBandEur[1], "EUR")}
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <p className="mt-3 text-xs text-muted-foreground">
+                            {isEnglish
+                              ? `Momentum score ${optimized.momentumScore.toFixed(2)} · Demand score ${optimized.demandScore.toFixed(2)}`
+                              : `গতির স্কোর ${optimized.momentumScore.toFixed(2)} · চাহিদা স্কোর ${optimized.demandScore.toFixed(2)}`}
+                          </p>
+
+                          <div className="mt-3 space-y-3">
+                            <div className="rounded-2xl border border-emerald-100/80 bg-white/70 p-4 shadow-sm">
+                              <div className="flex items-start justify-between gap-3">
+                                <div>
+                                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                                    {isEnglish ? "Market-clearing range" : "বাজার-সমন্বিত পরিসর"}
+                                  </p>
+                                  <p className="mt-2 text-sm font-semibold text-emerald-900">
+                                    {formatCurrency(optimized.marketRangeUsd[0])} – {formatCurrency(optimized.marketRangeUsd[1])}
+                                    <span className="ml-2 text-xs text-muted-foreground">
+                                      {formatCurrency(optimized.marketRangeEur[0], "EUR")} –
+                                      {" "}
+                                      {formatCurrency(optimized.marketRangeEur[1], "EUR")}
+                                    </span>
+                                  </p>
+                                  <p className="mt-1 text-xs text-muted-foreground">
+                                    {isEnglish
+                                      ? "Grounded in PromptBase and Upwork prompt packages."
+                                      : "PromptBase ও Upwork প্রম্পট প্যাকেজের উপর ভিত্তি করে।"}
+                                  </p>
+                                </div>
+                                <LineChart className="h-5 w-5 text-emerald-600" />
+                              </div>
+                            </div>
+
+                            <div className="grid gap-3 sm:grid-cols-2">
+                              {optimized.marketComparables.map((comparable) => (
+                                <div
+                                  key={`${listing.id}-${comparable.market}-${comparable.lastUpdated}`}
+                                  className="rounded-2xl border border-emerald-100/80 bg-white/70 p-4 shadow-sm"
+                                >
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div>
+                                      <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                                        {comparable.market}
+                                      </p>
+                                      <p className="mt-2 text-sm font-semibold text-emerald-900">
+                                        {isEnglish ? comparable.offering.en : comparable.offering.bn}
+                                      </p>
+                                    </div>
+                                    <Badge className="rounded-full bg-emerald-100 text-emerald-900">
+                                      n={comparable.sampleSize}
+                                    </Badge>
+                                  </div>
+                                  <p className="mt-3 text-sm text-emerald-900">
+                                    {formatCurrency(comparable.usdRange[0])} – {formatCurrency(comparable.usdRange[1])}
+                                    <span className="ml-2 text-xs text-muted-foreground">
+                                      {formatCurrency(comparable.eurRange[0], "EUR")} –
+                                      {" "}
+                                      {formatCurrency(comparable.eurRange[1], "EUR")}
+                                    </span>
+                                  </p>
+                                  <p className="mt-2 text-xs text-muted-foreground">
+                                    {isEnglish
+                                      ? `Top sellers reach ${formatCurrency(comparable.usdPremiumAnchor)} (${formatCurrency(comparable.eurPremiumAnchor, "EUR")}).`
+                                      : `শীর্ষ বিক্রেতারা পৌঁছায় ${formatCurrency(comparable.usdPremiumAnchor)} (${formatCurrency(comparable.eurPremiumAnchor, "EUR")}).`}
+                                  </p>
+                                  <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
+                                    <span>
+                                      {isEnglish
+                                        ? `Updated ${comparable.lastUpdated}`
+                                        : `${comparable.lastUpdated} আপডেট`}
+                                    </span>
+                                    <a
+                                      href={comparable.sourceUrl}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 hover:text-emerald-800"
+                                    >
+                                      {isEnglish ? "Source" : "সূত্র"}
+                                      <ArrowUpRight className="h-3 w-3" />
+                                    </a>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     <Button
@@ -952,6 +1117,29 @@ const BidExchange = () => {
                     ? `Current highest bid: ${formatCurrency(activeListing.highestBid)}`
                     : `বর্তমান সর্বোচ্চ বিড: ${formatCurrency(activeListing.highestBid)}`}
                 </p>
+              )}
+              {activeListingPricing && (
+                <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/60 p-3 text-xs text-emerald-900">
+                  <p className="font-semibold">
+                    {isEnglish ? "Optimized guidance" : "অপ্টিমাইজড নির্দেশনা"}
+                  </p>
+                  <p className="mt-1">
+                    {isEnglish
+                      ? `Suggested bid ${formatCurrency(activeListingPricing.recommendedBidUsd)} · ${formatCurrency(activeListingPricing.recommendedBidEur, "EUR")}`
+                      : `প্রস্তাবিত বিড ${formatCurrency(activeListingPricing.recommendedBidUsd)} · ${formatCurrency(activeListingPricing.recommendedBidEur, "EUR")}`}
+                  </p>
+                  <p className="mt-1 text-emerald-900/80">
+                    {isEnglish
+                      ? `Band ${formatCurrency(activeListingPricing.bidBandUsd[0])} – ${formatCurrency(activeListingPricing.bidBandUsd[1])}`
+                      : `পরিসর ${formatCurrency(activeListingPricing.bidBandUsd[0])} – ${formatCurrency(activeListingPricing.bidBandUsd[1])}`}
+                    <br />
+                    <span className="text-[11px] text-emerald-900/70">
+                      {formatCurrency(activeListingPricing.bidBandEur[0], "EUR")} –
+                      {" "}
+                      {formatCurrency(activeListingPricing.bidBandEur[1], "EUR")}
+                    </span>
+                  </p>
+                </div>
               )}
             </div>
 
