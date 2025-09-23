@@ -32,8 +32,8 @@ const EnvironmentDebug: React.FC<EnvironmentDebugProps> = ({
       try {
         const importMetaEnv = import.meta.env;
         info.importMetaEnv = Object.keys(importMetaEnv);
-        info.viteSupabaseUrl = importMetaEnv.VITE_SUPABASE_URL ? 'Available' : 'Missing';
-        info.viteSupabaseKey = importMetaEnv.VITE_SUPABASE_ANON_KEY ? 'Available' : 'Missing';
+        info.supabaseUrlImportMeta = importMetaEnv.SUPABASE_URL ? 'Available' : 'Missing';
+        info.supabaseKeyImportMeta = importMetaEnv.SUPABASE_ANON_KEY ? 'Available' : 'Missing';
       } catch (error) {
         info.importMetaEnvError = String(error);
       }

@@ -10,6 +10,7 @@
 - [Edge & background services](#edge--background-services)
 - [Performance, security & compliance](#performance-security--compliance)
 - [Local development](#local-development)
+- [Docker](#docker)
 - [Quality checks](#quality-checks)
 - [Deployment](#deployment)
 - [Project structure](#project-structure)
@@ -79,13 +80,33 @@ The application is pre-tuned for high-traffic scenarios, with detailed tracking 
    yarn install
    ```
 3. **Configure environment variables**
-   - Duplicate `.env.local` and populate with your Supabase project keys using the `VITE_` prefixes.
+   - Duplicate `.env.local` and populate with your Supabase project keys using the `SUPABASE_` names.
    - Update `wrangler.toml` with matching `SUPABASE_URL` and `SUPABASE_ANON_KEY` values for Cloudflare Pages deployments.【F:src/integrations/supabase/client.ts†L210-L266】【F:wrangler.toml†L1-L10】
 4. **Start the dev server**
    ```bash
    yarn dev
    ```
    Visit http://localhost:5173 and use the language toggle in the header components (see `RootLayout`) to switch between Bangla and English copy.
+
+## Docker
+Build a production-ready container that serves the prebuilt Vite bundle from Nginx.
+
+1. **Build the image** – forward your Supabase environment so the static bundle is configured correctly. The defaults in the repository are placeholders and should be replaced with project-specific values.
+   ```bash
+   docker build \
+     --build-arg SUPABASE_URL="https://your-project.supabase.co" \
+     --build-arg SUPABASE_ANON_KEY="your-anon-key" \
+     -t banglaprompt.ai .
+   ```
+   The build stage uses Yarn 4 (Berry) with `--immutable` installs, ensuring the container matches the lockfile.
+
+2. **Run the container** – the final image is based on `nginx:alpine` and exposes port 80.
+   ```bash
+   docker run --rm -p 8080:80 --name banglaprompt.ai banglaprompt.ai
+   ```
+   Visit http://localhost:8080 to interact with the production build. A `/healthz` endpoint is also available for liveness checks.
+
+3. **Override environment variables** – if you need to rebuild with different Supabase credentials, re-run `docker build` with new `--build-arg` values. Runtime environment overrides are not supported for the static bundle, so updates require a rebuild.
 
 ## Quality checks
 - **Linting** – runs ESLint across the entire codebase with the Vite + React + TypeScript configuration.
