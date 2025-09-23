@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules
+
+# Build output
+/dist
+
+# VCS and editor artifacts
+.git
+.gitignore
+.vscode
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
