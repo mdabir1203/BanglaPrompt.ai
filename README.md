@@ -1,4 +1,4 @@
-# Prompt Bangla AI
+# Prompt Bazaar AI
 
 > Bangladesh's first bilingual prompt marketplace for creators, enterprises, and buyers who need culturally relevant AI workflows.
 
