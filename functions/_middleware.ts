@@ -31,7 +31,7 @@ const createRuntimeEnvScript = (env: EnvRecord): string | null => {
 
   const json = JSON.stringify(payload).replace(/</g, "\\u003c");
 
-  return `(() => {\n  const existing = typeof window !== "undefined" && window.__ENV__ ? window.__ENV__ : {};\n  const update = Object.assign({}, ${json});\n  const nextEnv = { ...existing, ...update };\n\n  if (typeof window !== "undefined") {\n    window.__ENV__ = nextEnv;\n  }\n\n  try {\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    (globalThis as any).__ENV__ = nextEnv;\n  } catch (_) {\n    // Swallow errors when assigning to immutable globals.\n  }\n})();`;
+  return `(() => {\n  const existing = typeof window !== "undefined" && window.__ENV__ ? window.__ENV__ : {};\n  const update = Object.assign({}, ${json});\n  const nextEnv = { ...existing, ...update };\n\n  if (typeof window !== "undefined") {\n    window.__ENV__ = nextEnv;\n  }\n\n  try {\n    if (typeof globalThis !== "undefined") {\n      globalThis.__ENV__ = nextEnv;\n    }\n  } catch (_) {\n    // Swallow errors when assigning to immutable globals.\n  }\n})();`;
 };
 
 export const onRequest = async (context: MiddlewareContext): Promise<Response> => {
