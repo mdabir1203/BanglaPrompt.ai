@@ -4,6 +4,6 @@ import "./index.css";
 import logger, { registerGlobalLogHandlers } from "@/lib/logger";
 
 registerGlobalLogHandlers();
-logger.info("Bootstrapping BanglaPrompt.ai web application");
+logger.info("Bootstrapping promptbazaar.ai web application");
 
 createRoot(document.getElementById("root")!).render(<App />);

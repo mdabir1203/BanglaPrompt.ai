@@ -4,66 +4,80 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, X, Clock, Users, TrendingUp, Gift, Zap, Star, Shield } from 'lucide-react';
 import { csrfProtection, formRateLimiter } from '@/utils/security';
 import { createScopedLogger } from '@/lib/logger';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const popupLogger = createScopedLogger('newsletter-popup');
 
 const NewsletterConversionPopup = () => {
+  const { language } = useLanguage();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes urgency
+  const [timeLeft, setTimeLeft] = useState(180);
   const [currentViewers, setCurrentViewers] = useState(47);
   const [isTyping, setIsTyping] = useState(false);
   const [csrfToken, setCsrfToken] = useState('');
+  const isBn = language === 'bn';
 
   useEffect(() => {
-    // Generate CSRF token
+    if (!isBn) {
+      setIsOpen(false);
+    }
+  }, [isBn]);
+
+  useEffect(() => {
+    if (!isBn) {
+      return;
+    }
+
     const token = csrfProtection.setToken();
     setCsrfToken(token);
 
-    // Show popup after 15 seconds of engagement
     const timer = setTimeout(() => {
       const hasSeenNewsletter = localStorage.getItem('newsletterPopupSeen');
       const lastShown = localStorage.getItem('newsletterPopupLastShown');
       const now = Date.now();
-      
-      // Show if never seen or if it's been more than 6 hours
+
       if (!hasSeenNewsletter || (lastShown && now - parseInt(lastShown) > 6 * 60 * 60 * 1000)) {
         setIsOpen(true);
       }
     }, 15000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isBn]);
 
   useEffect(() => {
-    let countdown: NodeJS.Timeout;
-    if (isOpen && timeLeft > 0) {
-      countdown = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    if (!isBn || !isOpen || timeLeft <= 0) {
+      return;
     }
+
+    const countdown = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     return () => clearTimeout(countdown);
-  }, [isOpen, timeLeft]);
+  }, [isBn, isOpen, timeLeft]);
 
-  // Simulate live viewer count fluctuation
   useEffect(() => {
-    if (isOpen) {
-      const viewerInterval = setInterval(() => {
-        setCurrentViewers(prev => {
-          const change = Math.floor(Math.random() * 7) - 3; // -3 to +3
-          return Math.max(35, Math.min(68, prev + change));
-        });
-      }, 3000);
-      return () => clearInterval(viewerInterval);
+    if (!isBn || !isOpen) {
+      return;
     }
-  }, [isOpen]);
 
-  // Typing effect simulation
+    const viewerInterval = setInterval(() => {
+      setCurrentViewers(prev => {
+        const change = Math.floor(Math.random() * 7) - 3;
+        return Math.max(35, Math.min(68, prev + change));
+      });
+    }, 3000);
+    return () => clearInterval(viewerInterval);
+  }, [isBn, isOpen]);
+
   useEffect(() => {
-    if (isOpen) {
-      const typingInterval = setInterval(() => {
-        setIsTyping(prev => !prev);
-      }, 8000);
-      return () => clearInterval(typingInterval);
+    if (!isBn || !isOpen) {
+      return;
     }
-  }, [isOpen]);
+
+    const typingInterval = setInterval(() => {
+      setIsTyping(prev => !prev);
+    }, 8000);
+    return () => clearInterval(typingInterval);
+  }, [isBn, isOpen]);
 
   const handleJoinNewsletter = () => {
     // Rate limiting check
@@ -105,6 +119,10 @@ const NewsletterConversionPopup = () => {
   };
 
   const completionPercentage = ((180 - timeLeft) / 180) * 100;
+
+  if (!isBn) {
+    return null;
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

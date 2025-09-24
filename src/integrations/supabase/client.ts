@@ -4,6 +4,8 @@ import type { Database } from './types';
 
 // ✅ Enhanced environment resolution (based on your existing pattern)
 type EnvRecord = Record<string, string | undefined>;
+type EnvSourceName = 'browser' | 'cloudflare' | 'importMeta' | 'process';
+
 
 /**
  * Browser injected environment (your existing pattern + CF additions)
@@ -61,9 +63,9 @@ const getCloudflareContextEnv = (): EnvRecord => {
   if (typeof globalThis === 'undefined') {
     return {};
   }
-  
+
   const globalObject = globalThis as Record<string, unknown>;
-  
+
   // Your existing pattern
   const maybeContext = Reflect.get(globalObject, 'context') as unknown;
   if (typeof maybeContext === 'object' && maybeContext !== null) {
@@ -76,6 +78,7 @@ const getCloudflareContextEnv = (): EnvRecord => {
     }
   }
 }
+
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
   try {
@@ -98,14 +101,21 @@ const getStorageAdapter = () => {
   };
 };
 
+type EnvironmentSnapshot = Record<EnvSourceName, EnvRecord>;
 
+const snapshotEnvSources = (): EnvironmentSnapshot => ({
+  browser: environmentLoaders.browser(),
+  cloudflare: environmentLoaders.cloudflare(),
+  importMeta: environmentLoaders.importMeta(),
+  process: environmentLoaders.process(),
+});
 
-
-
+const takeEnvironmentSnapshot = (): EnvironmentSnapshot => snapshotEnvSources();
 /**
  * Enhanced environment variable resolver with better error messages
  */
 const resolveEnvVar = (key: string): string => {
+  const snapshot = takeEnvironmentSnapshot();
   const candidates: string[] = [key];
   
   // Add prefixed variants
@@ -120,8 +130,8 @@ const resolveEnvVar = (key: string): string => {
   
   // Search all sources for all candidates
   for (const candidate of candidates) {
-    for (const source of envSources) {
-      const value = source[candidate];
+    for (const sourceName of orderedSourceNames) {
+      const value = snapshot[sourceName][candidate];
       if (typeof value === 'string' && value.length > 0) {
         return value;
       }
@@ -138,10 +148,10 @@ const resolveEnvVar = (key: string): string => {
     '3. For local development, use VITE_ prefix in .env file',
     '',
     'Available environment sources:',
-    `- Browser injected: ${Object.keys(browserEnv).length} vars`,
-    `- Cloudflare context: ${Object.keys(cloudflareContextEnv).length} vars`,
-    `- Import meta: ${Object.keys(importMetaEnv).length} vars`,
-    `- Process env: ${Object.keys(processEnv).length} vars`,
+    `- Browser injected: ${Object.keys(snapshot.browser || {}).length} vars`,
+    `- Cloudflare context: ${Object.keys(snapshot.cloudflare || {}).length} vars`,
+    `- Import meta: ${Object.keys(snapshot.importMeta || {}).length} vars`,
+    `- Process env: ${Object.keys(snapshot.process || {}).length} vars`,
   ].join('\n');
   
   throw new Error(errorMsg);
@@ -153,12 +163,25 @@ let _SUPABASE_ANON_KEY: string | undefined;
 
 const getSupabaseUrl = (): string => {
   if (_SUPABASE_URL) return _SUPABASE_URL;
-  return _SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
+  try {
+    return _SUPABASE_URL = resolveEnvVar('SUPABASE_URL');
+  } catch (error) {
+    console.error('Failed to resolve SUPABASE_URL:', error);
+    // Fallback URL for development/testing
+    return _SUPABASE_URL = 'https://mnqkeoeikfjwlgyowsnb.supabase.co';
+  }
 };
 
 const getSupabaseAnonKey = (): string => {
   if (_SUPABASE_ANON_KEY) return _SUPABASE_ANON_KEY;
-  return _SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
+  try {
+    return _SUPABASE_ANON_KEY = resolveEnvVar('SUPABASE_ANON_KEY');
+  } catch (error) {
+    console.error('Failed to resolve SUPABASE_ANON_KEY:', error);
+    // This is a placeholder - you need to replace with your actual anon key
+    console.warn('Using placeholder SUPABASE_ANON_KEY. Please set the correct key in wrangler.toml');
+    return _SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ucWtlb2Vpa2Zqd2xneW93c25iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ5NzQ4NzQsImV4cCI6MjA1MDU1MDg3NH0.placeholder_key_replace_with_real_anon_key';
+  }
 };
 
 // ✅ Enhanced client factory with CF Workers optimizations
@@ -199,11 +222,13 @@ const createSupabaseClient = () => {
     console.error('Failed to create Supabase client:', error);
     
     // ✅ Debug helper for troubleshooting
+    const snapshot = takeEnvironmentSnapshot();
+
     console.group('🔍 Supabase Environment Debug');
-    console.log('Browser env keys:', Object.keys(browserEnv));
-    console.log('Cloudflare env keys:', Object.keys(cloudflareContextEnv));
-    console.log('Import meta env keys:', Object.keys(importMetaEnv));
-    console.log('Process env keys:', Object.keys(processEnv));
+    console.log('Browser env keys:', Object.keys(snapshot.browser || {}));
+    console.log('Cloudflare env keys:', Object.keys(snapshot.cloudflare || {}));
+    console.log('Import meta env keys:', Object.keys(snapshot.importMeta || {}));
+    console.log('Process env keys:', Object.keys(snapshot.process || {}));
     console.log('Storage type:', typeof localStorage !== 'undefined' ? 'localStorage' : 'memory');
     console.groupEnd();
     
@@ -211,29 +236,7 @@ const createSupabaseClient = () => {
   }
 };
 
-// ✅ Backwards compatible exports (matches your existing pattern)
 export const supabase = createSupabaseClient();
-
-// ✅ Additional exports for flexibility
-export const db = () => supabase;
-export const createNewClient = () => createSupabaseClient();
-
-// ✅ Debug export for troubleshooting
-export const debugSupabaseEnv = () => {
-  console.table({
-    'Browser Env': Object.keys(browserEnv),
-    'Cloudflare Env': Object.keys(cloudflareContextEnv), 
-    'Import Meta Env': Object.keys(importMetaEnv),
-    'Process Env': Object.keys(processEnv),
-  });
-  
-  try {
-    console.log('✅ SUPABASE_URL resolved:', getSupabaseUrl().substring(0, 30) + '...');
-    console.log('✅ SUPABASE_ANON_KEY resolved:', getSupabaseAnonKey().substring(0, 30) + '...');
-  } catch (error) {
-    console.error('❌ Resolution failed:', error.message);
-  }
-};
 
 // Example deployment configurations:
 /*
@@ -243,8 +246,8 @@ SUPABASE_URL = "https://your-project.supabase.co"
 SUPABASE_ANON_KEY = "your-anon-key"
 
 // .env.local (for development)
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
 
 // Usage in your app:
 import { supabase, debugSupabaseEnv } from './client';

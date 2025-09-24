@@ -1,13 +1,27 @@
 import React, { Suspense, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
 import { createScopedLogger } from "@/lib/logger";
+import EnvironmentDebug from "@/components/EnvironmentDebug";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import CookieConsent from "@/components/CookieConsent";
+import {
+  LazyMediumSubscriptionPopup,
+  LazyNewsletterConversionPopup,
+} from "@/components/LazyComponents";
 
 const Index = React.lazy(() => import("./pages/Index"));
+const Marketplace = React.lazy(() => import("./pages/Marketplace"));
+const Exchange = React.lazy(() => import("./pages/Exchange"));
+const Creators = React.lazy(() => import("./pages/Creators"));
+const Enterprise = React.lazy(() => import("./pages/Enterprise"));
+const Pricing = React.lazy(() => import("./pages/Pricing"));
+const Insights = React.lazy(() => import("./pages/Insights"));
+const Support = React.lazy(() => import("./pages/Support"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 const CookiePolicy = React.lazy(() => import("./pages/CookiePolicy"));
@@ -53,29 +67,49 @@ const App = () => {
 
   return (
     <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Suspense fallback={<div className="p-4">Loading...</div>}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/cookie-policy" element={<CookiePolicy />} />
-                <Route path="/community/prompts" element={<CommunityPrompts />} />
-                <Route path="/community/submit" element={<SubmitPrompt />} />
-                <Route path="/tools" element={<ToolsMarketplace />} />
-                <Route path="/creator/dashboard" element={<CreatorDashboard />} />
-                <Route path="/creator/onboarding" element={<CreatorOnboarding />} />
-                <Route path="/creator/submit" element={<CreatorSubmitTool />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+      <LanguageProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <a className="skip-link" href="#main-content">
+              Skip to main content
+            </a>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Suspense fallback={<div className="p-4">Loading...</div>}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/marketplace" element={<Marketplace />} />
+                  <Route path="/exchange" element={<Exchange />} />
+                  <Route path="/creators" element={<Creators />} />
+                  <Route path="/enterprise" element={<Enterprise />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/insights" element={<Insights />} />
+                  <Route path="/support" element={<Support />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/cookie-policy" element={<CookiePolicy />} />
+                  <Route path="/community/prompts" element={<CommunityPrompts />} />
+                  <Route path="/community/submit" element={<SubmitPrompt />} />
+                  <Route path="/tools" element={<ToolsMarketplace />} />
+                  <Route path="/creator/dashboard" element={<CreatorDashboard />} />
+                  <Route path="/creator/onboarding" element={<CreatorOnboarding />} />
+                  <Route path="/creator/submit" element={<CreatorSubmitTool />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+            <CookieConsent />
+            <Suspense fallback={null}>
+              <LazyMediumSubscriptionPopup />
             </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+            <Suspense fallback={null}>
+              <LazyNewsletterConversionPopup />
+            </Suspense>
+            <EnvironmentDebug />
+          </TooltipProvider>
+        </QueryClientProvider>
+      </LanguageProvider>
     </HelmetProvider>
   );
 };

@@ -1,51 +1,65 @@
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Bangladeshi Cultural Colors */
-    --bd-green: 140 76% 29%; /* Bangladesh flag green */
-    --bd-red: 348 95% 48%; /* Bangladesh flag red */
-    --bd-gold: 45 93% 58%; /* Traditional Bengali gold */
-    --bd-crimson: 350 84% 40%; /* Deep red for prosperity */
-    --bd-emerald: 140 60% 35%; /* Rich green for nature */
-    
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    --bd-green: 140 76% 29%;
+    --bd-red: 348 95% 48%;
+    --bd-gold: 45 93% 58%;
+    --bd-crimson: 350 84% 40%;
+    --bd-emerald: 140 60% 35%;
+    --bd-teal: 168 68% 38%;
+    --bd-sunrise: 22 96% 58%;
+
+    --charcoal: 222 47% 11%;
+    --cloud: 210 20% 98%;
+    --emerald: 140 76% 29%;
+    --sungold: 45 93% 58%;
+    --sky: 348 95% 48%;
+
+    --background: var(--cloud);
+    --foreground: var(--charcoal);
+
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: var(--charcoal);
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: var(--bd-green); /* Using Bangladesh green */
+    --popover-foreground: var(--charcoal);
+    --primary: var(--emerald);
     --primary-foreground: 210 40% 98%;
-    --secondary: var(--bd-gold); /* Using Bengali gold */
-    --secondary-foreground: 222 47% 11%;
+    --secondary: var(--sungold);
+    --secondary-foreground: var(--charcoal);
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-    --accent: var(--bd-red); /* Using Bangladesh red */
+    --accent: var(--sky);
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 84% 60%;
+    --destructive: 0 82% 57%;
     --destructive-foreground: 210 40% 98%;
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: var(--bd-green);
-    --radius: 0.5rem;
-    
-    /* Custom variables for the site */
+    --ring: var(--emerald);
+    --radius: 0.75rem;
+
     --highlight: 261 100% 65%;
     --highlight-foreground: 0 0% 100%;
-    
-    /* Cultural gradients */
-    --gradient-bangladesh: linear-gradient(135deg, hsl(var(--bd-green)), hsl(var(--bd-red)));
-    --gradient-prosperity: linear-gradient(135deg, hsl(var(--bd-gold)), hsl(var(--bd-crimson)));
-    --gradient-nature: linear-gradient(135deg, hsl(var(--bd-emerald)), hsl(var(--bd-green)));
-    
-    /* Traditional shadows */
-    --shadow-cultural: 0 10px 30px -10px hsl(var(--bd-green) / 0.3);
-    --shadow-prosperity: 0 0 40px hsl(var(--bd-gold) / 0.4);
+
+    --gradient-bangladesh: linear-gradient(135deg, hsl(var(--emerald)), hsl(var(--sky)));
+    --gradient-prosperity: linear-gradient(135deg, hsl(var(--sungold)), hsl(var(--bd-crimson)));
+    --gradient-nature: linear-gradient(135deg, hsl(var(--bd-emerald)), hsl(var(--emerald)));
+    --gradient-aurora: linear-gradient(135deg, hsl(var(--emerald)) 0%, hsl(var(--sungold)) 48%, hsl(var(--sky)) 100%);
+    --gradient-midnight: linear-gradient(135deg, rgba(31, 56, 43, 0.92), rgba(96, 20, 20, 0.9));
+    --gradient-sunlit: radial-gradient(circle at 12% 18%, rgba(34, 94, 56, 0.22), transparent 55%),
+      radial-gradient(circle at 88% 12%, rgba(217, 119, 6, 0.2), transparent 60%),
+      radial-gradient(circle at 82% 82%, rgba(220, 38, 38, 0.18), transparent 58%);
+    --surface-hero: linear-gradient(140deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 255, 247, 0.96) 52%, rgba(255, 245, 230, 0.94) 100%);
+    --surface-page: linear-gradient(160deg, rgba(240, 249, 244, 0.95) 0%, rgba(255, 255, 255, 0.98) 48%, rgba(255, 247, 235, 0.94) 100%);
+    --surface-card: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 255, 246, 0.93) 48%, rgba(255, 242, 226, 0.95) 100%);
+    --surface-highlight: linear-gradient(160deg, rgba(34, 94, 56, 0.08) 0%, rgba(217, 119, 6, 0.1) 55%, rgba(220, 38, 38, 0.1) 100%);
+
+    --shadow-cultural: 0 10px 30px -10px hsl(var(--emerald) / 0.35);
+    --shadow-prosperity: 0 0 40px hsl(var(--sungold) / 0.4);
+    --shadow-elevated: 0 30px 60px -24px rgba(31, 56, 43, 0.45);
+    --shadow-soft: 0 18px 36px -20px rgba(31, 56, 43, 0.28);
   }
 
   .dark {
@@ -55,19 +69,17 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: var(--bd-green);
+    --primary: var(--emerald);
     --primary-foreground: 222 47% 11%;
-    --secondary: var(--bd-gold);
+    --secondary: var(--sungold);
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: var(--bd-red);
+    --accent: var(--sky);
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 224 76% 48%;
+    --ring: var(--emerald);
   }
 }
 
@@ -77,154 +89,169 @@
   }
 
   body {
-    @apply bg-amber-50 text-foreground font-sans;
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    @apply bg-background text-foreground font-sans antialiased;
+    color-scheme: light;
+    line-height: 1.6;
+    background-color: hsl(var(--background));
+    background-image: var(--surface-page);
+    background-attachment: fixed;
+    background-size: cover;
   }
 
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom scroll bar */
+  .skip-link {
+    position: absolute;
+    left: 50%;
+    top: 1rem;
+    transform: translate(-50%, -250%);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    background: hsl(var(--charcoal));
+    color: hsl(var(--cloud));
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s ease;
+    z-index: 50;
+  }
+
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    transform: translate(-50%, 0);
+    outline: 3px solid hsl(var(--sungold));
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  ::selection {
+    background: hsl(var(--sungold) / 0.4);
+    color: hsl(var(--charcoal));
+  }
+
   ::-webkit-scrollbar {
     width: 12px;
   }
+}
 
   ::-webkit-scrollbar-track {
-    @apply bg-amber-100;
+    background: hsl(var(--sungold) / 0.1);
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-amber-500 border-2 border-amber-700;
+    background: hsl(var(--sungold));
+    border: 2px solid hsl(var(--emerald));
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-amber-600;
+    background: hsl(var(--sungold) / 0.9);
   }
-}
 
 @layer components {
-  .glass {
-    @apply bg-white/90 backdrop-blur-md border-2 border-amber-400 shadow-retro;
-  }
-  
-  .highlight-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-500 font-bold font-mono;
-  }
-  
-  .btn-primary {
-    @apply px-6 py-3 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold font-mono transition-all duration-300 hover:shadow-lg border-2 border-amber-700 shadow-retro active:translate-x-1 active:translate-y-1 active:shadow-none;
-  }
-  
-  .btn-secondary {
-    @apply px-6 py-3 rounded-lg bg-white text-amber-800 border-2 border-amber-600 font-mono font-bold shadow-retro transition-all duration-300 hover:bg-amber-50 active:translate-x-1 active:translate-y-1 active:shadow-none;
-  }
-  
-  .heading {
-    @apply text-4xl sm:text-5xl md:text-6xl font-mono font-bold;
-  }
-  
-  .subheading {
-    @apply text-xl sm:text-2xl text-amber-900/80 font-bengali font-normal max-w-3xl;
-  }
-  
-  .card {
-    @apply bg-white rounded-xl border-2 border-amber-600 shadow-retro overflow-hidden transition-all duration-300 hover:shadow-retro-amber;
-  }
-  
   .section {
-    @apply py-16 md:py-24;
+    @apply py-20 md:py-28;
   }
 
-  .retro-pattern {
-    background-color: #f5f5f5;
-    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d97706' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  .section-heading {
+    @apply text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground;
   }
-  
-  /* 90s cartoon style elements */
-  .cartoon-border {
-    @apply border-4 border-dashed border-purple-600 p-2 rounded-xl;
-    box-shadow: 5px 5px 0px #8B5CF6, 10px 10px 0px #EC4899;
-  }
-  
-  .cartoon-title {
-    @apply font-bengali font-bold text-5xl sm:text-6xl md:text-7xl text-center;
-    text-shadow: 3px 3px 0px #F97316, 6px 6px 0px #8B5CF6;
-    -webkit-text-stroke: 2px #000;
-  }
-  
-  .cartoon-subtitle {
-    @apply font-bengali font-semibold text-xl sm:text-2xl md:text-3xl;
-    text-shadow: 2px 2px 0px #F97316;
-  }
-  
-  .cartoon-button {
-    @apply relative font-bengali font-bold text-lg py-3 px-6 rounded-xl bg-gradient-to-r from-orange-400 to-rose-500 text-white border-4 border-black hover:from-rose-500 hover:to-orange-400 transition-all;
-    box-shadow: 5px 5px 0px #000;
-  }
-  
-  .cartoon-button:active {
-    @apply translate-x-1 translate-y-1;
-    box-shadow: 2px 2px 0px #000;
-  }
-  
-  .cartoon-card {
-    @apply rounded-xl border-4 border-black p-6 bg-gradient-to-br from-amber-100 to-amber-200;
-    box-shadow: 8px 8px 0px #000;
-  }
-  
-  .cartoon-wiggle {
-    animation: wiggle 2s ease-in-out infinite;
-  }
-  
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
-  }
-}
 
-/* Google Ad Styles */
-.google-ad {
-  @apply my-6 p-4 bg-white border-4 border-black rounded-lg shadow-retro overflow-hidden;
-  box-shadow: 5px 5px 0px #000;
-}
+  .section-subheading {
+    @apply text-lg md:text-xl text-muted-foreground max-w-2xl;
+  }
 
-/* Retro underline */
-.retro-underline {
-  @apply relative;
-}
+  .section-eyebrow {
+    @apply uppercase tracking-[0.2em] text-xs font-semibold text-primary/80 mb-4;
+  }
 
-.retro-underline::after {
-  content: '';
-  @apply absolute left-0 -bottom-1 w-full h-2 bg-amber-400 -z-10;
-  transform: rotate(-1deg);
-}
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 bg-primary/10 text-primary text-sm font-medium;
+  }
 
-/* Typewriter effect */
-.typewriter {
-  @apply overflow-hidden whitespace-nowrap border-r-4 border-amber-800 animate-typewriter;
-}
+  .stat-card {
+    @apply rounded-2xl bg-white shadow-[var(--shadow-soft)] p-6 border border-white/60 backdrop-blur;
+  }
 
+  .bilingual-grid {
+    @apply grid gap-8 lg:gap-12 lg:grid-cols-2;
+  }
 
-/* Bengali Typography Enhancements */
-.font-bengali {
-  font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-}
+  .bilingual-copy {
+    @apply text-base md:text-lg leading-relaxed text-muted-foreground;
+  }
 
-/* Cultural Design Elements */
-.bangladesh-pattern {
-  background-image: 
-    radial-gradient(circle at 25% 25%, hsl(var(--bd-green) / 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, hsl(var(--bd-red) / 0.1) 0%, transparent 50%);
-}
+  .gradient-border {
+    position: relative;
+  }
 
-.cultural-card {
-  background: linear-gradient(135deg, 
-    hsl(var(--background)) 0%, 
-    hsl(var(--bd-green) / 0.02) 100%);
-  border: 1px solid hsl(var(--bd-green) / 0.2);
-  box-shadow: var(--shadow-cultural);
+  .gradient-border::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(34, 94, 56, 0.7), rgba(217, 119, 6, 0.6), rgba(239, 68, 68, 0.55));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glass-panel {
+    @apply backdrop-blur-xl border border-white/70;
+    background: var(--surface-card);
+    box-shadow: var(--shadow-cultural);
+  }
+
+  .illuminated-card {
+    position: relative;
+    background: var(--surface-card);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .illuminated-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--surface-highlight);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .illuminated-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-panel {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(27, 67, 50, 0.95) 0%, rgba(217, 119, 6, 0.92) 55%, rgba(220, 38, 38, 0.88) 100%);
+    box-shadow: 0 40px 85px -40px rgba(27, 67, 50, 0.75);
+  }
+
+  .hero-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 58%),
+      radial-gradient(circle at 80% 10%, rgba(255, 248, 232, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-panel > * {
+    position: relative;
+    z-index: 1;
+  }
 }

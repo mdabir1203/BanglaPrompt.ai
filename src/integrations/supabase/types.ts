@@ -74,10 +74,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "creator_tools_creator_id_fkey"
-            columns: ["creator_id"]
-            foreignKeyName: "marketplace_prompts_author_id_fkey"
-            columns: ["author_id"]
+            foreignKeyName: "creator_tools_creator_id_fkey",
+            columns: ["creator_id"],
+            isOneToOne: false,
+            referencedRelation: "users",
+            referencedColumns: ["id"],
+            referencedSchema: "auth",
           },
         ]
       }
@@ -115,6 +117,146 @@ export type Database = {
             referencedColumns: ["id"]
           }
         ]
+      }
+      pricing_audiences: {
+        Row: {
+          cta_label_bn: string
+          cta_label_en: string
+          cta_link: string
+          description_bn: string
+          description_en: string
+          headline_bn: string
+          headline_en: string
+          id: string
+          is_active: boolean
+          price_text_bn: string
+          price_text_en: string
+          slug: string
+          sort_order: number
+          toggle_label_bn: string
+          toggle_label_en: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          cta_label_bn: string
+          cta_label_en: string
+          cta_link: string
+          description_bn: string
+          description_en: string
+          headline_bn: string
+          headline_en: string
+          id?: string
+          is_active?: boolean
+          price_text_bn: string
+          price_text_en: string
+          slug: string
+          sort_order?: number
+          toggle_label_bn: string
+          toggle_label_en: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          cta_label_bn?: string
+          cta_label_en?: string
+          cta_link?: string
+          description_bn?: string
+          description_en?: string
+          headline_bn?: string
+          headline_en?: string
+          id?: string
+          is_active?: boolean
+          price_text_bn?: string
+          price_text_en?: string
+          slug?: string
+          sort_order?: number
+          toggle_label_bn?: string
+          toggle_label_en?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pricing_features: {
+        Row: {
+          audience_id: string
+          created_at: string
+          feature_bn: string
+          feature_en: string
+          id: string
+          is_active: boolean
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          audience_id: string
+          created_at?: string
+          feature_bn: string
+          feature_en: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          audience_id?: string
+          created_at?: string
+          feature_bn?: string
+          feature_en?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_features_audience_id_fkey"
+            columns: ["audience_id"]
+            isOneToOne: false
+            referencedRelation: "pricing_audiences"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      pricing_highlights: {
+        Row: {
+          created_at: string
+          description_bn: string
+          description_en: string
+          icon_key: string
+          id: string
+          is_active: boolean
+          sort_order: number
+          title_bn: string
+          title_en: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_bn: string
+          description_en: string
+          icon_key: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          title_bn: string
+          title_en: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_bn?: string
+          description_en?: string
+          icon_key?: string
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          title_bn?: string
+          title_en?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       tool_subscriptions: {
         Row: {

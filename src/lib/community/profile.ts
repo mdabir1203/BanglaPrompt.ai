@@ -2,7 +2,7 @@ import { createScopedLogger } from "@/lib/logger";
 
 const logger = createScopedLogger("community-profile");
 
-const DISPLAY_NAME_STORAGE_KEY = "banglaprompt.community.display_name";
+const DISPLAY_NAME_STORAGE_KEY = "promptbazaar.community.display_name";
 
 export const getStoredCommunityDisplayName = () => {
   if (typeof window === "undefined") {

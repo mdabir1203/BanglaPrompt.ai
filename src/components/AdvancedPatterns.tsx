@@ -1,67 +1,267 @@
+import { useMemo, useState } from "react";
+import { Globe2, Map, Search } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Brain, Lightbulb, Target, Zap } from 'lucide-react';
+const industries = ["Marketing", "Finance", "Education", "Healthcare", "Media"] as const;
+const useCases = ["Campaign", "Insight", "Training", "Service", "Story"] as const;
+const models = ["GPT-4.1", "Claude 3", "Gemini Ultra"] as const;
+
+const marketplacePrompts = [
+  {
+    titleEn: "Dhaka retail festival narrative",
+    titleBn: "ঢাকা রিটেল উৎসব কাহিনি",
+    descriptionEn: "Localized storytelling prompt for launching seasonal retail campaigns across Bangladesh and diaspora hubs.",
+    descriptionBn: "বাংলাদেশ ও প্রবাসী বাজারে মৌসুমি রিটেল ক্যাম্পেইন চালু করার জন্য লোকালাইজড স্টোরিটেলিং প্রম্পট।",
+    industry: "Marketing" as const,
+    useCase: "Campaign" as const,
+    model: "GPT-4.1" as const,
+    region: "Dhaka • Toronto • Dubai",
+    startingBid: {
+      tierEn: "Growth tier",
+      tierBn: "গ্রোথ স্তর",
+      amountEn: "৳38,000 starting bid",
+      amountBn: "শুরু দর ৳৩৮,০০০",
+    },
+  },
+  {
+    titleEn: "Sharia-compliant SME finance advisor",
+    titleBn: "শরিয়াহ-সম্মত এসএমই ফাইন্যান্স উপদেষ্টা",
+    descriptionEn: "Conversational assistant that guides Bangladeshi SMEs through ethical financing instruments with regulatory context.",
+    descriptionBn: "বাংলাদেশি এসএমই-কে নৈতিক ফাইন্যান্সিং সমাধান বেছে নিতে সহায়তাকারী কথোপকথন-ভিত্তিক সহকারী, প্রাসঙ্গিক নীতিমালা সহ।",
+    industry: "Finance" as const,
+    useCase: "Service" as const,
+    model: "Claude 3" as const,
+    region: "Chattogram • Kuala Lumpur • Doha",
+    startingBid: {
+      tierEn: "Enterprise tier",
+      tierBn: "এন্টারপ্রাইজ স্তর",
+      amountEn: "৳54,000 starting bid",
+      amountBn: "শুরু দর ৳৫৪,০০০",
+    },
+  },
+  {
+    titleEn: "Heritage curriculum co-designer",
+    titleBn: "ঐতিহ্যবাহী কারিকুলাম সহ-ডিজাইনার",
+    descriptionEn: "Lesson co-pilot balancing Bengali literature with global STEM storytelling for blended classrooms.",
+    descriptionBn: "বাঙালি সাহিত্য ও গ্লোবাল STEM গল্পের ভারসাম্য রেখে ব্লেন্ডেড ক্লাসরুমের জন্য পাঠ পরিকল্পনা সহকারী।",
+    industry: "Education" as const,
+    useCase: "Training" as const,
+    model: "Gemini Ultra" as const,
+    region: "Sylhet • London • Singapore",
+    startingBid: {
+      tierEn: "Entry tier",
+      tierBn: "এন্ট্রি স্তর",
+      amountEn: "৳24,000 starting bid",
+      amountBn: "শুরু দর ৳২৪,০০০",
+    },
+  },
+  {
+    titleEn: "Cross-border telehealth navigator",
+    titleBn: "সীমান্ত-পার টেলিহেলথ নেভিগেটর",
+    descriptionEn: "Prompt suite enabling multilingual symptom triage with cultural nuance for caregivers across South Asia.",
+    descriptionBn: "দক্ষিণ এশিয়ার কেয়ারগিভারদের জন্য বহুভাষিক উপসর্গ মূল্যায়নে সাংস্কৃতিক প্রেক্ষাপট বজায় রাখা প্রম্পট সেট।",
+    industry: "Healthcare" as const,
+    useCase: "Service" as const,
+    model: "GPT-4.1" as const,
+    region: "Dhaka • Delhi • Riyadh",
+    startingBid: {
+      tierEn: "Enterprise tier",
+      tierBn: "এন্টারপ্রাইজ স্তর",
+      amountEn: "৳60,000 starting bid",
+      amountBn: "শুরু দর ৳৬০,০০০",
+    },
+  },
+  {
+    titleEn: "Diaspora news personalization",
+    titleBn: "প্রবাসী সংবাদ ব্যক্তিগতকরণ",
+    descriptionEn: "Content orchestration for bilingual media rooms serving Bangladeshi audiences across 5 continents.",
+    descriptionBn: "পাঁচ মহাদেশে বিস্তৃত বাংলাদেশি শ্রোতাদের জন্য দ্বিভাষিক মিডিয়া রুমে কন্টেন্ট সংগঠনের প্রম্পট।",
+    industry: "Media" as const,
+    useCase: "Insight" as const,
+    model: "Claude 3" as const,
+    region: "New York • Sydney • Dhaka",
+    startingBid: {
+      tierEn: "Growth tier",
+      tierBn: "গ্রোথ স্তর",
+      amountEn: "৳36,000 starting bid",
+      amountBn: "শুরু দর ৳৩৬,০০০",
+    },
+  },
+];
 
 const AdvancedPatterns = () => {
-  const patterns = [
-    {
-      icon: Brain,
-      title: 'চেইন অফ থট প্রম্পটিং',
-      description: 'ধাপে ধাপে চিন্তা প্রক্রিয়া দিয়ে জটিল সমস্যার সমাধান',
-      example: 'আমি এই সমস্যাটি ধাপে ধাপে সমাধান করব...'
-    },
-    {
-      icon: Target,
-      title: 'ফিউ-শট লার্নিং',
-      description: 'কয়েকটি উদাহরণ দিয়ে AI কে শেখানোর কৌশল',
-      example: 'এখানে ৩টি উদাহরণ: 1. ... 2. ... 3. ...'
-    },
-    {
-      icon: Lightbulb,
-      title: 'রোল প্লেয়িং প্রম্পট',
-      description: 'AI কে নির্দিষ্ট ভূমিকায় অভিনয় করতে বলা',
-      example: 'আপনি একজন বিশেষজ্ঞ শিক্ষক হিসেবে...'
-    },
-    {
-      icon: Zap,
-      title: 'টেমপ্লেট বেসড প্রম্পট',
-      description: 'পুনরায় ব্যবহারযোগ্য প্রম্পট টেমপ্লেট তৈরি',
-      example: '[প্রসঙ্গ] + [কাজ] + [ফরম্যাট] + [শর্ত]'
-    }
-  ];
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+  const [search, setSearch] = useState("");
+  const [industryFilter, setIndustryFilter] = useState<(typeof industries)[number] | "All">("All");
+  const [useCaseFilter, setUseCaseFilter] = useState<(typeof useCases)[number] | "All">("All");
+  const [modelFilter, setModelFilter] = useState<(typeof models)[number] | "All">("All");
 
+  const filteredPrompts = useMemo(() => {
+    return marketplacePrompts.filter((prompt) => {
+      const matchesSearch = `${prompt.titleEn} ${prompt.titleBn} ${prompt.descriptionEn} ${prompt.descriptionBn}`
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const matchesIndustry = industryFilter === "All" || prompt.industry === industryFilter;
+      const matchesUseCase = useCaseFilter === "All" || prompt.useCase === useCaseFilter;
+      const matchesModel = modelFilter === "All" || prompt.model === modelFilter;
+      return matchesSearch && matchesIndustry && matchesUseCase && matchesModel;
+    });
+  }, [industryFilter, modelFilter, search, useCaseFilter]);
+
+  const renderFilterGroup = <T extends string>(
+    labelEn: string,
+    labelBn: string,
+    options: readonly T[],
+    active: T | "All",
+    onSelect: (value: T | "All") => void,
+  ) => {
+    const label = isEnglish ? labelEn : labelBn;
+    const allLabel = isEnglish ? "All" : "সকল";
+
+    return (
+      <div className="space-y-3">
+        <p className="text-sm font-semibold text-muted-foreground">{label}</p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+              active === "All"
+                ? "border-transparent bg-primary text-white shadow-sm"
+                : "border-muted-foreground/30 text-muted-foreground hover:border-muted-foreground/60 hover:text-foreground"
+            }`}
+            onClick={() => onSelect("All")}
+          >
+            {allLabel}
+          </button>
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+                active === option
+                  ? "border-transparent bg-primary text-white shadow-sm"
+                  : "border-muted-foreground/30 text-muted-foreground hover:border-muted-foreground/60 hover:text-foreground"
+              }`}
+              onClick={() => onSelect(option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
   return (
-    <section id="advanced-patterns" className="py-20 bg-gradient-to-b from-blue-50 to-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold font-bengali text-gray-900 mb-4">
-            উন্নত প্রম্পট প্যাটার্ন
-          </h2>
-          <p className="text-xl text-gray-600 font-bengali max-w-3xl mx-auto">
-            প্রফেশনাল লেভেলের প্রম্পট ইঞ্জিনিয়ারিং কৌশল শিখুন
-          </p>
+    <section id="marketplace" className="section bg-gradient-to-b from-white to-primary/5">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div className="grid gap-16 lg:grid-cols-[1fr_1.1fr]">
+          <div className="space-y-6">
+            <p className="section-eyebrow">{isEnglish ? "Marketplace Explorer" : "মার্কেটপ্লেস এক্সপ্লোরার"}</p>
+            <h2 className="section-heading">
+              {isEnglish
+                ? "Discover 42,000+ culturally fluent prompts."
+                : "৪২,০০০+ সাংস্কৃতিকভাবে প্রাসঙ্গিক প্রম্পট আবিষ্কার করুন।"}
+            </h2>
+            <p className="section-subheading">
+              {isEnglish
+                ? "Filter by industry, use case, and foundation model to curate the perfect prompt stack. Every listing is verified for linguistic nuance, brand safety, and enterprise readiness."
+                : "ইন্ডাস্ট্রি, ইউজ কেস ও মডেল অনুযায়ী ফিল্টার করে আপনার প্রয়োজন অনুযায়ী প্রম্পট বাছাই করুন। প্রতিটি লিস্টিং ভাষার সূক্ষ্মতা, ব্র্যান্ড সেফটি ও এন্টারপ্রাইজ মান যাচাই করা।"}
+            </p>
+
+            <div className="grid gap-4 rounded-3xl border border-white/60 bg-white/80 p-6 shadow-[var(--shadow-soft)] backdrop-blur">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                <Globe2 className="h-5 w-5 text-primary" />
+                <span className="font-semibold text-foreground">
+                  {isEnglish ? "Bengali-first, global reach" : "বাংলা-প্রথম, গ্লোবাল উপস্থিতি"}
+                </span>
+                <span className="text-muted-foreground/70">•</span>
+                <span>
+                  {isEnglish
+                    ? "EN | বাংলা side-by-side copy for teams."
+                    : "টিমের জন্য EN | বাংলা পাশাপাশির কপি।"}
+                </span>
+                <span className="text-muted-foreground/70">•</span>
+                <span className="text-foreground">
+                  {isEnglish ? "ISO 27001 & GDPR alignment" : "ISO 27001 ও GDPR সমন্বয়"}
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                <Map className="h-5 w-5 text-secondary" />
+                <span>
+                  {isEnglish
+                    ? "Localized tags: Dhaka, Singapore, Dubai, Lagos, New York"
+                    : "লোকালাইজড ট্যাগ: ঢাকা, সিঙ্গাপুর, দুবাই, লাগোস, নিউ ইয়র্ক"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="glass-panel rounded-[2rem] p-8">
+            <div className="mb-6 flex items-center gap-3 rounded-2xl border border-muted-foreground/20 bg-background/60 px-4 py-3">
+              <Search className="h-5 w-5 text-primary" />
+              <input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={
+                  isEnglish
+                    ? "Search prompts by industry, tone, or model…"
+                    : "ইন্ডাস্ট্রি, টোন বা মডেল দিয়ে প্রম্পট খুঁজুন…"
+                }
+                className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+              />
+            </div>
+
+            <div className="space-y-8">
+              {renderFilterGroup("Industry", "ইন্ডাস্ট্রি", industries, industryFilter, setIndustryFilter)}
+              {renderFilterGroup("Use Case", "ইউজ কেস", useCases, useCaseFilter, setUseCaseFilter)}
+              {renderFilterGroup("Model", "মডেল", models, modelFilter, setModelFilter)}
+            </div>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {patterns.map((pattern, index) => (
-            <Card key={index} className="hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="text-center">
-                <pattern.icon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                <CardTitle className="font-bengali text-lg">{pattern.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="font-bengali text-center mb-4">
-                  {pattern.description}
-                </CardDescription>
-                <div className="bg-gray-100 p-3 rounded-lg">
-                  <p className="text-sm font-bengali text-gray-700 italic">
-                    "{pattern.example}"
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredPrompts.map((prompt) => (
+            <div key={prompt.titleEn} className="glass-panel flex h-full flex-col gap-4 rounded-3xl p-6">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {isEnglish ? prompt.titleEn : prompt.titleBn}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {isEnglish ? prompt.descriptionEn : prompt.descriptionBn}
+                </p>
+              </div>
+              <div className="flex items-center justify-between rounded-2xl bg-primary/5 px-4 py-3 text-sm font-semibold">
+                <span className="text-primary">
+                  {isEnglish ? prompt.startingBid.tierEn : prompt.startingBid.tierBn}
+                </span>
+                <span className="text-foreground">
+                  {isEnglish ? prompt.startingBid.amountEn : prompt.startingBid.amountBn}
+                </span>
+              </div>
+              <div className="mt-auto flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">{prompt.industry}</span>
+                <span className="rounded-full bg-secondary/20 px-3 py-1 text-secondary">{prompt.useCase}</span>
+                <span className="rounded-full bg-accent/15 px-3 py-1 text-accent">{prompt.model}</span>
+                <span className="rounded-full border border-muted-foreground/30 px-3 py-1 text-muted-foreground">
+                  {prompt.region}
+                </span>
+              </div>
+            </div>
           ))}
+
+          {filteredPrompts.length === 0 && (
+            <div className="col-span-full rounded-3xl border border-dashed border-muted-foreground/30 bg-white/70 p-10 text-center text-sm text-muted-foreground">
+              <p className="font-semibold text-foreground">
+                {isEnglish ? "No prompts match your filters yet." : "আপনার নির্বাচিত ফিল্টারে কোনো প্রম্পট নেই।"}
+              </p>
+              <p className="mt-2">
+                {isEnglish
+                  ? "Adjust your filters to explore more curated listings."
+                  : "ফিল্টার পরিবর্তন করে আরও কিউরেটেড লিস্টিং দেখুন।"}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -93,7 +93,7 @@ const createLoggerInstance = (context: LoggerContext = {}): AppLogger => {
 };
 
 const logger = createLoggerInstance({
-  service: "banglaprompt-ui",
+  service: "promptbazaar-ui",
   environment: import.meta.env.MODE,
 });
 

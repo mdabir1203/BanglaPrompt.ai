@@ -10,11 +10,12 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "প্রম্পট শিক্ষা - বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শিখুন",
-  description = "বাংলায় প্রম্পট ইঞ্জিনিয়ারিং শিখুন। বিশেষজ্ঞ-ডিজাইন করা কোর্সগুলি আপনাকে AI মডেলগুলির সাথে কার্যকরভাবে যোগাযোগ করতে সাহায্য করবে।",
-  keywords = "প্রম্পট ইঞ্জিনিয়ারিং, বাংলা AI কোর্স, ChatGPT বাংলা, AI শিক্ষা",
+  title = "PromptBazar.AI – Bangladesh’s first global AI prompt marketplace with live bidding",
+  description =
+    "Launch bilingual prompt storefronts, sell culturally rich AI workflows, trade in a live bidding exchange, and reach verified global buyers with transparent revenue tools and enterprise compliance.",
+  keywords = "PromptBazar.AI, promptbazaar.ai, Bengali AI prompts, sell prompts, live bidding, global prompt marketplace, creator economy Bangladesh, enterprise AI localisation",
   image = "/og-image.png",
-  url = "https://promptshiksha.com/"
+  url = "https://promptbazaar.ai/"
 }) => {
   return (
     <Helmet>

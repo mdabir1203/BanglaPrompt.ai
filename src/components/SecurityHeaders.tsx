@@ -48,6 +48,7 @@ const SecurityHeaders: React.FC = () => {
             https://realsrv.com
             https://inklinkor.com
             https://www.topcreativeformat.com
+            https://mnqkeoeikfjwlgyowsnb.supabase.co
             https://medium.com
             https://api.medium.com;
           frame-src 'self'
@@ -58,6 +59,7 @@ const SecurityHeaders: React.FC = () => {
             https://syndication.realsrv.com
             https://realsrv.com
             https://www.topcreativeformat.com;
+          frame-ancestors 'self';
           object-src 'none';
           base-uri 'self';
           form-action 'self' https://medium.com;
@@ -70,9 +72,6 @@ const SecurityHeaders: React.FC = () => {
       
       {/* Prevent content type sniffing */}
       <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-      
-      {/* Prevent clickjacking */}
-      <meta httpEquiv="X-Frame-Options" content="SAMEORIGIN" />
       
       {/* Referrer Policy - Controls referrer information */}
       <meta name="referrer" content="strict-origin-when-cross-origin" />
