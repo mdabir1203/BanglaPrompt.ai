@@ -1,1 +1,6 @@
 project_id = "mnqkeoeikfjwlgyowsnb"
+
+[db]
+major_version = 15
+image = "supabase/postgres:15.8.1.131"
+shadow_image = "supabase/postgres:15.8.1.131"
