@@ -77,9 +77,8 @@ const getCloudflareContextEnv = (): EnvRecord => {
       return maybeEnv as EnvRecord;
     }
   }
+}
 
-  return {};
-};
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
   try {
@@ -101,38 +100,6 @@ const getStorageAdapter = () => {
     removeItem(key: string) { this._store.delete(key); },
   };
 };
-
-// Your existing environment resolution with enhancements
-const loadImportMetaEnv = (): EnvRecord => {
-  try {
-    return ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
-  } catch {
-    // `import.meta` isn't available in all runtimes (for example, during SSR in
-    // some worker environments). We intentionally swallow the error here and
-    // fall back to other environment sources.
-    return {};
-  }
-};
-
-const loadProcessEnv = (): EnvRecord =>
-  typeof process !== 'undefined'
-    ? (process.env as EnvRecord)
-    : {};
-
-// ✅ Prioritized for Cloudflare Workers (browser/CF first, then build-time)
-const environmentLoaders = {
-  browser: getBrowserInjectedEnv,
-  cloudflare: getCloudflareContextEnv,
-  importMeta: loadImportMetaEnv,
-  process: loadProcessEnv,
-} satisfies Record<EnvSourceName, () => EnvRecord>;
-
-const orderedSourceNames: readonly EnvSourceName[] = [
-  'browser',    // CF Workers inject here
-  'cloudflare', // CF context.env
-  'importMeta', // Vite build time
-  'process',    // Node.js fallback
-];
 
 type EnvironmentSnapshot = Record<EnvSourceName, EnvRecord>;
 

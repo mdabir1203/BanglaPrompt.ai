@@ -1,13 +1,9 @@
-name = "promptbazaar-ai"
+name = "promptbazaarai"
 compatibility_date = "2024-09-15"
 pages_build_output_dir = "dist"
 
 [vars]
-# MY_VARIABLE = "production_value"
 SUPABASE_URL = "https://mnqkeoeikfjwlgyowsnb.supabase.co"
-STRIPE_SECRET_KEY = "sk_test_replace_me"
 
 [env.production.vars]
-# MY_VARIABLE = "production_value"
 SUPABASE_URL = "https://mnqkeoeikfjwlgyowsnb.supabase.co"
-STRIPE_SECRET_KEY = "sk_live_replace_me"
