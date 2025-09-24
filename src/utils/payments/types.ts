@@ -26,6 +26,8 @@ export interface SubscriptionCheckoutInput extends BaseCheckoutInput {
   pricingType: "subscription";
   currentPeriodEnd?: string;
   trialEndsAt?: string;
+  billingInterval?: "day" | "week" | "month" | "year";
+  trialPeriodDays?: number | null;
 }
 
 export type CheckoutInput = OneTimeCheckoutInput | SubscriptionCheckoutInput;
@@ -34,6 +36,9 @@ export interface CheckoutResponse {
   subscription: Tables<"tool_subscriptions">;
   checkoutUrl?: string;
   clientSecret?: string;
+  stripeSessionId?: string;
+  stripePaymentIntentId?: string | null;
+  stripeSubscriptionId?: string | null;
 }
 
 export interface SubscriptionAccessCheck {

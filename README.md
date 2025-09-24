@@ -59,8 +59,11 @@ yarn dlx supabase db push  # applies the SQL migrations in supabase/migrations
 Ensure you supply `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` when running migrations remotely.
 
 ## Edge & background services
-- **Cloudflare Pages Functions middleware** injects runtime environment variables (`SUPABASE_URL`, `SUPABASE_ANON_KEY`) into the browser at request time so the client can hydrate on the edge without bundling secrets.
-- **Supabase Edge Function** `send-contact-email` handles contact form submissions with strict schema validation (Zod), rate limiting, sanitisation, database persistence, and bilingual autoresponder emails via Resend.
+
+- **Cloudflare Pages Functions middleware** injects runtime environment variables (`SUPABASE_URL`, `SUPABASE_ANON_KEY`) into the browser at request time so the client can hydrate on the edge without bundling secrets.【F:functions/_middleware.ts†L1-L62】
+- **Stripe checkout handler** – a Pages API route brokers secure Checkout Session creation with Stripe using per-environment secrets configured in Wrangler.【F:functions/api/stripe/checkout.ts†L1-L192】【F:wrangler.toml†L1-L11】
+- **Supabase Edge Function** `send-contact-email` handles contact form submissions with strict schema validation (Zod), rate limiting, sanitisation, database persistence, and bilingual autoresponder emails via Resend.【F:supabase/functions/send-contact-email/index.ts†L1-L183】
+
 
 ## Performance, security & compliance
 The application is pre-tuned for high-traffic scenarios, with detailed tracking in `SCALING_SUMMARY.md` outlining the improvements made for the 1,000+ concurrent user benchmark.
@@ -81,7 +84,8 @@ The application is pre-tuned for high-traffic scenarios, with detailed tracking 
    ```
 3. **Configure environment variables**
    - Duplicate `.env.local` and populate with your Supabase project keys using the `SUPABASE_` names.
-   - Update `wrangler.toml` with matching `SUPABASE_URL` and `SUPABASE_ANON_KEY` values for Cloudflare Pages deployments.
+   - Update `wrangler.toml` with matching `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `STRIPE_SECRET_KEY` values for Cloudflare Pages deployments.【F:src/integrations/supabase/client.ts†L210-L266】【F:wrangler.toml†L1-L11】
+
 4. **Start the dev server**
    ```bash
    yarn dev
