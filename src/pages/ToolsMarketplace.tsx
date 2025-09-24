@@ -224,6 +224,28 @@ const ToolsMarketplace = () => {
     });
   }, [tools, priceRange, selectedCategory]);
 
+  const featuredTool = useMemo(() => {
+    if (!tools || tools.length === 0) {
+      return null;
+    }
+
+    const subscriptionTool = tools.find((tool) => tool.pricing_type === "subscription");
+    return subscriptionTool ?? tools[0];
+  }, [tools]);
+
+  const featuredPricingLabel = useMemo(() => {
+    if (!featuredTool) {
+      return null;
+    }
+
+    const priceLabel = formatCurrency(featuredTool.price_cents, featuredTool.currency);
+    const intervalLabel = getIntervalLabel(featuredTool);
+
+    return `${priceLabel}${intervalLabel}`;
+  }, [featuredTool]);
+
+  const featuredHasAccess = featuredTool ? accessibleToolIds.has(featuredTool.id) : false;
+
   const handlePurchase = useCallback(
     async (tool: CreatorTool, hasActiveAccess: boolean) => {
       try {
@@ -290,6 +312,18 @@ const ToolsMarketplace = () => {
     [toast],
   );
 
+  const handleFeaturedCheckout = useCallback(() => {
+    if (!featuredTool) {
+      toast({
+        title: "টুল লোড হচ্ছে",
+        description: "স্ট্রাইপ চেকআউট শুরু করতে অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন।",
+      });
+      return;
+    }
+
+    void handlePurchase(featuredTool, featuredHasAccess);
+  }, [featuredHasAccess, featuredTool, handlePurchase, toast]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-orange-100">
       <SEOHead
@@ -311,6 +345,25 @@ const ToolsMarketplace = () => {
           <p className="mt-4 mx-auto max-w-2xl font-bengali text-lg text-slate-700">
             প্রোডাক্টিভিটি, অটোমেশন এবং ক্রিয়েটিভ অ্যাপ্লিকেশন নিয়ে সাজানো আমাদের মার্কেটপ্লেস থেকে আপনার প্রয়োজন অনুযায়ী টুল বেছে নিন।
           </p>
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <Button
+              className="group flex items-center gap-2 rounded-full bg-rose-500 px-6 py-3 font-bengali text-base text-white shadow-lg transition hover:bg-rose-500/90"
+              onClick={handleFeaturedCheckout}
+              disabled={!featuredTool || processingToolId === featuredTool.id || featuredHasAccess}
+            >
+              <CreditCard className="h-4 w-4 transition-transform group-hover:scale-110" />
+              {processingToolId === featuredTool?.id
+                ? "চলমান..."
+                : featuredHasAccess
+                  ? "অ্যাক্সেস সক্রিয়"
+                  : "স্ট্রাইপ চেকআউট শুরু করুন"}
+            </Button>
+            <p className="text-sm font-bengali text-rose-600/80">
+              {featuredTool
+                ? `${featuredTool.name} • ${featuredPricingLabel ?? ""}`
+                : "স্ট্রাইপ চেকআউট সক্রিয় করতে টুল লোড হওয়ার অপেক্ষায়..."}
+            </p>
+          </div>
         </div>
 
         <div className="mt-12 rounded-3xl bg-white/80 p-8 shadow-lg">
