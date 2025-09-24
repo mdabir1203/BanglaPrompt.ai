@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Sparkles, Lightbulb, PenSquare } from "lucide-react";
+import { Loader2, Sparkles, Lightbulb, PenSquare, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
 import SEOHead from "@/components/SEOHead";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCommunityIdentity } from "@/hooks/useCommunityIdentity";
 import { supabase } from "@/integrations/supabase/client";
 import { createScopedLogger } from "@/lib/logger";
@@ -45,6 +46,16 @@ const SubmitPrompt = () => {
   const queryClient = useQueryClient();
   const { isReady } = useCommunityIdentity();
   const [formState, setFormState] = useState(defaultFormState);
+  const [lastSubmission, setLastSubmission] = useState<
+    | {
+        title: string;
+        language: string;
+        tags: string[];
+        submittedAt: string;
+      }
+    | null
+  >(null);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   const trimmedTitle = formState.title.trim();
   const trimmedPrompt = formState.prompt.trim();
@@ -96,7 +107,12 @@ const SubmitPrompt = () => {
         throw error;
       }
     },
+    onMutate: () => {
+      setSubmissionError(null);
+      setLastSubmission(null);
+    },
     onSuccess: () => {
+      const submissionTimestamp = new Date().toISOString();
       toast.success("আপনার প্রম্পটটি সংরক্ষণ করা হয়েছে! যাচাইয়ের পর লাইব্রেরিতে যুক্ত হবে।");
       persistCommunityDisplayName(trimmedName);
       setFormState((current) => ({
@@ -104,6 +120,12 @@ const SubmitPrompt = () => {
         submitter_name: trimmedName,
         submitter_email: trimmedEmail,
       }));
+      setLastSubmission({
+        title: trimmedTitle,
+        language: formState.language || "Bangla",
+        tags: tagList,
+        submittedAt: submissionTimestamp,
+      });
       queryClient.invalidateQueries({ queryKey: ["community-prompts"] });
     },
     onError: (error) => {
@@ -124,7 +146,25 @@ const SubmitPrompt = () => {
           return;
         default:
           logger.error("Failed to submit community prompt", { error });
-          toast.error("দুঃখিত! প্রম্পট জমা দেয়া যায়নি। পরে আবার চেষ্টা করুন।");
+          {
+            let friendlyMessage = "দুঃখিত! প্রম্পট জমা দেয়া যায়নি। পরে আবার চেষ্টা করুন।";
+            if (message.toLowerCase().includes("row-level security") || message.toLowerCase().includes("permission")) {
+              friendlyMessage = "প্রম্পট জমা দিতে আগে সাইন ইন বা অ্যাকাউন্ট যাচাই সম্পূর্ণ করুন।";
+            } else if ("status" in (error as Record<string, unknown>) && typeof (error as { status?: number }).status === "number") {
+              const statusCode = (error as { status?: number }).status;
+              if (statusCode === 401 || statusCode === 403) {
+                friendlyMessage = "সাইন ইন না করলে প্রম্পট জমা সম্ভব নয়। দয়া করে পুনরায় সাইন ইন করুন।";
+              } else if (statusCode >= 500) {
+                friendlyMessage = "সার্ভার সমস্যার কারণে প্রম্পট জমা দেয়া যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
+              }
+            } else if (message.toLowerCase().includes("fetch") || message.toLowerCase().includes("network")) {
+              friendlyMessage = "ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।";
+            }
+
+            setSubmissionError(friendlyMessage);
+            setLastSubmission(null);
+            toast.error(friendlyMessage);
+          }
       }
     },
   });
@@ -153,6 +193,46 @@ const SubmitPrompt = () => {
                 অনুপ্রেরণাদায়ী প্রম্পটটি কমিউনিটির সাথে ভাগ করুন। যতটা সম্ভব প্রেক্ষাপট ও ব্যবহার পদ্ধতি যোগ করুন যাতে সবাই উপকৃত হয়।
               </p>
             </div>
+
+            {lastSubmission && (
+              <Alert className="mt-6 border-emerald-200 bg-emerald-50">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                <AlertTitle className="font-bengali text-emerald-700">
+                  প্রম্পট গ্রহণ করা হয়েছে
+                </AlertTitle>
+                <AlertDescription className="space-y-2 font-bengali text-emerald-700/90">
+                  <p>
+                    "{lastSubmission.title}" শিরোনামের প্রম্পটটি আমাদের মডারেশন টিমের কিউতে গেছে। অনুমোদন সম্পন্ন হলেই লাইব্রেরিতে প্রকাশিত হবে।
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-emerald-700/80">
+                    <Badge variant="secondary" className="bg-white/70 text-emerald-700">
+                      ভাষা: {lastSubmission.language}
+                    </Badge>
+                    {lastSubmission.tags.length > 0 &&
+                      lastSubmission.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="bg-white/70 text-emerald-700">
+                          #{tag}
+                        </Badge>
+                      ))}
+                  </div>
+                  <p className="text-xs text-emerald-700/70">
+                    জমা সময়: {new Date(lastSubmission.submittedAt).toLocaleString("bn-BD")}
+                  </p>
+                  <p>
+                    নতুন আইডিয়া আছে? নিচের ফর্মটি ব্যবহার করে আরও প্রম্পট যোগ করুন অথবা <Link to="/community/prompts" className="underline">কমিউনিটি লাইব্রেরি</Link> থেকে অনুপ্রেরণা নিন।
+                  </p>
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {submissionError && (
+              <Alert variant="destructive" className="mt-6 border-red-200 bg-red-50 text-red-700">
+                <AlertTitle className="font-bengali">প্রম্পট জমা সম্পন্ন হয়নি</AlertTitle>
+                <AlertDescription className="font-bengali">
+                  {submissionError}
+                </AlertDescription>
+              </Alert>
+            )}
 
             <div className="mt-6 grid gap-3 rounded-2xl border border-dashed border-purple-200 bg-purple-50 p-4 text-left">
               <div className="flex items-start gap-3">
