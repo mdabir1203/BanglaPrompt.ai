@@ -17,6 +17,7 @@ import {
   ACTIVE_SUBSCRIPTION_STATUSES,
   initiateOneOffPurchase,
   initiateSubscriptionPurchase,
+  type SubscriptionCheckoutInput,
 } from "@/utils/payments";
 
 const logger = createScopedLogger("tools-marketplace-page");
@@ -48,6 +49,41 @@ const getIntervalLabel = (tool: CreatorTool) => {
   }
 
   return "";
+};
+
+const sanitizeBillingInterval = (
+  value: string | null,
+): SubscriptionCheckoutInput["billingInterval"] => {
+  if (!value) {
+    return undefined;
+  }
+
+  switch (value.toLowerCase()) {
+    case "day":
+    case "daily":
+      return "day";
+    case "week":
+    case "weekly":
+      return "week";
+    case "month":
+    case "monthly":
+      return "month";
+    case "year":
+    case "yearly":
+    case "annual":
+    case "annually":
+      return "year";
+    default:
+      return undefined;
+  }
+};
+
+const sanitizeTrialPeriod = (value: number | null | undefined) => {
+  if (typeof value !== "number" || Number.isNaN(value) || value <= 0) {
+    return undefined;
+  }
+
+  return Math.floor(value);
 };
 
 const pricingIcon = (tool: CreatorTool) =>
@@ -207,6 +243,9 @@ const ToolsMarketplace = () => {
           category: tool.category,
         } satisfies Record<string, unknown>;
 
+        const billingInterval = sanitizeBillingInterval(tool.subscription_interval);
+        const trialPeriodDays = sanitizeTrialPeriod(tool.trial_period_days);
+
         const result =
           tool.pricing_type === "subscription"
             ? await initiateSubscriptionPurchase({
@@ -214,6 +253,8 @@ const ToolsMarketplace = () => {
                 priceCents: tool.price_cents,
                 currency: tool.currency,
                 metadata,
+                billingInterval,
+                trialPeriodDays,
               })
             : await initiateOneOffPurchase({
                 toolId: tool.id,
