@@ -63,9 +63,9 @@ const getCloudflareContextEnv = (): EnvRecord => {
   if (typeof globalThis === 'undefined') {
     return {};
   }
-  
+
   const globalObject = globalThis as Record<string, unknown>;
-  
+
   // Your existing pattern
   const maybeContext = Reflect.get(globalObject, 'context') as unknown;
   if (typeof maybeContext === 'object' && maybeContext !== null) {
@@ -77,7 +77,9 @@ const getCloudflareContextEnv = (): EnvRecord => {
       return maybeEnv as EnvRecord;
     }
   }
-}
+
+  return {};
+};
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
   try {
@@ -104,20 +106,12 @@ const getStorageAdapter = () => {
 const loadImportMetaEnv = (): EnvRecord => {
   try {
     return ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
-  } catch (error) {
+  } catch {
     // `import.meta` isn't available in all runtimes (for example, during SSR in
     // some worker environments). We intentionally swallow the error here and
     // fall back to other environment sources.
+    return {};
   }
-let importMetaEnv: EnvRecord = {};
-try {
-  importMetaEnv = ((import.meta as ImportMeta).env ?? {}) as EnvRecord;
-} catch (error) {
-  // `import.meta` isn't available in all runtimes (for example, during SSR in
-  // some worker environments). We intentionally swallow the error here and
-  // fall back to other environment sources.
-}
-return {};
 };
 
 const loadProcessEnv = (): EnvRecord =>
@@ -149,11 +143,12 @@ const snapshotEnvSources = (): EnvironmentSnapshot => ({
   process: environmentLoaders.process(),
 });
 
-const snapshot = snapshotEnvSources();
+const takeEnvironmentSnapshot = (): EnvironmentSnapshot => snapshotEnvSources();
 /**
  * Enhanced environment variable resolver with better error messages
  */
 const resolveEnvVar = (key: string): string => {
+  const snapshot = takeEnvironmentSnapshot();
   const candidates: string[] = [key];
   
   // Add prefixed variants
@@ -260,6 +255,8 @@ const createSupabaseClient = () => {
     console.error('Failed to create Supabase client:', error);
     
     // ✅ Debug helper for troubleshooting
+    const snapshot = takeEnvironmentSnapshot();
+
     console.group('🔍 Supabase Environment Debug');
     console.log('Browser env keys:', Object.keys(snapshot.browser || {}));
     console.log('Cloudflare env keys:', Object.keys(snapshot.cloudflare || {}));
