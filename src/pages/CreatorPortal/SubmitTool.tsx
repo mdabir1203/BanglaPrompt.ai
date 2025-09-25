@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import type { FieldErrors, Resolver } from "react-hook-form";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { PenSquare, CheckCircle2 } from "lucide-react";
 
 import SEOHead from "@/components/SEOHead";
@@ -28,36 +27,150 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { createScopedLogger } from "@/lib/logger";
 
-const submissionSchema = z.object({
-  name: z.string().min(2, "নাম প্রয়োজন"),
-  description: z.string().min(10, "প্রোডাক্টের বিবরণ অন্তত ১০ অক্ষর"),
-  category: z.string().min(2, "ক্যাটেগরি প্রয়োজন"),
-  pricingType: z.enum(["one_time", "subscription"]),
-  price: z.coerce.number().min(0, "মূল্য শূন্যের কম হতে পারবে না"),
-  currency: z.string().min(3).max(3),
-  subscriptionInterval: z.string().optional(),
-  trialPeriodDays: z.coerce.number().min(0).max(365).optional(),
-  tags: z.string().optional(),
-  thumbnailUrl: z
-    .string()
-    .url("সঠিক থাম্বনেইল লিংক দিন")
-    .or(z.literal(""))
-    .optional(),
-  demoUrl: z
-    .string()
-    .url("সঠিক ডেমো লিংক দিন")
-    .or(z.literal(""))
-    .optional(),
-  documentationUrl: z
-    .string()
-    .url("সঠিক ডকুমেন্টেশন লিংক দিন")
-    .or(z.literal(""))
-    .optional(),
-  isActive: z.boolean(),
-  slug: z.string(),
-});
+type PricingType = "one_time" | "subscription";
 
-type SubmissionFormValues = z.infer<typeof submissionSchema>;
+type SubmissionFormValues = {
+  name: string;
+  description: string;
+  category: string;
+  pricingType: PricingType;
+  price: number;
+  currency: string;
+  subscriptionInterval?: string;
+  trialPeriodDays?: number;
+  tags: string;
+  thumbnailUrl: string;
+  demoUrl: string;
+  documentationUrl: string;
+  isActive: boolean;
+  slug: string;
+};
+
+const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+const parseNumberInput = (value: unknown) => {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    const parsed = Number(trimmed);
+    return Number.isFinite(parsed) ? parsed : NaN;
+  }
+
+  return NaN;
+};
+
+const submissionResolver: Resolver<SubmissionFormValues> = async (rawValues) => {
+  const errors: FieldErrors<SubmissionFormValues> = {};
+
+  const name = typeof rawValues.name === "string" ? rawValues.name.trim() : "";
+  const description = typeof rawValues.description === "string" ? rawValues.description.trim() : "";
+  const category = typeof rawValues.category === "string" ? rawValues.category.trim() : "";
+  const pricingType = rawValues.pricingType === "subscription" || rawValues.pricingType === "one_time"
+    ? rawValues.pricingType
+    : "subscription";
+  const price = parseNumberInput(rawValues.price);
+  const currency = typeof rawValues.currency === "string" ? rawValues.currency.trim().toLowerCase() : "";
+  const subscriptionInterval = typeof rawValues.subscriptionInterval === "string"
+    ? rawValues.subscriptionInterval.trim()
+    : undefined;
+  const trialPeriodDays = parseNumberInput(rawValues.trialPeriodDays);
+  const tags = typeof rawValues.tags === "string" ? rawValues.tags.trim() : "";
+  const thumbnailUrl = typeof rawValues.thumbnailUrl === "string" ? rawValues.thumbnailUrl.trim() : "";
+  const demoUrl = typeof rawValues.demoUrl === "string" ? rawValues.demoUrl.trim() : "";
+  const documentationUrl = typeof rawValues.documentationUrl === "string" ? rawValues.documentationUrl.trim() : "";
+  const slug = typeof rawValues.slug === "string" ? rawValues.slug.trim() : "";
+  const isActive = !!rawValues.isActive;
+
+  if (name.length < 2) {
+    errors.name = { type: "manual", message: "নাম প্রয়োজন" };
+  }
+
+  if (description.length < 10) {
+    errors.description = { type: "manual", message: "প্রোডাক্টের বিবরণ অন্তত ১০ অক্ষর" };
+  }
+
+  if (category.length < 2) {
+    errors.category = { type: "manual", message: "ক্যাটেগরি প্রয়োজন" };
+  }
+
+  if (Number.isNaN(price) || price === null) {
+    errors.price = { type: "manual", message: "মূল্য সংখ্যায় লিখুন" };
+  } else if (price < 0) {
+    errors.price = { type: "manual", message: "মূল্য শূন্যের কম হতে পারবে না" };
+  }
+
+  if (!currency || currency.length !== 3) {
+    errors.currency = { type: "manual", message: "কারেন্সি তিন অক্ষরের হতে হবে" };
+  }
+
+  if (pricingType === "subscription" && (!subscriptionInterval || subscriptionInterval.length < 2)) {
+    errors.subscriptionInterval = { type: "manual", message: "বিলিং ইন্টারভ্যাল নির্বাচন করুন" };
+  }
+
+  if (trialPeriodDays !== null && trialPeriodDays !== undefined) {
+    if (Number.isNaN(trialPeriodDays)) {
+      errors.trialPeriodDays = { type: "manual", message: "দিন সংখ্যা লিখুন" };
+    } else if (trialPeriodDays < 0 || trialPeriodDays > 365) {
+      errors.trialPeriodDays = { type: "manual", message: "ট্রায়াল ০-৩৬৫ দিনের মধ্যে হতে হবে" };
+    }
+  }
+
+  if (thumbnailUrl && !isValidUrl(thumbnailUrl)) {
+    errors.thumbnailUrl = { type: "manual", message: "সঠিক থাম্বনেইল লিংক দিন" };
+  }
+
+  if (demoUrl && !isValidUrl(demoUrl)) {
+    errors.demoUrl = { type: "manual", message: "সঠিক ডেমো লিংক দিন" };
+  }
+
+  if (documentationUrl && !isValidUrl(documentationUrl)) {
+    errors.documentationUrl = { type: "manual", message: "সঠিক ডকুমেন্টেশন লিংক দিন" };
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      values: {} as SubmissionFormValues,
+      errors,
+    };
+  }
+
+  return {
+    values: {
+      name,
+      description,
+      category,
+      pricingType,
+      price: price ?? 0,
+      currency,
+      subscriptionInterval: pricingType === "subscription" ? subscriptionInterval : undefined,
+      trialPeriodDays:
+        pricingType === "subscription" && typeof trialPeriodDays === "number" && !Number.isNaN(trialPeriodDays)
+          ? trialPeriodDays
+          : undefined,
+      tags,
+      thumbnailUrl,
+      demoUrl,
+      documentationUrl,
+      isActive,
+      slug,
+    },
+    errors: {},
+  };
+};
 
 type CreatorTool = Tables<"creator_tools">;
 
@@ -120,7 +233,7 @@ const SubmitTool = () => {
   );
 
   const form = useForm<SubmissionFormValues>({
-    resolver: zodResolver(submissionSchema),
+    resolver: submissionResolver,
     defaultValues: {
       name: "",
       description: "",
