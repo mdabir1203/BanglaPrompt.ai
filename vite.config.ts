@@ -16,6 +16,10 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
+        "react-remove-scroll-bar$": path.resolve(
+          __dirname,
+          "./src/lib/polyfills/react-remove-scroll-bar.tsx",
+        ),
       },
     },
     define: {
