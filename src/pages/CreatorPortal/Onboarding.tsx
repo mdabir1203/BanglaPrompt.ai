@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import type { FieldErrors, Resolver } from "react-hook-form";
 import { ShieldCheck, Sparkles, Globe } from "lucide-react";
 
 import SEOHead from "@/components/SEOHead";
@@ -24,35 +23,146 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { createScopedLogger } from "@/lib/logger";
 
-const onboardingSchema = z.object({
-  brandName: z.string().min(2, "ব্র্যান্ডের নাম অন্তত ২ অক্ষরের হতে হবে"),
-  contactEmail: z
-    .string()
-    .email("সঠিক ইমেইল লিখুন")
-    .transform((value) => value.trim().toLowerCase()),
-  website: z
-    .string()
-    .url("সঠিক ওয়েবসাইট লিংক দিন")
-    .or(z.literal(""))
-    .optional(),
-  primaryCategory: z.string().min(2, "ক্যাটেগরি উল্লেখ করুন"),
-  pricingModel: z.enum(["one_time", "subscription"], {
-    required_error: "প্রাইসিং মডেল নির্বাচন করুন",
-  }),
-  price: z.coerce.number({ invalid_type_error: "মূল্য সংখ্যায় লিখুন" }).min(0, "মূল্য শূন্যের কম হতে পারবে না"),
-  currency: z.string().min(3).max(3),
-  subscriptionInterval: z.string().optional(),
-  trialPeriodDays: z.coerce
-    .number({ invalid_type_error: "দিন সংখ্যা লিখুন" })
-    .min(0)
-    .max(365)
-    .optional(),
-  mission: z.string().min(10, "আপনার টুল সম্পর্কে আরও বিস্তারিত লিখুন"),
-  tags: z.string().optional(),
-  payoutPreference: z.string().min(2, "পেমেন্ট পদ্ধতি নির্বাচন করুন"),
-});
+type PricingModel = "one_time" | "subscription";
 
-type OnboardingFormValues = z.infer<typeof onboardingSchema>;
+type OnboardingFormValues = {
+  brandName: string;
+  contactEmail: string;
+  website: string;
+  primaryCategory: string;
+  pricingModel: PricingModel;
+  price: number;
+  currency: string;
+  subscriptionInterval?: string;
+  trialPeriodDays?: number;
+  mission: string;
+  tags: string;
+  payoutPreference: string;
+};
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+const parseNumberInput = (value: unknown) => {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    const parsed = Number(trimmed);
+    return Number.isFinite(parsed) ? parsed : NaN;
+  }
+
+  return NaN;
+};
+
+const onboardingResolver: Resolver<OnboardingFormValues> = async (rawValues) => {
+  const errors: FieldErrors<OnboardingFormValues> = {};
+
+  const brandName = typeof rawValues.brandName === "string" ? rawValues.brandName.trim() : "";
+  const contactEmail = typeof rawValues.contactEmail === "string" ? rawValues.contactEmail.trim() : "";
+  const website = typeof rawValues.website === "string" ? rawValues.website.trim() : "";
+  const primaryCategory = typeof rawValues.primaryCategory === "string" ? rawValues.primaryCategory.trim() : "";
+  const pricingModel = rawValues.pricingModel === "one_time" || rawValues.pricingModel === "subscription"
+    ? rawValues.pricingModel
+    : "subscription";
+  const price = parseNumberInput(rawValues.price);
+  const currency = typeof rawValues.currency === "string" ? rawValues.currency.trim().toLowerCase() : "";
+  const subscriptionInterval = typeof rawValues.subscriptionInterval === "string"
+    ? rawValues.subscriptionInterval.trim()
+    : undefined;
+  const trialPeriodDays = parseNumberInput(rawValues.trialPeriodDays);
+  const mission = typeof rawValues.mission === "string" ? rawValues.mission.trim() : "";
+  const tags = typeof rawValues.tags === "string" ? rawValues.tags.trim() : "";
+  const payoutPreference = typeof rawValues.payoutPreference === "string" ? rawValues.payoutPreference.trim() : "";
+
+  if (brandName.length < 2) {
+    errors.brandName = { type: "manual", message: "ব্র্যান্ডের নাম অন্তত ২ অক্ষরের হতে হবে" };
+  }
+
+  if (!EMAIL_PATTERN.test(contactEmail)) {
+    errors.contactEmail = { type: "manual", message: "সঠিক ইমেইল লিখুন" };
+  }
+
+  if (website && !isValidUrl(website)) {
+    errors.website = { type: "manual", message: "সঠিক ওয়েবসাইট লিংক দিন" };
+  }
+
+  if (primaryCategory.length < 2) {
+    errors.primaryCategory = { type: "manual", message: "ক্যাটেগরি উল্লেখ করুন" };
+  }
+
+  if (pricingModel === "subscription" && (!subscriptionInterval || subscriptionInterval.length < 2)) {
+    errors.subscriptionInterval = { type: "manual", message: "বিলিং ইন্টারভ্যাল নির্বাচন করুন" };
+  }
+
+  if (Number.isNaN(price) || price === null) {
+    errors.price = { type: "manual", message: "মূল্য সংখ্যায় লিখুন" };
+  } else if (price < 0) {
+    errors.price = { type: "manual", message: "মূল্য শূন্যের কম হতে পারবে না" };
+  }
+
+  if (!currency || currency.length !== 3) {
+    errors.currency = { type: "manual", message: "কারেন্সি তিন অক্ষরের হতে হবে" };
+  }
+
+  if (trialPeriodDays !== null && trialPeriodDays !== undefined) {
+    if (Number.isNaN(trialPeriodDays)) {
+      errors.trialPeriodDays = { type: "manual", message: "দিন সংখ্যা লিখুন" };
+    } else if (trialPeriodDays < 0 || trialPeriodDays > 365) {
+      errors.trialPeriodDays = { type: "manual", message: "ট্রায়াল ০-৩৬৫ দিনের মধ্যে হতে হবে" };
+    }
+  }
+
+  if (mission.length < 10) {
+    errors.mission = { type: "manual", message: "আপনার টুল সম্পর্কে আরও বিস্তারিত লিখুন" };
+  }
+
+  if (payoutPreference.length < 2) {
+    errors.payoutPreference = { type: "manual", message: "পেমেন্ট পদ্ধতি নির্বাচন করুন" };
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      values: {} as OnboardingFormValues,
+      errors,
+    };
+  }
+
+  return {
+    values: {
+      brandName,
+      contactEmail: contactEmail.toLowerCase(),
+      website,
+      primaryCategory,
+      pricingModel,
+      price: price ?? 0,
+      currency,
+      subscriptionInterval: pricingModel === "subscription" ? subscriptionInterval : undefined,
+      trialPeriodDays:
+        pricingModel === "subscription" && typeof trialPeriodDays === "number" && !Number.isNaN(trialPeriodDays)
+          ? trialPeriodDays
+          : undefined,
+      mission,
+      tags,
+      payoutPreference,
+    },
+    errors: {},
+  };
+};
 
 const logger = createScopedLogger("creator-onboarding");
 
@@ -69,7 +179,7 @@ const Onboarding = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<OnboardingFormValues>({
-    resolver: zodResolver(onboardingSchema),
+    resolver: onboardingResolver,
     defaultValues: {
       brandName: "",
       contactEmail: "",
