@@ -77,7 +77,9 @@ const getCloudflareContextEnv = (): EnvRecord => {
       return maybeEnv as EnvRecord;
     }
   }
-}
+
+  return {};
+};
 
 // ✅ Enhanced storage detection (fixes localStorage hardcoding)
 const getStorageAdapter = () => {
@@ -102,6 +104,46 @@ const getStorageAdapter = () => {
 };
 
 type EnvironmentSnapshot = Record<EnvSourceName, EnvRecord>;
+
+const getImportMetaEnv = (): EnvRecord => {
+  try {
+    const env = Reflect.get(import.meta, 'env') as unknown;
+    if (typeof env === 'object' && env !== null) {
+      return env as EnvRecord;
+    }
+  } catch {
+    // import.meta isn't available (e.g. during SSR transpilation)
+  }
+
+  return {};
+};
+
+const getProcessEnv = (): EnvRecord => {
+  if (typeof process === 'undefined') {
+    return {};
+  }
+
+  const env = Reflect.get(process, 'env') as unknown;
+  if (typeof env === 'object' && env !== null) {
+    return env as EnvRecord;
+  }
+
+  return {};
+};
+
+const environmentLoaders: Record<EnvSourceName, () => EnvRecord> = {
+  browser: getBrowserInjectedEnv,
+  cloudflare: getCloudflareContextEnv,
+  importMeta: getImportMetaEnv,
+  process: getProcessEnv,
+};
+
+const orderedSourceNames: EnvSourceName[] = [
+  'browser',
+  'importMeta',
+  'process',
+  'cloudflare',
+];
 
 const snapshotEnvSources = (): EnvironmentSnapshot => ({
   browser: environmentLoaders.browser(),

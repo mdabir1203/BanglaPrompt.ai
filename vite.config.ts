@@ -20,6 +20,10 @@ export default defineConfig(({ mode }) => {
           __dirname,
           "./src/lib/polyfills/react-remove-scroll-bar.tsx",
         ),
+        "@supabase/node-fetch": path.resolve(
+          __dirname,
+          "./src/integrations/supabase/browser-node-fetch.ts",
+        ),
       },
     },
     define: {
